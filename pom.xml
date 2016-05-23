@@ -7,6 +7,7 @@
     <groupId>ru.mygroup</groupId>
     <artifactId>votesystem</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <name>Vote System</name>
 
