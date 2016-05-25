@@ -6,7 +6,7 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="ru.pkg.repository"/>
-    <context:component-scan base-package="ru.pkg.service"/>
+    <context:component-scan base-package="ru.pkg.**.repository"/>
+    <context:component-scan base-package="ru.pkg.**.service"/>
 
 </beans>

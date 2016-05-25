@@ -1,8 +1,12 @@
 package ru.pkg.service;
 
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.pkg.model.User;
 import ru.pkg.repository.UserRepository;
 import ru.pkg.utils.exception.UserNotFoundException;
@@ -13,32 +17,21 @@ import java.util.Collection;
 import static ru.pkg.UserTestData.*;
 import static ru.pkg.UserTestData.NEW_USER;
 
+@ContextConfiguration("classpath:spring/spring-app.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 public class UserServiceTests {
 
-    private static ConfigurableApplicationContext appCtx;
+    @Autowired
+    private UserService service;
 
-    private static UserService service;
-
-    @BeforeClass
-    public static void beforeClass() {
-        appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
-
-        System.out.println("\n" + Arrays.toString(appCtx.getBeanDefinitionNames()) + "\n");
-
-        service = appCtx.getBean(UserService.class);
-    }
+    @Autowired
+    private UserRepository repository;
     
     @Before
     public void before() {
-        UserRepository repository = appCtx.getBean(UserRepository.class);
         repository.clear();
         repository.save(ADMIN);
         repository.save(USER);
-    }
-
-    @AfterClass
-    public static void afterClass() {
-        appCtx.close();
     }
     
     @Test

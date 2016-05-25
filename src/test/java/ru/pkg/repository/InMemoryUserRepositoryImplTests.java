@@ -2,8 +2,10 @@ package ru.pkg.repository;
 
 
 import org.junit.*;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.pkg.model.User;
 
 import java.util.Arrays;
@@ -11,29 +13,18 @@ import java.util.Collection;
 
 import static ru.pkg.UserTestData.*;
 
+@ContextConfiguration("classpath:spring/spring-app.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 public class InMemoryUserRepositoryImplTests {
 
-    private static ConfigurableApplicationContext appCtx;
-
-    private static UserRepository repository;
-
-    @BeforeClass
-    public static void beforeClass() {
-        appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
-
-        repository = appCtx.getBean(UserRepository.class);
-    }
+    @Autowired
+    private UserRepository repository;
 
     @Before
     public void before() {
         repository.clear();
         repository.save(ADMIN);
         repository.save(USER);
-    }
-
-    @AfterClass
-    public static void afterClass() {
-        appCtx.close();
     }
 
     @Test
