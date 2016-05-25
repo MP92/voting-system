@@ -70,4 +70,15 @@ public class User extends NamedEntity {
     public void addRole(Role role) {
         this.roles.add(role);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + getId() +
+                ", name=" + getName() +
+                ", roles=" + roles +
+                ", registered=" + registered +
+                ", enabled=" + enabled +
+                '}';
+    }
 }

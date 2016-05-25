@@ -5,5 +5,5 @@
 .idea
 out
 gen
-test/
 # Created by .ignore support plugin (hsz.mobi)
+/log/

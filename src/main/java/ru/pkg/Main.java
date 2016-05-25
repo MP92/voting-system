@@ -1,12 +1,13 @@
 package ru.pkg;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class Main {
-    private static final Logger logger = LoggerFactory.getLogger(Main.class.getName());
+    private static final Logger LOG = getLogger(Main.class);
 
     public static void main(String[] args) {
-        logger.debug("hello from Main!");
+        LOG.debug("hello from Main!");
     }
 }

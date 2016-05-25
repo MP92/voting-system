@@ -7,9 +7,9 @@ import java.util.Collection;
 public interface UserRepository {
     User findById(int id);
 
-    void save(User user);
+    boolean save(User user);
 
-    User delete(int id);
+    boolean delete(int id);
 
     Collection<User> findAll();
 
