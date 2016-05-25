@@ -5,20 +5,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.mygroup</groupId>
-    <artifactId>votesystem</artifactId>
+    <artifactId>voting-system</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>Vote System</name>
+    <name>Voting System</name>
 
     <properties>
         <java.version>1.8</java.version>
         <slf4j.version>1.7.19</slf4j.version>
         <logback.version>1.0.13</logback.version>
+        <junit.version>4.12</junit.version>
     </properties>
 
     <build>
-        <finalName>votesystem</finalName>
+        <finalName>voting-system</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
@@ -69,6 +70,16 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
+
+        <!--Test-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
 
     
