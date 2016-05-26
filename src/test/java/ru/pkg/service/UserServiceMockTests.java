@@ -1,42 +1,23 @@
 package ru.pkg.service;
 
-import org.junit.*;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.pkg.model.User;
-import ru.pkg.repository.UserRepository;
 import ru.pkg.utils.exception.UserNotFoundException;
 
 import java.util.Arrays;
-import java.util.Collection;
 
+import static org.mockito.Mockito.*;
 import static ru.pkg.UserTestData.*;
-import static ru.pkg.UserTestData.NEW_USER;
 
-@ContextConfiguration("classpath:spring/spring-app.xml")
-@RunWith(SpringJUnit4ClassRunner.class)
-public class UserServiceTests {
+@ContextConfiguration("classpath:spring/mock.xml")
+public class UserServiceMockTests extends AbstractUserServiceTests {
 
-    @Autowired
-    private UserService service;
-
-    @Autowired
-    private UserRepository repository;
-    
-    @Before
-    public void before() {
-        repository.clear();
-        repository.save(ADMIN);
-        repository.save(USER);
-    }
-    
     @Test
     public void testGet() {
+        when(repository.findById(0)).thenReturn(ADMIN);
         User user = service.findById(0);
+        verify(repository).findById(0);
         MATCHER.assertEquals(ADMIN, user);
     }
 
@@ -48,38 +29,40 @@ public class UserServiceTests {
     @Test
     public void testAdd() {
         service.add(NEW_USER);
-        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, USER, NEW_USER), service.findAll());
+        verify(repository).save(NEW_USER);
     }
-    
+
     @Test
     public void testUpdate() {
         User newUser = new User(0, NEW_USER);
+        when(repository.save(newUser)).thenReturn(true);
         service.update(newUser);
-        MATCHER.assertCollectionsEquals(Arrays.asList(newUser, USER), service.findAll());
+        verify(repository).save(newUser);
     }
-    
+
     @Test(expected = UserNotFoundException.class)
     public void testUpdateNotFound() {
         User newUser = new User(10000, NEW_USER);
+        when(repository.save(newUser)).thenReturn(false);
         service.update(newUser);
     }
-    
+
     @Test
     public void testDelete() {
+        when(repository.delete(0)).thenReturn(true);
         service.delete(0);
-
-        Collection<User> all = service.findAll();
-        Assert.assertEquals(1, all.size());
-        MATCHER.assertEquals(USER, all.iterator().next());
+        verify(repository).delete(0);
     }
-    
+
     @Test(expected = UserNotFoundException.class)
     public void testDeleteNotFound() {
+        when(repository.delete(1000)).thenReturn(false);
         service.delete(1000);
     }
-    
+
     @Test
     public void testFindAll() {
+        when(repository.findAll()).thenReturn(Arrays.asList(ADMIN, USER));
         MATCHER.assertCollectionsEquals(ALL_USERS, service.findAll());
     }
 }

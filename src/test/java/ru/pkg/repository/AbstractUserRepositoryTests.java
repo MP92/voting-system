@@ -1,6 +1,5 @@
 package ru.pkg.repository;
 
-
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,12 @@ import java.util.Collection;
 
 import static ru.pkg.UserTestData.*;
 
-@ContextConfiguration("classpath:spring/spring-app.xml")
+@ContextConfiguration({
+        "classpath:spring/spring-app.xml",
+        "classpath:spring/spring-db.xml"
+})
 @RunWith(SpringJUnit4ClassRunner.class)
-public class InMemoryUserRepositoryImplTests {
+public abstract class AbstractUserRepositoryTests {
 
     @Autowired
     private UserRepository repository;

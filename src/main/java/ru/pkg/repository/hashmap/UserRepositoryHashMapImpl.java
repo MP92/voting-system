@@ -1,4 +1,4 @@
-package ru.pkg.repository.mock;
+package ru.pkg.repository.hashmap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
-public class InMemoryUserRepositoryImpl implements UserRepository {
+public class UserRepositoryHashMapImpl implements UserRepository {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InMemoryUserRepositoryImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserRepositoryHashMapImpl.class);
 
     private AtomicInteger counter = new AtomicInteger(0);
 
