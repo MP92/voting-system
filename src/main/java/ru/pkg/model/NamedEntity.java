@@ -4,6 +4,9 @@ public class NamedEntity extends BaseEntity {
 
     private String name;
 
+    protected NamedEntity() {
+    }
+
     protected NamedEntity(Integer id, String name) {
         super(id);
         this.name = name;

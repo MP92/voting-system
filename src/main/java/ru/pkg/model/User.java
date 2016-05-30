@@ -1,49 +1,52 @@
 package ru.pkg.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
 public class User extends NamedEntity {
 
-    private Set<Role> roles;
-
-    private LocalDate registered = LocalDate.now();
-
     private String password;
+
+    private LocalDateTime registered;
+
+    private LocalDateTime lastVoted;
 
     private boolean enabled;
 
-    public User(Integer id, String name, String password, boolean enabled, Role role, Role... roles) {
-        super(id, name);
-        this.roles = EnumSet.of(role, roles);
-        this.password = password;
-        this.enabled = enabled;
-    }
+    private Set<Role> roles;
 
-    public User(Integer id, String name, String password, Role role, Role... roles) {
-        super(id, name);
-        this.roles = EnumSet.of(role, roles);
-        this.password = password;
-        this.enabled = true;
+    public User() {
     }
 
     public User(User user) {
-        this(user.getId(), user);
+        this(user.getId(), user.getName(), user.password, user.registered, user.lastVoted, user.enabled, user.roles);
     }
 
-    public User(Integer id, User user) {
-        super(id, user.getName());
-        this.roles = EnumSet.copyOf(user.roles);
-        this.password = user.password;
-        this.enabled = user.enabled;
+    public User(Integer id, String name, String password, Role role, Role... roles) {
+        this(id, name, password, LocalDateTime.now(), null, true, EnumSet.of(role, roles));
     }
 
-    public LocalDate getRegistered() {
+    public User(Integer id, String name, String password, LocalDateTime registered, boolean enabled, Set<Role> roles) {
+        this(id, name, password, registered, null, enabled, roles);
+    }
+
+    public User(Integer id, String name, String password, LocalDateTime registered, LocalDateTime lastVoted, boolean enabled, Set<Role> roles) {
+        super(id, name);
+        this.password = password;
+        this.registered = registered;
+        this.lastVoted = lastVoted;
+        this.enabled = enabled;
+        this.roles = roles != null ? EnumSet.copyOf(roles) : Collections.emptySet();
+    }
+
+    public LocalDateTime getRegistered() {
         return registered;
     }
 
-    public void setRegistered(LocalDate registered) {
+    public void setRegistered(LocalDateTime registered) {
         this.registered = registered;
     }
 
@@ -64,11 +67,31 @@ public class User extends NamedEntity {
     }
 
     public Set<Role> getRoles() {
-        return roles;
+        return !roles.isEmpty() ? EnumSet.copyOf(roles) : roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = EnumSet.copyOf(roles);
     }
 
     public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    public LocalDateTime getLastVoted() {
+        return lastVoted;
+    }
+
+    public void setLastVoted(LocalDateTime lastVoted) {
+        this.lastVoted = lastVoted;
+    }
+
+    public void vote() {
+        lastVoted = LocalDateTime.now();
+    }
+
+    public boolean neverVoted() {
+        return lastVoted == null;
     }
 
     @Override
@@ -78,6 +101,7 @@ public class User extends NamedEntity {
                 ", name=" + getName() +
                 ", roles=" + roles +
                 ", registered=" + registered +
+                ", lastVoted=" + lastVoted +
                 ", enabled=" + enabled +
                 '}';
     }

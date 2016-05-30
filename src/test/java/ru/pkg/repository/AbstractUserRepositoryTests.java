@@ -12,22 +12,12 @@ import java.util.Collection;
 
 import static ru.pkg.UserTestData.*;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
+@ContextConfiguration("classpath:spring/spring-app.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public abstract class AbstractUserRepositoryTests {
 
     @Autowired
-    private UserRepository repository;
-
-    @Before
-    public void before() {
-        repository.clear();
-        repository.save(ADMIN);
-        repository.save(USER);
-    }
+    protected UserRepository repository;
 
     @Test
     public void testFindAll() {
@@ -36,13 +26,15 @@ public abstract class AbstractUserRepositoryTests {
 
     @Test
     public void testAdd() {
-        Assert.assertTrue(repository.save(NEW_USER));
-        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, USER, NEW_USER), repository.findAll());
+        User newUser = new TestUser(NEW_USER);
+        User created = repository.save(newUser);
+        MATCHER.assertEquals(newUser, created);
+        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, newUser, USER), repository.findAll());
     }
 
     @Test
     public void testDelete() {
-        Assert.assertTrue(repository.delete(0));
+        Assert.assertTrue(repository.delete(ADMIN_ID));
 
         Collection<User> all = repository.findAll();
         Assert.assertEquals(1, all.size());
@@ -52,24 +44,28 @@ public abstract class AbstractUserRepositoryTests {
     @Test
     public void testDeleteNotFound() {
         Assert.assertFalse(repository.delete(1000));
+        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, USER), repository.findAll());
     }
 
     @Test
     public void testUpdate() {
-        User newUser = new User(0, NEW_USER);
-        Assert.assertTrue(repository.save(newUser));
-        MATCHER.assertCollectionsEquals(Arrays.asList(newUser, USER), repository.findAll());
+        User toUpdateUser = new TestUser(USER_ID, NEW_USER);
+        User updated = repository.save(toUpdateUser);
+        MATCHER.assertEquals(toUpdateUser, updated);
+        MATCHER.assertEquals(toUpdateUser, repository.findById(toUpdateUser.getId()));
+        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, updated), repository.findAll());
     }
 
     @Test
     public void testUpdateNotFound() {
-        User newUser = new User(10000, NEW_USER);
-        Assert.assertFalse(repository.save(newUser));
+        User newUser = new TestUser(10000, NEW_USER);
+        Assert.assertNull(repository.save(newUser));
+        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, USER), repository.findAll());
     }
 
     @Test
     public void testGet() {
-        User user = repository.findById(0);
+        User user = repository.findById(ADMIN_ID);
         MATCHER.assertEquals(ADMIN, user);
     }
 

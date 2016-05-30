@@ -15,10 +15,7 @@ import java.util.Collection;
 import static ru.pkg.UserTestData.*;
 import static ru.pkg.UserTestData.NEW_USER;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
+@ContextConfiguration("classpath:spring/spring-app.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public abstract class AbstractUserServiceTests {
 
@@ -28,16 +25,9 @@ public abstract class AbstractUserServiceTests {
     @Autowired
     protected UserRepository repository;
     
-    @Before
-    public void before() {
-        repository.clear();
-        repository.save(ADMIN);
-        repository.save(USER);
-    }
-    
     @Test
     public void testGet() {
-        User user = service.findById(0);
+        User user = service.findById(ADMIN_ID);
         MATCHER.assertEquals(ADMIN, user);
     }
 
@@ -48,27 +38,27 @@ public abstract class AbstractUserServiceTests {
 
     @Test
     public void testAdd() {
-        service.add(NEW_USER);
-        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, USER, NEW_USER), service.findAll());
+        User newUser = new TestUser(NEW_USER);
+        service.add(newUser);
+        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, newUser, USER), service.findAll());
     }
     
     @Test
     public void testUpdate() {
-        User newUser = new User(0, NEW_USER);
-        service.update(newUser);
+        TestUser newUser = new TestUser(ADMIN_ID, NEW_USER);
+        service.update(newUser.asUser());
         MATCHER.assertCollectionsEquals(Arrays.asList(newUser, USER), service.findAll());
     }
     
     @Test(expected = UserNotFoundException.class)
     public void testUpdateNotFound() {
-        User newUser = new User(10000, NEW_USER);
+        User newUser = new TestUser(10000, NEW_USER);
         service.update(newUser);
     }
     
     @Test
     public void testDelete() {
-        service.delete(0);
-
+        service.delete(ADMIN_ID);
         Collection<User> all = service.findAll();
         Assert.assertEquals(1, all.size());
         MATCHER.assertEquals(USER, all.iterator().next());

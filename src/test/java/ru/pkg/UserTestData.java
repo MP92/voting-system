@@ -4,22 +4,35 @@ import ru.pkg.matcher.ModelMatcher;
 import ru.pkg.model.Role;
 import ru.pkg.model.User;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class UserTestData {
 
-    public static final User ADMIN = new User(null, "Admin", "admin", Role.ROLE_ADMIN);
-    public static final User USER = new User(null, "User", "user", Role.ROLE_USER);
+    public static final int START_INDEX = 1;
 
-    public static final User NEW_USER = new User(null, "New User", "new", Role.ROLE_USER);
+    public static final int ADMIN_ID = START_INDEX;
+    public static final int USER_ID = START_INDEX + 1;
+
+    public static final LocalDateTime TEST_DT = LocalDateTime.of(2016, 1, 1, 0, 0);
+
+    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
+    public static final User USER = new User(USER_ID, "User", "user", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_USER));
+
+    public static final User NEW_USER = new User(null, "test", "test", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
 
     public static final List<User> ALL_USERS = Arrays.asList(ADMIN, USER);
 
     public static final ModelMatcher<User, TestUser> MATCHER = new ModelMatcher<>(u -> (u instanceof TestUser ? (TestUser)u : new TestUser(u)));
 
-    static class TestUser extends User {
+    public static class TestUser extends User {
 
-        TestUser(User user) {
+        public TestUser(Integer id, User user){
+            super(user);
+            setId(id);
+        }
+
+        public TestUser(User user) {
             super(user);
         }
 
@@ -37,10 +50,11 @@ public class UserTestData {
             }
 
             TestUser that = (TestUser) o;
-            return !(this.getRoles() != null ? !this.getRoles().equals(that.getRoles()) : that.getRoles() != null)
+            return (this.getRoles() == null ? that.getRoles() == null : this.getRoles().equals(that.getRoles()))
                     && Objects.equals(this.getPassword(), that.getPassword())
                     && Objects.equals(this.getId(), that.getId())
                     && Objects.equals(this.getName(), that.getName())
+                    && Objects.equals(this.getLastVoted(), that.getLastVoted())
                     && Objects.equals(this.isEnabled(), that.isEnabled());
         }
 
@@ -49,6 +63,8 @@ public class UserTestData {
             return "User (" +
                     "id=" + getId() +
                     ", name=" + getName() +
+                    ", registered=" + getRegistered() +
+                    ", lastVoted=" + getLastVoted() +
                     ", enabled=" + isEnabled() +
                     ", password=" + getPassword() +
                     ", authorities=" + getRoles() +
