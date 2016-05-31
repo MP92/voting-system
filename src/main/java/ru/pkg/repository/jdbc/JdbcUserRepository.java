@@ -63,17 +63,15 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
             Number key = insertUser.executeAndReturnKey(parameters);
             user.setId(key.intValue());
             insertRoles(user);
-        } else if (!containsUser(user)) {
-            return null;
-        }
+        } else {
+            String queryUpdate = "UPDATE users SET name=:name, password=:password, registered=:registered, " +
+                    (!user.neverVoted() ? "last_voted=:lastVoted, " : "") + "enabled=:enabled WHERE id=:id";
 
-        String queryUpdate = "UPDATE users SET name=:name, password=:password, registered=:registered, " +
-                (!user.neverVoted() ? "last_voted=:lastVoted, " : "") + "enabled=:enabled WHERE id=:id";
-
-        deleteRoles(user);
-        insertRoles(user);
-        if (getNamedParameterJdbcTemplate().update(queryUpdate, parameters) == 0) {
-            return null;
+            if (!containsUser(user) || getNamedParameterJdbcTemplate().update(queryUpdate, parameters) == 0) {
+                return null;
+            }
+            deleteRoles(user);
+            insertRoles(user);
         }
 
         return user;
