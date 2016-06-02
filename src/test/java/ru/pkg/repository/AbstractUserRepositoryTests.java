@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.User;
 
 import java.util.Arrays;
@@ -12,8 +13,13 @@ import java.util.Collection;
 
 import static ru.pkg.UserTestData.*;
 
-@ContextConfiguration("classpath:spring/spring-app.xml")
+@ContextConfiguration({
+        "classpath:spring/spring-app.xml",
+        "classpath:spring/spring-db.xml"
+})
 @RunWith(SpringJUnit4ClassRunner.class)
+//@Sql("classpath:db/populateDB.sql")
+@Transactional
 public abstract class AbstractUserRepositoryTests {
 
     @Autowired

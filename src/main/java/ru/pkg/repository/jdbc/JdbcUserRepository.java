@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Role;
 import ru.pkg.model.User;
 import ru.pkg.repository.UserRepository;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
+@Transactional(readOnly = true)
 public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements UserRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(JdbcUserRepository.class);
@@ -54,6 +56,7 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     }
 
     @Override
+    @Transactional
     public User save(User user) {
         LOG.debug("save {}", user);
 
@@ -62,22 +65,22 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
         if (user.isNew()) {
             Number key = insertUser.executeAndReturnKey(parameters);
             user.setId(key.intValue());
-            insertRoles(user);
         } else {
             String queryUpdate = "UPDATE users SET name=:name, password=:password, registered=:registered, " +
                     (!user.neverVoted() ? "last_voted=:lastVoted, " : "") + "enabled=:enabled WHERE id=:id";
 
-            if (!containsUser(user) || getNamedParameterJdbcTemplate().update(queryUpdate, parameters) == 0) {
+            if (getNamedParameterJdbcTemplate().update(queryUpdate, parameters) == 0) {
                 return null;
             }
             deleteRoles(user);
-            insertRoles(user);
         }
+        insertRoles(user);
 
         return user;
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
         LOG.debug("delete user with id={}", id);
 
@@ -92,6 +95,7 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     }
 
     @Override
+    @Transactional
     public void clear() {
         LOG.debug("clear");
         getJdbcTemplate().update("DELETE FROM users");
@@ -130,10 +134,6 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
             List<Role> roles = getJdbcTemplate().query("SELECT role FROM roles WHERE roles.user_id=?", ROLES_MAPPER, u.getId());
             u.setRoles(roles);
         }
-    }
-
-    private boolean containsUser(User u) {
-        return getJdbcTemplate().query("SELECT id from users WHERE id=?", USER_MAPPER, u.getId()).size() > 0;
     }
 
     private class UsersExtractor implements ResultSetExtractor<Collection<User>> {

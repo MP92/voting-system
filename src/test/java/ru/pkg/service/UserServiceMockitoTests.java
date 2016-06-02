@@ -1,8 +1,12 @@
 package ru.pkg.service;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.pkg.model.User;
+import ru.pkg.repository.UserRepository;
 import ru.pkg.utils.exception.UserNotFoundException;
 
 import java.util.Arrays;
@@ -10,8 +14,18 @@ import java.util.Arrays;
 import static org.mockito.Mockito.*;
 import static ru.pkg.UserTestData.*;
 
-@ContextConfiguration("classpath:spring/MockUserRepository-context.xml")
-public class UserServiceMockitoTests extends AbstractUserServiceTests {
+@ContextConfiguration({
+        "classpath:spring/spring-app.xml",
+        "classpath:spring/MockUserRepository-context.xml"
+})
+@RunWith(SpringJUnit4ClassRunner.class)
+public class UserServiceMockitoTests {
+
+    @Autowired
+    protected UserService service;
+
+    @Autowired
+    protected UserRepository repository;
 
     @Test
     public void testGet() {
