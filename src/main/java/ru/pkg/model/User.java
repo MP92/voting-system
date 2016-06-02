@@ -8,6 +8,8 @@ import java.util.Set;
 
 public class User extends NamedEntity {
 
+    String surname;
+
     private String password;
 
     private LocalDateTime registered;
@@ -22,24 +24,33 @@ public class User extends NamedEntity {
     }
 
     public User(User user) {
-        this(user.getId(), user.getName(), user.password, user.registered, user.lastVoted, user.enabled, user.roles);
+        this(user.getId(), user.getName(), user.getSurname(), user.getPassword(), user.getRegistered(), user.lastVoted, user.isEnabled(), user.getRoles());
     }
 
-    public User(Integer id, String name, String password, Role role, Role... roles) {
-        this(id, name, password, LocalDateTime.now(), null, true, EnumSet.of(role, roles));
+    public User(Integer id, String name, String surname, String password, Role role, Role... roles) {
+        this(id, name, surname, password, LocalDateTime.now(), null, true, EnumSet.of(role, roles));
     }
 
-    public User(Integer id, String name, String password, LocalDateTime registered, boolean enabled, Set<Role> roles) {
-        this(id, name, password, registered, null, enabled, roles);
+    public User(Integer id, String name, String surname, String password, LocalDateTime registered, boolean enabled, Set<Role> roles) {
+        this(id, name, surname, password, registered, null, enabled, roles);
     }
 
-    public User(Integer id, String name, String password, LocalDateTime registered, LocalDateTime lastVoted, boolean enabled, Set<Role> roles) {
+    public User(Integer id, String name, String surname, String password, LocalDateTime registered, LocalDateTime lastVoted, boolean enabled, Set<Role> roles) {
         super(id, name);
+        this.surname = surname;
         this.password = password;
         this.registered = registered;
         this.lastVoted = lastVoted;
         this.enabled = enabled;
         this.roles = roles != null ? EnumSet.copyOf(roles) : Collections.emptySet();
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public LocalDateTime getRegistered() {

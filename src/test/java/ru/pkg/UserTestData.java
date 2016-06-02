@@ -16,10 +16,10 @@ public class UserTestData {
 
     public static final LocalDateTime TEST_DT = LocalDateTime.of(2016, 1, 1, 0, 0);
 
-    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
-    public static final User USER = new User(USER_ID, "User", "user", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_USER));
+    public static final User ADMIN = new User(ADMIN_ID, "Admin", "Adminov", "admin", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
+    public static final User USER = new User(USER_ID, "User", "Userov", "user", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_USER));
 
-    public static final User NEW_USER = new User(null, "test", "test", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
+    public static final User NEW_USER = new User(null, "test", "test", "test", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
 
     public static final List<User> ALL_USERS = Arrays.asList(ADMIN, USER);
 
@@ -54,6 +54,7 @@ public class UserTestData {
                     && Objects.equals(this.getPassword(), that.getPassword())
                     && Objects.equals(this.getId(), that.getId())
                     && Objects.equals(this.getName(), that.getName())
+                    && Objects.equals(this.getSurname(), that.getSurname())
                     && Objects.equals(this.getLastVoted(), that.getLastVoted())
                     && Objects.equals(this.isEnabled(), that.isEnabled());
         }
@@ -63,6 +64,7 @@ public class UserTestData {
             return "User (" +
                     "id=" + getId() +
                     ", name=" + getName() +
+                    ", surname=" + getSurname() +
                     ", registered=" + getRegistered() +
                     ", lastVoted=" + getLastVoted() +
                     ", enabled=" + isEnabled() +

@@ -66,7 +66,7 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
             Number key = insertUser.executeAndReturnKey(parameters);
             user.setId(key.intValue());
         } else {
-            String queryUpdate = "UPDATE users SET name=:name, password=:password, registered=:registered, " +
+            String queryUpdate = "UPDATE users SET name=:name, surname=:surname, password=:password, registered=:registered, " +
                     (!user.neverVoted() ? "last_voted=:lastVoted, " : "") + "enabled=:enabled WHERE id=:id";
 
             if (getNamedParameterJdbcTemplate().update(queryUpdate, parameters) == 0) {
@@ -150,12 +150,13 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
                     user.addRole(role);
                 } else {
                     String name = rs.getString("name");
+                    String surname = rs.getString("surname");
                     String password = rs.getString("password");
                     LocalDateTime registered = rs.getTimestamp("registered").toLocalDateTime();
                     Timestamp ts = rs.getTimestamp("last_voted");
                     LocalDateTime lastVoted = ts != null ? ts.toLocalDateTime() : null;
                     boolean enabled = rs.getBoolean("enabled");
-                    userMap.put(id, new User(id, name, password, registered, lastVoted, enabled, EnumSet.of(role)));
+                    userMap.put(id, new User(id, name, surname, password, registered, lastVoted, enabled, EnumSet.of(role)));
                 }
             }
 
