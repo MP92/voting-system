@@ -3,8 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="repository" class="org.mockito.Mockito" factory-method="mock">
+    <bean id="userRepository" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="ru.pkg.repository.UserRepository" />
+    </bean>
+
+    <bean id="restaurantRepository" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="ru.pkg.repository.RestaurantRepository" />
     </bean>
 
 </beans>

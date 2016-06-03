@@ -1,7 +1,5 @@
 package ru.pkg.repository.jdbc;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
@@ -31,25 +29,21 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements UserRepository {
 
-    private static final Logger LOG = LoggerFactory.getLogger(JdbcUserRepository.class);
-
     private static final RowMapper<User> USER_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
     private static final RowMapper<Role> ROLES_MAPPER = (rs, rowNum) -> Role.valueOf(rs.getString("role"));
 
-    private SimpleJdbcInsert insertUser;
+    private SimpleJdbcInsert inserter;
 
     @Autowired
     public JdbcUserRepository(DataSource dataSource) {
-        LOG.debug("constructing");
         setDataSource(dataSource);
-        this.insertUser = new SimpleJdbcInsert(dataSource)
+        this.inserter = new SimpleJdbcInsert(dataSource)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("id");
     }
 
     @Override
     public User findById(int id) {
-        LOG.debug("findById {}", id);
         User user = DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT * FROM users WHERE users.id=?", USER_MAPPER, id));
         fetchRoles(user);
         return user;
@@ -58,12 +52,10 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     @Override
     @Transactional
     public User save(User user) {
-        LOG.debug("save {}", user);
-
         SqlParameterSource parameters = new BeanPropertySqlParameterSource(user);
 
         if (user.isNew()) {
-            Number key = insertUser.executeAndReturnKey(parameters);
+            Number key = inserter.executeAndReturnKey(parameters);
             user.setId(key.intValue());
         } else {
             String queryUpdate = "UPDATE users SET name=:name, surname=:surname, password=:password, registered=:registered, " +
@@ -82,14 +74,11 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     @Override
     @Transactional
     public boolean delete(int id) {
-        LOG.debug("delete user with id={}", id);
-
         return getJdbcTemplate().update("DELETE FROM users WHERE users.id=?", id) != 0;
     }
 
     @Override
     public Collection<User> findAll() {
-        LOG.debug("findAll");
         String query = "SELECT * FROM users as u LEFT JOIN roles as r ON u.id=r.user_id ORDER BY u.name, u.registered";
         return getJdbcTemplate().query(query, new UsersExtractor());
     }
@@ -97,14 +86,11 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     @Override
     @Transactional
     public void clear() {
-        LOG.debug("clear");
         getJdbcTemplate().update("DELETE FROM users");
     }
 
 
     private void insertRoles(User u) {
-        LOG.debug("insertRoles for {}", u);
-
         Iterator<Role> roleIterator = u.getRoles().iterator();
 
         getJdbcTemplate().batchUpdate("INSERT INTO roles(user_id, role) VALUES (?, ?)",
@@ -124,12 +110,10 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     }
 
     private void deleteRoles(User u) {
-        LOG.debug("deleteRoles for {}", u);
         getJdbcTemplate().execute("DELETE FROM roles WHERE user_id=" + u.getId());
     }
 
     private void fetchRoles(User u) {
-        LOG.debug("setRoles for {}", u);
         if (u != null) {
             List<Role> roles = getJdbcTemplate().query("SELECT role FROM roles WHERE roles.user_id=?", ROLES_MAPPER, u.getId());
             u.setRoles(roles);

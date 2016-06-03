@@ -1,4 +1,4 @@
-package ru.pkg.service;
+package ru.pkg.service.mock;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.pkg.model.User;
 import ru.pkg.repository.UserRepository;
+import ru.pkg.service.UserService;
 import ru.pkg.utils.exception.UserNotFoundException;
 
 import java.util.Arrays;
@@ -14,12 +15,7 @@ import java.util.Arrays;
 import static org.mockito.Mockito.*;
 import static ru.pkg.UserTestData.*;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/MockUserRepository-context.xml"
-})
-@RunWith(SpringJUnit4ClassRunner.class)
-public class UserServiceMockitoTests {
+public class UserServiceMockitoTest extends AbstractServiceMockitoTests {
 
     @Autowired
     protected UserService service;
@@ -30,35 +26,37 @@ public class UserServiceMockitoTests {
     @Test
     public void testGet() {
         when(repository.findById(ADMIN_ID)).thenReturn(ADMIN);
-        User user = service.findById(ADMIN_ID);
+        MATCHER.assertEquals(ADMIN, service.findById(ADMIN_ID));
         verify(repository).findById(ADMIN_ID);
-        MATCHER.assertEquals(ADMIN, user);
     }
 
     @Test(expected = UserNotFoundException.class)
     public void testGetNotFound() {
-        User user = service.findById(1000);
+        service.findById(NOT_FOUND_INDEX);
     }
 
     @Test
     public void testAdd() {
-        service.add(NEW_USER);
-        verify(repository).save(NEW_USER);
+        User toCreateUser = new TestUser(NEW_USER);
+        when(repository.save(toCreateUser)).thenReturn(toCreateUser);
+        User created = service.add(toCreateUser);
+        verify(repository).save(toCreateUser);
+        MATCHER.assertEquals(toCreateUser, created);
     }
 
     @Test
     public void testUpdate() {
-        User newUser = new TestUser(ADMIN_ID, NEW_USER);
-        when(repository.save(newUser)).thenReturn(newUser);
-        service.update(newUser);
-        verify(repository).save(newUser);
+        User toUpdateUser = new TestUser(ADMIN_ID, NEW_USER);
+        when(repository.save(toUpdateUser)).thenReturn(toUpdateUser);
+        service.update(toUpdateUser);
+        verify(repository).save(toUpdateUser);
     }
 
     @Test(expected = UserNotFoundException.class)
     public void testUpdateNotFound() {
-        User newUser = new TestUser(10000, NEW_USER);
-        when(repository.save(newUser)).thenReturn(null);
-        service.update(newUser);
+        User toUpdateUser = new TestUser(NOT_FOUND_INDEX, NEW_USER);
+        when(repository.save(toUpdateUser)).thenReturn(null);
+        service.update(toUpdateUser);
     }
 
     @Test
@@ -70,8 +68,8 @@ public class UserServiceMockitoTests {
 
     @Test(expected = UserNotFoundException.class)
     public void testDeleteNotFound() {
-        when(repository.delete(1000)).thenReturn(false);
-        service.delete(1000);
+        when(repository.delete(NOT_FOUND_INDEX)).thenReturn(false);
+        service.delete(NOT_FOUND_INDEX);
     }
 
     @Test

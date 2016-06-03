@@ -1,7 +1,5 @@
 package ru.pkg.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,15 +20,11 @@ public class UserServiceImpl implements UserService {
 
     private static final String EXCEPTION_MSG_PATTERN = "User with id=%d not found";
 
-    private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
-
     @Autowired
     UserRepository repository;
 
     @Override
     public User findById(int id) throws UserNotFoundException {
-        LOG.debug("findById {}", id);
-
         User user = repository.findById(id);
         if (user == null) {
             throw new UserNotFoundException(String.format(EXCEPTION_MSG_PATTERN, id));
@@ -39,33 +33,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void add(User user) {
-        LOG.debug("add {}", user);
-
-        repository.save(user);
-    }
-
-    public void add(UserTO to) {
-        add(createFromTO(to));
+    public User add(User user) {
+        return repository.save(user);
     }
 
     @Override
     public void update(User user) throws UserNotFoundException {
-        LOG.debug("update {}", user);
-
         if (repository.save(user) == null) {
             throw new UserNotFoundException(String.format(EXCEPTION_MSG_PATTERN, user.getId()));
         }
     }
 
+    @Transactional
     public void update(UserTO to) throws UserNotFoundException {
         update(updateFromTO(findById(to.getId()), to));
     }
 
     @Override
     public void delete(int id) throws UserNotFoundException {
-        LOG.debug("delete user with id={}", id);
-
         if (!repository.delete(id)) {
             throw new UserNotFoundException(String.format(EXCEPTION_MSG_PATTERN, id));
         }
@@ -73,8 +58,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Collection<User> findAll() {
-        LOG.debug("findAll");
-
         return repository.findAll();
     }
 

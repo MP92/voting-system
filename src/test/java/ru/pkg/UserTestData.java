@@ -13,6 +13,8 @@ public class UserTestData {
 
     public static final int ADMIN_ID = START_INDEX;
     public static final int USER_ID = START_INDEX + 1;
+    
+    public static final int NOT_FOUND_INDEX = 100000;
 
     public static final LocalDateTime TEST_DT = LocalDateTime.of(2016, 1, 1, 0, 0);
 
@@ -50,7 +52,7 @@ public class UserTestData {
             }
 
             TestUser that = (TestUser) o;
-            return (this.getRoles() == null ? that.getRoles() == null : this.getRoles().equals(that.getRoles()))
+            return Objects.equals(this.getRoles(), that.getRoles())
                     && Objects.equals(this.getPassword(), that.getPassword())
                     && Objects.equals(this.getId(), that.getId())
                     && Objects.equals(this.getName(), that.getName())

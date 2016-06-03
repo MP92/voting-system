@@ -8,6 +8,8 @@ import ru.pkg.to.UserTO;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static ru.pkg.utils.UserUtil.*;
+
 @Controller
 @RequestMapping("/users")
 public class JspUserController extends AbstractUserController {
@@ -34,7 +36,7 @@ public class JspUserController extends AbstractUserController {
     @RequestMapping(method = RequestMethod.POST)
     public String save(@ModelAttribute UserTO userTO, ModelMap modelMap) {
         if (userTO.isNew()) {
-            super.create(userTO);
+            super.create(createFromTO(userTO));
         } else {
             super.update(userTO);
         }

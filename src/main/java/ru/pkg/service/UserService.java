@@ -9,9 +9,7 @@ import java.util.Collection;
 public interface UserService {
     User findById(int id) throws UserNotFoundException;
 
-    void add(User user);
-
-    void add(UserTO to);
+    User add(User user);
 
     void update(User user) throws UserNotFoundException;
 

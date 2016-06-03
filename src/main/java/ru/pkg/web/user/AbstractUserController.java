@@ -21,13 +21,17 @@ public abstract class AbstractUserController {
         service.delete(id);
     }
 
-    public void create(UserTO user) {
+    public void create(User user) {
         user.setId(null);
         service.add(user);
     }
 
+    public void update(User user, int id) {
+        user.setId(id);
+        service.update(user);
+    }
+
     public void update(UserTO user) {
-        Objects.requireNonNull(user.getId());
         service.update(user);
     }
 
