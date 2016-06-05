@@ -11,4 +11,8 @@
         <constructor-arg value="ru.pkg.repository.RestaurantRepository" />
     </bean>
 
+    <bean id="dishRepository" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="ru.pkg.repository.DishRepository" />
+    </bean>
+
 </beans>

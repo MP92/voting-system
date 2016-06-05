@@ -1,21 +1,18 @@
 package ru.pkg.service.mock;
 
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.pkg.model.User;
 import ru.pkg.repository.UserRepository;
 import ru.pkg.service.UserService;
 import ru.pkg.utils.exception.UserNotFoundException;
 
-import java.util.Arrays;
 
 import static org.mockito.Mockito.*;
 import static ru.pkg.UserTestData.*;
 
-public class UserServiceMockitoTest extends AbstractServiceMockitoTests {
+public class UserServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Autowired
     protected UserService service;
@@ -24,24 +21,40 @@ public class UserServiceMockitoTest extends AbstractServiceMockitoTests {
     protected UserRepository repository;
 
     @Test
-    public void testGet() {
+    public void testAdd() {
+        User toCreateUser = new TestUser(null, NEW_USER);
+        when(repository.save(toCreateUser)).thenAnswer(invocation -> {
+            toCreateUser.setId(NEW_USER_ID);
+            return toCreateUser;
+        });
+        User created = service.add(toCreateUser);
+        verify(repository).save(toCreateUser);
+        Assert.assertTrue(toCreateUser.getId() == NEW_USER_ID);
+        MATCHER.assertEquals(toCreateUser, created);
+    }
+
+    @Test
+    public void testFindById() {
         when(repository.findById(ADMIN_ID)).thenReturn(ADMIN);
         MATCHER.assertEquals(ADMIN, service.findById(ADMIN_ID));
         verify(repository).findById(ADMIN_ID);
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void testGetNotFound() {
-        service.findById(NOT_FOUND_INDEX);
+    public void testFindByIdNotFound() {
+        when(repository.findById(NOT_FOUND_INDEX)).thenReturn(null);
+        try {
+            service.findById(NOT_FOUND_INDEX);
+        } catch (UserNotFoundException e) {
+            verify(repository).findById(NOT_FOUND_INDEX);
+            throw e;
+        }
     }
 
     @Test
-    public void testAdd() {
-        User toCreateUser = new TestUser(NEW_USER);
-        when(repository.save(toCreateUser)).thenReturn(toCreateUser);
-        User created = service.add(toCreateUser);
-        verify(repository).save(toCreateUser);
-        MATCHER.assertEquals(toCreateUser, created);
+    public void testFindAll() {
+        when(repository.findAll()).thenReturn(ALL_USERS);
+        MATCHER.assertCollectionsEquals(ALL_USERS, service.findAll());
     }
 
     @Test
@@ -56,7 +69,12 @@ public class UserServiceMockitoTest extends AbstractServiceMockitoTests {
     public void testUpdateNotFound() {
         User toUpdateUser = new TestUser(NOT_FOUND_INDEX, NEW_USER);
         when(repository.save(toUpdateUser)).thenReturn(null);
-        service.update(toUpdateUser);
+        try {
+            service.update(toUpdateUser);
+        } catch (UserNotFoundException e) {
+            verify(repository).save(toUpdateUser);
+            throw e;
+        }
     }
 
     @Test
@@ -69,12 +87,11 @@ public class UserServiceMockitoTest extends AbstractServiceMockitoTests {
     @Test(expected = UserNotFoundException.class)
     public void testDeleteNotFound() {
         when(repository.delete(NOT_FOUND_INDEX)).thenReturn(false);
-        service.delete(NOT_FOUND_INDEX);
-    }
-
-    @Test
-    public void testFindAll() {
-        when(repository.findAll()).thenReturn(Arrays.asList(ADMIN, USER));
-        MATCHER.assertCollectionsEquals(ALL_USERS, service.findAll());
+        try {
+            service.delete(NOT_FOUND_INDEX);
+        } catch (UserNotFoundException e) {
+            verify(repository).delete(NOT_FOUND_INDEX);
+            throw e;
+        }
     }
 }

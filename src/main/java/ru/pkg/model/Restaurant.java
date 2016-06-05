@@ -12,7 +12,7 @@ public class Restaurant extends NamedEntity {
 
     private String phoneNumber;
 
-    private List<Dish> menu;
+    private List<Dish> menu = Collections.emptyList();
 
     public Restaurant() {
     }
@@ -56,11 +56,15 @@ public class Restaurant extends NamedEntity {
     }
 
     public List<Dish> getMenu() {
-        return menu != null ? Collections.unmodifiableList(menu) : null;
+        return Collections.unmodifiableList(menu);
     }
 
     public void setMenu(List<Dish> menu) {
-        this.menu = new ArrayList<>(menu);
+        this.menu = menu != null ? new ArrayList<>(menu) : Collections.emptyList();
+    }
+
+    public void addDishToMenu(Dish dish) {
+        menu.add(dish);
     }
 
     @Override

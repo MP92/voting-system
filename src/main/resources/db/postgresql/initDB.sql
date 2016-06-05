@@ -1,7 +1,12 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS restaurants CASCADE;
+DROP TABLE IF EXISTS dishes CASCADE;
+DROP TABLE IF EXISTS menus;
 
 DROP SEQUENCE IF EXISTS users_id_seq;
+DROP SEQUENCE IF EXISTS restaurants_id_seq;
+DROP SEQUENCE IF EXISTS dishes_id_seq;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -20,12 +25,6 @@ CREATE TABLE roles (
   UNIQUE(user_id, role)
 );
 
-DROP TABLE IF EXISTS restaurants CASCADE;
-DROP TABLE IF EXISTS dishes;
-
-DROP SEQUENCE IF EXISTS restaurants_id_seq;
-DROP SEQUENCE IF EXISTS dishes_id_seq;
-
 CREATE TABLE restaurants (
   id SERIAL PRIMARY KEY,
   name VARCHAR NOT NULL,
@@ -42,7 +41,12 @@ CREATE TABLE dishes (
   description VARCHAR NOT NULL,
   weight INTEGER NOT NULL,
   category VARCHAR NOT NULL,
-  price REAL NOT NULL,
-  menu_item BOOLEAN DEFAULT TRUE,
+  price NUMERIC(7, 2) NOT NULL,
   UNIQUE(restaurant_id, name)
+);
+
+CREATE TABLE menus (
+  restaurant_id INTEGER REFERENCES restaurants(id) ON DELETE CASCADE,
+  dish_id INTEGER REFERENCES dishes(id) ON DELETE CASCADE,
+  UNIQUE(restaurant_id, dish_id)
 );

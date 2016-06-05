@@ -18,14 +18,14 @@ public class User extends NamedEntity {
 
     private boolean enabled;
 
-    private Set<Role> roles;
+    private Set<Role> roles = Collections.emptySet();
 
     public User() {
     }
 
-    public User(User user) {
+/*    public User(User user) {
         this(user.getId(), user.getName(), user.getSurname(), user.getPassword(), user.getRegistered(), user.lastVoted, user.isEnabled(), user.getRoles());
-    }
+    }*/
 
     public User(Integer id, String name, String surname, String password, Role role, Role... roles) {
         this(id, name, surname, password, LocalDateTime.now(), null, true, EnumSet.of(role, roles));
@@ -42,7 +42,9 @@ public class User extends NamedEntity {
         this.registered = registered;
         this.lastVoted = lastVoted;
         this.enabled = enabled;
-        this.roles = roles != null ? EnumSet.copyOf(roles) : Collections.emptySet();
+        if (roles != null) {
+            this.roles = EnumSet.copyOf(roles);
+        }
     }
 
     public String getSurname() {

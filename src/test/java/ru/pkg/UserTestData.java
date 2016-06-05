@@ -13,8 +13,12 @@ public class UserTestData {
 
     public static final int ADMIN_ID = START_INDEX;
     public static final int USER_ID = START_INDEX + 1;
-    
+
+    public static final int NEW_USER_ID = START_INDEX + 100;
+
     public static final int NOT_FOUND_INDEX = 100000;
+
+    public static final ModelMatcher<User, TestUser> MATCHER = new ModelMatcher<>(u -> (u instanceof TestUser ? (TestUser)u : new TestUser(u)));
 
     public static final LocalDateTime TEST_DT = LocalDateTime.of(2016, 1, 1, 0, 0);
 
@@ -25,21 +29,18 @@ public class UserTestData {
 
     public static final List<User> ALL_USERS = Arrays.asList(ADMIN, USER);
 
-    public static final ModelMatcher<User, TestUser> MATCHER = new ModelMatcher<>(u -> (u instanceof TestUser ? (TestUser)u : new TestUser(u)));
-
     public static class TestUser extends User {
 
-        public TestUser(Integer id, User user){
-            super(user);
-            setId(id);
+        public TestUser(User user){
+            this(user.getId(), user);
         }
 
-        public TestUser(User user) {
-            super(user);
+        public TestUser(Integer id, User user){
+            super(id, user.getName(), user.getSurname(), user.getPassword(), user.getRegistered(), user.getLastVoted(), user.isEnabled(), user.getRoles());
         }
 
         public User asUser() {
-            return new User(this);
+            return new User(getId(), getName(), getSurname(), getPassword(), getRegistered(), getLastVoted(), isEnabled(), getRoles());
         }
 
         @Override

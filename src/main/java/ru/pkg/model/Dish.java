@@ -10,12 +10,18 @@ public class Dish extends NamedEntity {
 
     private double price;
 
-    public Dish(Integer id, String name, String description, int weight, DishCategory category, double price) {
+    private int restaurantId;
+
+    public Dish() {
+    }
+
+    public Dish(Integer id, String name, String description, int weight, DishCategory category, double price, int restaurantId) {
         super(id, name);
         this.description = description;
         this.weight = weight;
         this.category = category;
         this.price = price;
+        this.restaurantId = restaurantId;
     }
 
     public String getDescription() {
@@ -50,6 +56,14 @@ public class Dish extends NamedEntity {
         this.price = price;
     }
 
+    public int getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(int restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
     @Override
     public String toString() {
         return "Dish{" +
@@ -59,6 +73,7 @@ public class Dish extends NamedEntity {
                 ", weight=" + weight +
                 ", category=" + category +
                 ", price=" + price +
+                ", restaurantId=" + restaurantId +
                 '}';
     }
 }

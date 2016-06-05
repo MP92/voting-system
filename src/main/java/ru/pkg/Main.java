@@ -2,9 +2,11 @@ package ru.pkg;
 
 import org.slf4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.pkg.service.UserService;
+import ru.pkg.model.Restaurant;
+import ru.pkg.repository.RestaurantRepository;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -20,7 +22,9 @@ public class Main {
 
         System.out.println(Arrays.toString(appCtx.getBeanDefinitionNames()));
 
-        UserService service = (UserService)appCtx.getBean("userServiceImpl");
-        service.delete(1000);
+        RestaurantRepository restaurantRepository = appCtx.getBean("jdbcRestaurantRepository", RestaurantRepository.class);
+        System.out.println(restaurantRepository.getClass().getName());
+        List<Restaurant> list = restaurantRepository.findAllWithMenu();
+        System.out.println(list);
     }
 }

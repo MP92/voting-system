@@ -9,28 +9,15 @@ import ru.pkg.to.UserTO;
 import ru.pkg.utils.exception.UserNotFoundException;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
-import static ru.pkg.utils.UserUtil.createFromTO;
 import static ru.pkg.utils.UserUtil.updateFromTO;
-
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private static final String EXCEPTION_MSG_PATTERN = "User with id=%d not found";
-
     @Autowired
     UserRepository repository;
-
-    @Override
-    public User findById(int id) throws UserNotFoundException {
-        User user = repository.findById(id);
-        if (user == null) {
-            throw new UserNotFoundException(String.format(EXCEPTION_MSG_PATTERN, id));
-        }
-        return user;
-    }
 
     @Override
     public User add(User user) {
@@ -38,9 +25,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findById(int id) throws UserNotFoundException {
+        User user = repository.findById(id);
+        if (user == null) {
+            throw new UserNotFoundException(id);
+        }
+        return user;
+    }
+
+    @Override
+    public List<User> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
     public void update(User user) throws UserNotFoundException {
         if (repository.save(user) == null) {
-            throw new UserNotFoundException(String.format(EXCEPTION_MSG_PATTERN, user.getId()));
+            throw new UserNotFoundException(user);
         }
     }
 
@@ -52,13 +53,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(int id) throws UserNotFoundException {
         if (!repository.delete(id)) {
-            throw new UserNotFoundException(String.format(EXCEPTION_MSG_PATTERN, id));
+            throw new UserNotFoundException(id);
         }
-    }
-
-    @Override
-    public Collection<User> findAll() {
-        return repository.findAll();
     }
 
     @Override

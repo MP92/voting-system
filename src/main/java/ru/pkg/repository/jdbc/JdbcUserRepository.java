@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @Transactional(readOnly = true)
@@ -40,13 +41,6 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
         this.inserter = new SimpleJdbcInsert(dataSource)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("id");
-    }
-
-    @Override
-    public User findById(int id) {
-        User user = DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT * FROM users WHERE users.id=?", USER_MAPPER, id));
-        fetchRoles(user);
-        return user;
     }
 
     @Override
@@ -72,23 +66,23 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     }
 
     @Override
-    @Transactional
-    public boolean delete(int id) {
-        return getJdbcTemplate().update("DELETE FROM users WHERE users.id=?", id) != 0;
+    public User findById(int id) {
+        User user = DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT * FROM users WHERE users.id=?", USER_MAPPER, id));
+        fetchRoles(user);
+        return user;
     }
 
     @Override
-    public Collection<User> findAll() {
+    public List<User> findAll() {
         String query = "SELECT * FROM users as u LEFT JOIN roles as r ON u.id=r.user_id ORDER BY u.name, u.registered";
         return getJdbcTemplate().query(query, new UsersExtractor());
     }
 
     @Override
     @Transactional
-    public void clear() {
-        getJdbcTemplate().update("DELETE FROM users");
+    public boolean delete(int id) {
+        return getJdbcTemplate().update("DELETE FROM users WHERE users.id=?", id) != 0;
     }
-
 
     private void insertRoles(User u) {
         Iterator<Role> roleIterator = u.getRoles().iterator();
@@ -120,9 +114,9 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
         }
     }
 
-    private class UsersExtractor implements ResultSetExtractor<Collection<User>> {
+    private class UsersExtractor implements ResultSetExtractor<List<User>> {
         @Override
-        public Collection<User> extractData(ResultSet rs) throws SQLException, DataAccessException {
+        public List<User> extractData(ResultSet rs) throws SQLException, DataAccessException {
             Map<Integer, User> userMap = new LinkedHashMap<>();
 
             while (rs.next()) {
@@ -144,7 +138,7 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
                 }
             }
 
-            return userMap.values();
+            return userMap.values().stream().collect(Collectors.toList());
         }
     }
 }

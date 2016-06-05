@@ -2,17 +2,17 @@ package ru.pkg.repository;
 
 import ru.pkg.model.Restaurant;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface RestaurantRepository {
 
-    Restaurant findById(int id);
-
-    boolean delete(int id);
-
     Restaurant save(Restaurant restaurant);
 
-    Collection<Restaurant> findAll();
+    Restaurant findById(int id);
 
-    Collection<Restaurant> findAllWithMenus();
+    List<Restaurant> findAll();
+
+    List<Restaurant> findAllWithMenu();
+
+    boolean delete(int id);
 }

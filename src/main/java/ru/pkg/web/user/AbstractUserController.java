@@ -6,7 +6,6 @@ import ru.pkg.service.UserService;
 import ru.pkg.to.UserTO;
 
 import java.util.Collection;
-import java.util.Objects;
 
 public abstract class AbstractUserController {
 

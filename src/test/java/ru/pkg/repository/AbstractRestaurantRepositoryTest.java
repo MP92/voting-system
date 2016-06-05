@@ -13,12 +13,21 @@ import static ru.pkg.RestaurantTestData.*;
 public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
-    protected RestaurantRepository repository;
+    private RestaurantRepository repository;
+
+    @Test
+    public void testAdd() throws Exception {
+        Restaurant toCreateRestaurant = TestRestaurantFactory.newIntanceForCreate();
+        Restaurant created = repository.save(toCreateRestaurant);
+        Assert.assertNotNull(toCreateRestaurant.getId());
+        MATCHER.assertEquals(toCreateRestaurant, created);
+        MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_1, created, RESTAURANT_2), repository.findAllWithMenu());
+    }
 
     @Test
     public void testFindById() throws Exception {
-        Restaurant restaurant = repository.findById(START_INDEX);
-        MATCHER.assertEquals(TEST_RESTAURANT_1, restaurant);
+        Restaurant restaurant = repository.findById(RESTAURANT_1_ID);
+        MATCHER.assertEquals(RESTAURANT_1, restaurant);
     }
 
     @Test
@@ -27,49 +36,40 @@ public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositor
     }
 
     @Test
+    public void testFindAll() throws Exception {
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITH_MENU, repository.findAllWithMenu());
+    }
+
+    @Test
+    public void testFindAllWithMenu() throws Exception {
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITH_MENU, repository.findAllWithMenu());
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdate();
+        Restaurant updated = repository.save(toUpdateRestaurant);
+        Assert.assertTrue(updated.getId() == RESTAURANT_1_ID);
+        MATCHER.assertEquals(toUpdateRestaurant, updated);
+        MATCHER.assertCollectionsEquals(Arrays.asList(updated, RESTAURANT_2), repository.findAllWithMenu());
+    }
+
+    @Test
+    public void testUpdateNotFound() throws Exception {
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdateNonexistent();
+        Assert.assertNull(repository.save(toUpdateRestaurant));
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITH_MENU, repository.findAllWithMenu());
+    }
+
+    @Test
     public void testDelete() throws Exception {
-        Assert.assertTrue(repository.delete(START_INDEX));
-        MATCHER.assertCollectionsEquals(Collections.singletonList(TEST_RESTAURANT_2), repository.findAll());
+        Assert.assertTrue(repository.delete(RESTAURANT_1_ID));
+        MATCHER.assertCollectionsEquals(Collections.singletonList(RESTAURANT_2), repository.findAllWithMenu());
     }
 
     @Test
     public void testDeleteNotFound() throws Exception {
         Assert.assertFalse(repository.delete(NOT_FOUND_INDEX));
-        MATCHER.assertCollectionsEquals(Arrays.asList(TEST_RESTAURANT_1, TEST_RESTAURANT_2), repository.findAll());
-    }
-
-    @Test
-    public void testAdd() throws Exception {
-        Restaurant toCreateRestaurant = new TestRestaurant(null, TEST_RESTAURANT_NEW);
-        Restaurant created = repository.save(toCreateRestaurant);
-        Assert.assertNotNull(toCreateRestaurant.getId());
-        MATCHER.assertEquals(toCreateRestaurant, created);
-        MATCHER.assertCollectionsEquals(Arrays.asList(TEST_RESTAURANT_1, created, TEST_RESTAURANT_2), repository.findAll());
-    }
-
-    @Test
-    public void testUpdate() throws Exception {
-        Restaurant toUpdateRestaurant = new TestRestaurant(START_INDEX, TEST_RESTAURANT_NEW);
-        Restaurant updated = repository.save(toUpdateRestaurant);
-        Assert.assertTrue(updated.getId() == START_INDEX);
-        MATCHER.assertEquals(toUpdateRestaurant, updated);
-        MATCHER.assertCollectionsEquals(Arrays.asList(updated, TEST_RESTAURANT_2), repository.findAll());
-    }
-
-    @Test
-    public void testUpdateNotFound() throws Exception {
-        Restaurant toUpdateRestaurant = new TestRestaurant(NOT_FOUND_INDEX, TEST_RESTAURANT_NEW);
-        Assert.assertNull(repository.save(toUpdateRestaurant));
-        MATCHER.assertCollectionsEquals(Arrays.asList(TEST_RESTAURANT_1, TEST_RESTAURANT_2), repository.findAll());
-    }
-
-    @Test
-    public void testFindAll() throws Exception {
-        MATCHER.assertCollectionsEquals(Arrays.asList(TEST_RESTAURANT_1, TEST_RESTAURANT_2), repository.findAll());
-    }
-
-    @Test
-    public void testFindAllWithMenus() throws Exception {
-
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITH_MENU, repository.findAllWithMenu());
     }
 }

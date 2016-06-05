@@ -14,11 +14,20 @@ import static ru.pkg.RestaurantTestData.*;
 public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest {
 
     @Autowired
-    RestaurantService service;
+    private RestaurantService service;
+
+    @Test
+    public void testAdd() throws Exception {
+        Restaurant toCreateRestaurant = TestRestaurantFactory.newIntanceForCreate();
+        Restaurant added = service.add(toCreateRestaurant);
+        Assert.assertNotNull(toCreateRestaurant.getId());
+        MATCHER.assertEquals(toCreateRestaurant, added);
+        MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_1, added, RESTAURANT_2), service.findAllWithMenu());
+    }
 
     @Test
     public void testFindById() throws Exception {
-        MATCHER.assertEquals(TEST_RESTAURANT_1, service.findById(START_INDEX));
+        MATCHER.assertEquals(RESTAURANT_1, service.findById(START_INDEX));
     }
 
     @Test(expected = RestaurantNotFoundException.class)
@@ -27,40 +36,31 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
     }
 
     @Test
+    public void testFindAll() throws Exception {
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITHOUT_MENU, service.findAll());
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdate();
+        service.update(toUpdateRestaurant);
+        MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateRestaurant, RESTAURANT_2), service.findAllWithMenu());
+    }
+
+    @Test(expected = RestaurantNotFoundException.class)
+    public void testUpdateNotFound() throws Exception {
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdateNonexistent();
+        service.update(toUpdateRestaurant);
+    }
+
+    @Test
     public void testDelete() throws Exception {
         service.delete(START_INDEX);
-        MATCHER.assertCollectionsEquals(Collections.singletonList(TEST_RESTAURANT_2), service.findAll());
+        MATCHER.assertCollectionsEquals(Collections.singletonList(RESTAURANT_2), service.findAllWithMenu());
     }
 
     @Test(expected = RestaurantNotFoundException.class)
     public void testDeleteNotFound() throws Exception {
         service.delete(NOT_FOUND_INDEX);
-    }
-
-    @Test
-    public void testAdd() throws Exception {
-        TestRestaurant toCreateRestaurant = new TestRestaurant(null, TEST_RESTAURANT_NEW);
-        Restaurant added = service.add(toCreateRestaurant);
-        Assert.assertNotNull(toCreateRestaurant.getId());
-        MATCHER.assertEquals(toCreateRestaurant, added);
-        MATCHER.assertCollectionsEquals(Arrays.asList(TEST_RESTAURANT_1, added, TEST_RESTAURANT_2), service.findAll());
-    }
-
-    @Test
-    public void testUpdate() throws Exception {
-        TestRestaurant toUpdateRestaurant = new TestRestaurant(START_INDEX, TEST_RESTAURANT_NEW);
-        service.update(toUpdateRestaurant);
-        MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateRestaurant, TEST_RESTAURANT_2), service.findAll());
-    }
-
-    @Test(expected = RestaurantNotFoundException.class)
-    public void testUpdateNotFound() throws Exception {
-        TestRestaurant toUpdateRestaurant = new TestRestaurant(NOT_FOUND_INDEX, TEST_RESTAURANT_NEW);
-        service.update(toUpdateRestaurant);
-    }
-
-    @Test
-    public void testFindAll() throws Exception {
-        MATCHER.assertCollectionsEquals(Arrays.asList(TEST_RESTAURANT_1, TEST_RESTAURANT_2), service.findAll());
     }
 }

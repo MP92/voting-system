@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.pkg.model.User;
 import ru.pkg.repository.UserRepository;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -28,12 +28,6 @@ public class HashMapUserRepository implements UserRepository {
     }
 
     @Override
-    public User findById(int id) {
-        LOG.debug("findById {}", id);
-        return repository.get(id);
-    }
-
-    @Override
     public User save(User user) {
         LOG.debug("save {}", user);
 
@@ -49,18 +43,24 @@ public class HashMapUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean delete(int id) {
-        LOG.debug("delete id={}", id);
-        return repository.remove(id) != null;
+    public User findById(int id) {
+        LOG.debug("findById {}", id);
+        return repository.get(id);
     }
 
     @Override
-    public Collection<User> findAll() {
+    public List<User> findAll() {
         LOG.debug("findAll");
         return repository.values().stream().sorted((u1, u2) -> {
             int result = u1.getName().compareToIgnoreCase(u2.getName());
             return result != 0 ? result : u1.getRegistered().compareTo(u2.getRegistered());
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean delete(int id) {
+        LOG.debug("delete id={}", id);
+        return repository.remove(id) != null;
     }
 
     public void clear() {

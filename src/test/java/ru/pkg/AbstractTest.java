@@ -1,23 +1,19 @@
-package ru.pkg.service.mock;
+package ru.pkg;
 
 import org.junit.Rule;
 import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/repositories-mock.xml"
-})
 @RunWith(SpringJUnit4ClassRunner.class)
-public abstract class AbstractServiceMockitoTests {
+public abstract class AbstractTest {
+
     private final Logger logger = getLogger(getClass());
 
     @Rule

@@ -12,12 +12,7 @@ import static ru.pkg.UserTestData.*;
 public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
-    protected UserRepository repository;
-
-    @Test
-    public void testFindAll() {
-        MATCHER.assertCollectionsEquals(ALL_USERS, repository.findAll());
-    }
+    private UserRepository repository;
 
     @Test
     public void testAdd() {
@@ -29,16 +24,19 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
     }
 
     @Test
-    public void testDelete() {
-        Assert.assertTrue(repository.delete(ADMIN_ID));
-
-        MATCHER.assertCollectionsEquals(Collections.singletonList(USER), repository.findAll());
+    public void testFindById() {
+        User user = repository.findById(ADMIN_ID);
+        MATCHER.assertEquals(ADMIN, user);
     }
 
     @Test
-    public void testDeleteNotFound() {
-        Assert.assertFalse(repository.delete(NOT_FOUND_INDEX));
-        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, USER), repository.findAll());
+    public void testFindByIdNotFound() {
+        Assert.assertNull(repository.findById(NOT_FOUND_INDEX));
+    }
+
+    @Test
+    public void testFindAll() {
+        MATCHER.assertCollectionsEquals(ALL_USERS, repository.findAll());
     }
 
     @Test
@@ -58,13 +56,15 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
     }
 
     @Test
-    public void testGet() {
-        User user = repository.findById(ADMIN_ID);
-        MATCHER.assertEquals(ADMIN, user);
+    public void testDelete() {
+        Assert.assertTrue(repository.delete(ADMIN_ID));
+
+        MATCHER.assertCollectionsEquals(Collections.singletonList(USER), repository.findAll());
     }
 
     @Test
-    public void testGetNotFound() {
-        Assert.assertNull(repository.findById(NOT_FOUND_INDEX));
+    public void testDeleteNotFound() {
+        Assert.assertFalse(repository.delete(NOT_FOUND_INDEX));
+        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, USER), repository.findAll());
     }
 }
