@@ -12,6 +12,8 @@ public interface DishService {
 
     Dish findById(int id, int restaurantId) throws DishNotFoundException;
 
+    List<Dish> findMenu(int restaurantId);
+
     List<Dish> findAll(int restaurantId);
 
     void update(Dish dish) throws DishNotFoundException;

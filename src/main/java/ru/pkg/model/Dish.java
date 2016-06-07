@@ -15,6 +15,10 @@ public class Dish extends NamedEntity {
     public Dish() {
     }
 
+    public Dish(int restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
     public Dish(Integer id, String name, String description, int weight, DishCategory category, double price, int restaurantId) {
         super(id, name);
         this.description = description;

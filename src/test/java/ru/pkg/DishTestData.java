@@ -24,12 +24,12 @@ public class DishTestData {
 
     public static final Dish R_1_DISH_1 = new Dish(
             R_1_DISH_1_ID, "Beer-and-Cheddar SoupBeer-and-Cheddar Soup",
-            "When Jonathon Erdeljac opened his new restaurant, Jonathon's Oak Cliff, in Dallas, he knew he wanted to serve this rich soup. It's a favorite of his, especially with jalapeños and smoky bacon stirred in.",
+            "When Jonathon Erdeljac opened his new restaurant, Jonathon's Oak Cliff, in Dallas, he knew he wanted to serve this rich soup. It's a favorite of his, especially with jalapenos and smoky bacon stirred in.",
             260, DishCategory.SOUP, 84.6, RESTAURANT_1_ID);
 
     public static final Dish R_1_DISH_2 = new Dish(
             R_1_DISH_1_ID + 1, "Bucatini with Pancetta, Pecorino and Pepper",
-            "“I love knowing that I have leftovers in the refrigerator,” says chef Shelley Lindgren. She’ll often make pasta during the day—like this rich, pancetta-studded bucatini that’s tossed with plenty of freshly ground black pepper and Pecorino—and then reheat a big bowl of it when she comes home from work late at night.",
+            "\"I love knowing that I have leftovers in the refrigerator,\" says chef Shelley Lindgren. She'll often make pasta during the day like this rich, pancetta-studded bucatini that's tossed with plenty of freshly ground black pepper and Pecorino and then reheat a big bowl of it when she comes home from work late at night.",
             250, DishCategory.GARNISH, 75.4, RESTAURANT_1_ID);
 
     public static final Dish R_1_DISH_3 = new Dish(
@@ -44,12 +44,12 @@ public class DishTestData {
 
     public static final Dish R_2_DISH_2 = new Dish(
             R_1_DISH_1_ID + 4, "Chicken in Tarragon-Mustard Cream Sauce",
-            "F&W's Grace Parisi steals the flavors from a classic French pan sauce (mustard, tarragon, white wine and cream) for this quick chicken sauté.",
+            "F&W's Grace Parisi steals the flavors from a classic French pan sauce (mustard, tarragon, white wine and cream) for this quick chicken saute.",
             230, DishCategory.GARNISH, 95.5, RESTAURANT_2_ID);
 
     public static final Dish R_2_DISH_3 = new Dish(
             R_1_DISH_1_ID + 5, "Gianduja Mousse",
-            "As if the chocolate-hazelnut spread gianduja isn't delicious enough straight off the spoon, Grace Parisi has folded in whipped cream and crème fraîche to create a truly decadent (and ridiculously easy) mousse. For a supereasy ice cream sandwich, spoon the mousse between chocolate wafers and freeze overnight.",
+            "As if the chocolate-hazelnut spread gianduja isn't delicious enough straight off the spoon, Grace Parisi has folded in whipped cream and creme fraiche to create a truly decadent (and ridiculously easy) mousse. For a supereasy ice cream sandwich, spoon the mousse between chocolate wafers and freeze overnight.",
             110, DishCategory.DESSERT, 175.5, RESTAURANT_2_ID);
 
     public static final List<Dish> R_1_ALL_DISHES = Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3);

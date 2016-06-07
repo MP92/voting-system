@@ -17,16 +17,19 @@ import static ru.pkg.utils.UserUtil.updateFromTO;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository repository;
+    UserRepository userRepository;
+
+    @Autowired
+    RestaurantService restaurantService;
 
     @Override
     public User add(User user) {
-        return repository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
     public User findById(int id) throws UserNotFoundException {
-        User user = repository.findById(id);
+        User user = userRepository.findById(id);
         if (user == null) {
             throw new UserNotFoundException(id);
         }
@@ -35,12 +38,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAll() {
-        return repository.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     public void update(User user) throws UserNotFoundException {
-        if (repository.save(user) == null) {
+        if (userRepository.save(user) == null) {
             throw new UserNotFoundException(user);
         }
     }
@@ -52,15 +55,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(int id) throws UserNotFoundException {
-        if (!repository.delete(id)) {
+        if (!userRepository.delete(id)) {
             throw new UserNotFoundException(id);
         }
     }
 
     @Override
     @Transactional
-    public void markAsVotedToday(int id) {
-        User user = findById(id);
+    public void voteForRestaurant(int userId, int restaurantId) {
+        restaurantService.addVote(restaurantId);
+        User user = findById(userId);
         user.setLastVoted(LocalDateTime.now());
         update(user);
     }

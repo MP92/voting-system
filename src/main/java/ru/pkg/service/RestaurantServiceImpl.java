@@ -7,6 +7,7 @@ import ru.pkg.repository.RestaurantRepository;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -50,5 +51,35 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (!repository.delete(id)) {
             throw new RestaurantNotFoundException(id);
         }
+    }
+
+    @Override
+    public Integer findVotesById(int id) {
+        return repository.findVotesById(id);
+    }
+
+    @Override
+    public Map<Integer, Integer> findAllVotes() {
+        return repository.findAllVotes();
+    }
+
+    @Override
+    public void addVote(int id) {
+        repository.addVote(id);
+    }
+
+    @Override
+    public void resetVotes() {
+        repository.resetVotes();
+    }
+
+    @Override
+    public void addDishToMenu(int id, int dishId) {
+        repository.addDishToMenu(id, dishId);
+    }
+
+    @Override
+    public void deleteDishFromMenu(int id, int dishId) {
+        repository.deleteDishFromMenu(id, dishId);
     }
 }

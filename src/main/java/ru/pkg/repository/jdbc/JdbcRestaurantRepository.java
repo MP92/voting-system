@@ -1,6 +1,7 @@
 package ru.pkg.repository.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -17,11 +18,9 @@ import ru.pkg.repository.RestaurantRepository;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 @Transactional(readOnly = true)
@@ -42,8 +41,8 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
                 .usingGeneratedKeyColumns("id");
     }
 
-    @Override
     @Transactional
+    @Override
     public Restaurant save(Restaurant restaurant) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(restaurant);
 
@@ -81,11 +80,48 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
         return restaurants;
     }
 
-    @Override
     @Transactional
+    @Override
     public boolean delete(int id) {
         return getJdbcTemplate().update("DELETE FROM restaurants WHERE id=?", id) > 0;
     }
+
+    @Override
+    public Integer findVotesById(int id) {
+        try {
+            return getJdbcTemplate().queryForObject("SELECT count FROM votes WHERE restaurant_id=?", Integer.class, id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Map<Integer, Integer> findAllVotes() {
+        return getJdbcTemplate().query("SELECT restaurant_id, count FROM votes", rs -> {
+            Map<Integer, Integer> resultMap = new HashMap<>();
+            while (rs.next()) {
+                resultMap.put(rs.getInt("restaurant_id"), rs.getInt("count"));
+            }
+            return resultMap;
+        });
+    }
+
+    @Transactional
+    @Override
+    public void addVote(int id) {
+        Integer votes = findVotesById(id);
+        String query = votes != null ? "UPDATE votes SET count = count + 1 WHERE restaurant_id=?"
+                                     : "INSERT INTO votes (restaurant_id, count) VALUES (?, 1)";
+
+        getJdbcTemplate().update(query, id);
+    }
+
+    @Transactional
+    @Override
+    public void resetVotes() {
+        getJdbcTemplate().update("UPDATE votes SET count = 0");
+    }
+
 
     private void fetchMenu(Restaurant restaurant) {
         if (restaurant != null) {
@@ -114,5 +150,17 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
                     }
                 }
         );
+    }
+
+    @Transactional
+    @Override
+    public void addDishToMenu(int id, int dishId) {
+        getJdbcTemplate().update("INSERT INTO menus(restaurant_id, dish_id) VALUES (?, ?)", id, dishId);
+    }
+
+    @Transactional
+    @Override
+    public void deleteDishFromMenu(int id, int dishId) {
+        getJdbcTemplate().update("DELETE FROM menus WHERE restaurant_id=? AND dish_id=?", id, dishId);
     }
 }

@@ -20,5 +20,5 @@ public interface UserService {
 
     void delete(int id) throws UserNotFoundException;
 
-    void markAsVotedToday(int id);
+    void voteForRestaurant(int userId, int restaurantId);
 }

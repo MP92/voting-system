@@ -2,6 +2,7 @@ package ru.pkg.repository;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import ru.pkg.model.Dish;
+import ru.pkg.utils.exception.DishNotFoundException;
 
 import java.util.List;
 import java.util.Map;

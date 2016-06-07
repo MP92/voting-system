@@ -36,8 +36,8 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
                     .usingGeneratedKeyColumns("id");
     }
 
-    @Override
     @Transactional
+    @Override
     public Dish save(Dish dish) throws DishNotFoundException, DataIntegrityViolationException {
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", dish.getId())
@@ -82,8 +82,8 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
         return getJdbcTemplate().query("SELECT * FROM dishes WHERE restaurant_id=? ORDER BY id", DISH_MAPPER, restaurantId);
     }
 
-    @Override
     @Transactional
+    @Override
     public boolean delete(int id, int restaurantId) throws DishNotFoundException {
         return getJdbcTemplate().update("DELETE FROM dishes WHERE id=? AND restaurant_id=?", id, restaurantId) > 0;
     }

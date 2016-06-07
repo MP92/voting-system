@@ -21,6 +21,8 @@
 
     <logger name="ru.pkg" level="debug"/>
 
+    <logger name="org.springframework.jdbc.core" level="debug"/>
+
     <root level="info">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />

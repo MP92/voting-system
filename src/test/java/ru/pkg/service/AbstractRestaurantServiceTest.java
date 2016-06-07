@@ -22,7 +22,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
         Restaurant added = service.add(toCreateRestaurant);
         Assert.assertNotNull(toCreateRestaurant.getId());
         MATCHER.assertEquals(toCreateRestaurant, added);
-        MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_1, added, RESTAURANT_2), service.findAllWithMenu());
+        MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_1, RESTAURANT_2, added), service.findAllWithMenu());
     }
 
     @Test
@@ -44,7 +44,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
     public void testUpdate() throws Exception {
         Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdate();
         service.update(toUpdateRestaurant);
-        MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateRestaurant, RESTAURANT_2), service.findAllWithMenu());
+        MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_2, toUpdateRestaurant), service.findAllWithMenu());
     }
 
     @Test(expected = RestaurantNotFoundException.class)

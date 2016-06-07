@@ -3,6 +3,7 @@ DELETE FROM roles;
 DELETE FROM restaurants;
 DELETE FROM dishes;
 DELETE FROM menus;
+DELETE FROM votes;
 
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 ALTER SEQUENCE restaurants_id_seq RESTART WITH 100;
@@ -21,12 +22,12 @@ INSERT INTO restaurants(name, description, address, phone_number) VALUES ('taNgi
 
 INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VALUES (
   100, 'Beer-and-Cheddar SoupBeer-and-Cheddar Soup',
-  'When Jonathon Erdeljac opened his new restaurant, Jonathon''s Oak Cliff, in Dallas, he knew he wanted to serve this rich soup. It''s a favorite of his, especially with jalapeños and smoky bacon stirred in.',
+  'When Jonathon Erdeljac opened his new restaurant, Jonathon''s Oak Cliff, in Dallas, he knew he wanted to serve this rich soup. It''s a favorite of his, especially with jalapenos and smoky bacon stirred in.',
   260, 'SOUP', 84.6);
 
 INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VALUES (
   100, 'Bucatini with Pancetta, Pecorino and Pepper',
-  '“I love knowing that I have leftovers in the refrigerator,” says chef Shelley Lindgren. She’ll often make pasta during the day—like this rich, pancetta-studded bucatini that’s tossed with plenty of freshly ground black pepper and Pecorino—and then reheat a big bowl of it when she comes home from work late at night.',
+  '"I love knowing that I have leftovers in the refrigerator," says chef Shelley Lindgren. She''ll often make pasta during the day like this rich, pancetta-studded bucatini that''s tossed with plenty of freshly ground black pepper and Pecorino and then reheat a big bowl of it when she comes home from work late at night.',
   250, 'GARNISH', 75.4);
 
 INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VALUES (
@@ -35,23 +36,37 @@ INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VA
   200, 'DRINK', 65.4);
 
 INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VALUES (
+  100, 'Boston Lettuce Salad with Herbs',
+  'The herbed vinaigrette here would be lovely on any summer lettuces.',
+  65, 'SALAD', 55.8);
+
+INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VALUES (
   101, 'Spicy Chickpea Soup',
   'Chickpeas are rich in both types of dietary fiber, which are important for maintaining heart health and for stabilizing blood sugar levels. Pam Anderson uses them as the base for this Indian-flavored creamy (though cream-free) soup, which she prepares by first pureeing it, then simmering it, to save time. "Pureed beans give you richness without having to enrich the soup," she says.',
   265, 'SOUP', 150.5);
 
 INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VALUES (
   101, 'Chicken in Tarragon-Mustard Cream Sauce',
-  'F&W''s Grace Parisi steals the flavors from a classic French pan sauce (mustard, tarragon, white wine and cream) for this quick chicken sauté.',
+  'F&W''s Grace Parisi steals the flavors from a classic French pan sauce (mustard, tarragon, white wine and cream) for this quick chicken saute.',
   230, 'GARNISH', 95.5);
 
 INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VALUES (
+  101, 'Avocado, Orange and Jicama Salad',
+  'Feta is a fun, briny addition to this salad''s Mexican mix of jicama, avocado and cilantro.',
+  70, 'SALAD', 65.5);
+
+INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VALUES (
   101, 'Gianduja Mousse',
-  'As if the chocolate-hazelnut spread gianduja isn''t delicious enough straight off the spoon, Grace Parisi has folded in whipped cream and crème fraîche to create a truly decadent (and ridiculously easy) mousse. For a supereasy ice cream sandwich, spoon the mousse between chocolate wafers and freeze overnight.',
+  'As if the chocolate-hazelnut spread gianduja isn''t delicious enough straight off the spoon, Grace Parisi has folded in whipped cream and creme fraiche to create a truly decadent (and ridiculously easy) mousse. For a supereasy ice cream sandwich, spoon the mousse between chocolate wafers and freeze overnight.',
   110, 'DESSERT', 175.5);
 
 INSERT INTO menus(restaurant_id, dish_id) VALUES (100, 1000);
 INSERT INTO menus(restaurant_id, dish_id) VALUES (100, 1001);
 INSERT INTO menus(restaurant_id, dish_id) VALUES (100, 1002);
-INSERT INTO menus(restaurant_id, dish_id) VALUES (101, 1003);
+
 INSERT INTO menus(restaurant_id, dish_id) VALUES (101, 1004);
 INSERT INTO menus(restaurant_id, dish_id) VALUES (101, 1005);
+INSERT INTO menus(restaurant_id, dish_id) VALUES (101, 1006);
+
+INSERT INTO votes(restaurant_id, count) VALUES (100, 5);
+INSERT INTO votes(restaurant_id, count) VALUES (101, 10);

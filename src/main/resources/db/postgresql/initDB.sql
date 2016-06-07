@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS restaurants CASCADE;
 DROP TABLE IF EXISTS dishes CASCADE;
 DROP TABLE IF EXISTS menus;
+DROP TABLE IF EXISTS votes;
 
 DROP SEQUENCE IF EXISTS users_id_seq;
 DROP SEQUENCE IF EXISTS restaurants_id_seq;
@@ -49,4 +50,9 @@ CREATE TABLE menus (
   restaurant_id INTEGER REFERENCES restaurants(id) ON DELETE CASCADE,
   dish_id INTEGER REFERENCES dishes(id) ON DELETE CASCADE,
   UNIQUE(restaurant_id, dish_id)
+);
+
+CREATE TABLE votes (
+  restaurant_id INTEGER UNIQUE REFERENCES restaurants(id) ON DELETE CASCADE,
+  count INTEGER NOT NULL
 );
