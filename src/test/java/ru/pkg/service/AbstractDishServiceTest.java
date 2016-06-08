@@ -10,10 +10,12 @@ import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static ru.pkg.DishTestData.*;
 import static ru.pkg.DishTestData.MATCHER;
 import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.pkg.RestaurantTestData.RESTAURANT_1_MENU;
 import static ru.pkg.RestaurantTestData.RESTAURANT_2_ID;
 
 public abstract class AbstractDishServiceTest extends AbstractServiceTest {
@@ -27,7 +29,7 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
         Dish created = service.add(toCreateDish);
         Assert.assertNotNull(toCreateDish.getId());
         MATCHER.assertEquals(toCreateDish, created);
-        MATCHER.assertCollectionsEquals(Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3, created), service.findAll(RESTAURANT_1_ID));
+        MATCHER.assertCollectionsEquals(Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4, created), service.findAll(RESTAURANT_1_ID));
     }
 
     @Test(expected = RestaurantNotFoundException.class)
@@ -73,7 +75,7 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
     public void testUpdate() throws Exception {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdate();
         service.update(toUpdateDish);
-        MATCHER.assertCollectionsEquals(Arrays.asList(TestDishFactory.newInstanceForUpdate(), R_1_DISH_2, R_1_DISH_3), service.findAll(RESTAURANT_1_ID));
+        MATCHER.assertCollectionsEquals(Arrays.asList(TestDishFactory.newInstanceForUpdate(), R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), service.findAll(RESTAURANT_1_ID));
     }
 
     @Test(expected = DishNotFoundException.class)
@@ -108,5 +110,15 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
     @Test(expected = DishNotFoundException.class)
     public void testDeleteRestaurantNotFound() throws Exception {
         service.delete(R_1_DISH_1_ID, RestaurantTestData.NOT_FOUND_INDEX);
+    }
+
+    @Test
+    public void testFindMenu() throws Exception {
+        MATCHER.assertCollectionsEquals(RESTAURANT_1_MENU, service.findMenu(RESTAURANT_1_ID));
+    }
+
+    @Test
+    public void testFindMenuRestaurantNotFound() throws Exception {
+        MATCHER.assertCollectionsEquals(Collections.emptyList(), service.findMenu(RestaurantTestData.NOT_FOUND_INDEX));
     }
 }

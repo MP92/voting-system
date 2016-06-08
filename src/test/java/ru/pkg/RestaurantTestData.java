@@ -22,8 +22,11 @@ public class RestaurantTestData {
 
     public static final ModelMatcher<Restaurant, String> MATCHER = new ModelMatcher<>(Restaurant::toString);
 
-    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_1_ID, "E Pellicci", "E Pellicci description", "332 Bethnal Green Rd, London E2 0AG, England", "+44 20 7739 4873", R_1_ALL_DISHES);
-    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_2_ID, "taNgia", "taNgia description", "108 Mitcham Road | Tooting Broadway, London SW17 9NG, England", "+44 20 3774 0779", R_2_ALL_DISHES);
+    public static final List<Dish> RESTAURANT_1_MENU = Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3);
+    public static final List<Dish> RESTAURANT_2_MENU = Arrays.asList(R_2_DISH_1, R_2_DISH_2, R_2_DISH_3);
+
+    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_1_ID, "E Pellicci", "E Pellicci description", "332 Bethnal Green Rd, London E2 0AG, England", "+44 20 7739 4873", RESTAURANT_1_MENU);
+    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_2_ID, "taNgia", "taNgia description", "108 Mitcham Road | Tooting Broadway, London SW17 9NG, England", "+44 20 3774 0779", RESTAURANT_2_MENU);
 
     public static final List<Restaurant> ALL_RESTAURANTS_WITHOUT_MENU = Arrays.asList(TestRestaurantFactory.newInstanceWithoutMenu(RESTAURANT_1), TestRestaurantFactory.newInstanceWithoutMenu(RESTAURANT_2));
 

@@ -37,25 +37,36 @@ public class DishTestData {
             "This elegant, low-fat panna cotta requires only five ingredients: cranberries, sugar, gelatin, water and buttermilk (instead of the usual cream)",
             200, DishCategory.DRINK, 65.4, RESTAURANT_1_ID);
 
+    public static final Dish R_1_DISH_4 = new Dish(
+            R_1_DISH_1_ID + 3, "Boston Lettuce Salad with Herbs",
+            "The herbed vinaigrette here would be lovely on any summer lettuces.",
+            65, DishCategory.SALAD, 55.8, RESTAURANT_1_ID);
+
     public static final Dish R_2_DISH_1 = new Dish(
-            R_1_DISH_1_ID + 3, "Spicy Chickpea Soup",
+            R_1_DISH_1_ID + 4, "Spicy Chickpea Soup",
             "Chickpeas are rich in both types of dietary fiber, which are important for maintaining heart health and for stabilizing blood sugar levels. Pam Anderson uses them as the base for this Indian-flavored creamy (though cream-free) soup, which she prepares by first pureeing it, then simmering it, to save time. \"Pureed beans give you richness without having to enrich the soup,\" she says.",
             265, DishCategory.SOUP, 150.5, RESTAURANT_2_ID);
 
     public static final Dish R_2_DISH_2 = new Dish(
-            R_1_DISH_1_ID + 4, "Chicken in Tarragon-Mustard Cream Sauce",
+            R_1_DISH_1_ID + 5, "Chicken in Tarragon-Mustard Cream Sauce",
             "F&W's Grace Parisi steals the flavors from a classic French pan sauce (mustard, tarragon, white wine and cream) for this quick chicken saute.",
             230, DishCategory.GARNISH, 95.5, RESTAURANT_2_ID);
 
     public static final Dish R_2_DISH_3 = new Dish(
-            R_1_DISH_1_ID + 5, "Gianduja Mousse",
+            R_1_DISH_1_ID + 6, "Avocado, Orange and Jicama Salad",
+            "Feta is a fun, briny addition to this salad's Mexican mix of jicama, avocado and cilantro.",
+            70, DishCategory.SALAD, 65.5, RESTAURANT_2_ID);
+
+    public static final Dish R_2_DISH_4 = new Dish(
+            R_1_DISH_1_ID + 7, "Gianduja Mousse",
             "As if the chocolate-hazelnut spread gianduja isn't delicious enough straight off the spoon, Grace Parisi has folded in whipped cream and creme fraiche to create a truly decadent (and ridiculously easy) mousse. For a supereasy ice cream sandwich, spoon the mousse between chocolate wafers and freeze overnight.",
             110, DishCategory.DESSERT, 175.5, RESTAURANT_2_ID);
 
-    public static final List<Dish> R_1_ALL_DISHES = Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3);
-    public static final List<Dish> R_2_ALL_DISHES = Arrays.asList(R_2_DISH_1, R_2_DISH_2, R_2_DISH_3);
 
-    public static final List<Dish> R_1_AFTER_DELETE_DISHES = Arrays.asList(R_1_DISH_2, R_1_DISH_3);
+    public static final List<Dish> R_1_ALL_DISHES = Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4);
+    public static final List<Dish> R_2_ALL_DISHES = Arrays.asList(R_2_DISH_1, R_2_DISH_2, R_2_DISH_3, R_2_DISH_4);
+
+    public static final List<Dish> R_1_AFTER_DELETE_DISHES = Arrays.asList(R_1_DISH_2, R_1_DISH_3, R_1_DISH_4);
 
     public static class TestDishFactory {
 

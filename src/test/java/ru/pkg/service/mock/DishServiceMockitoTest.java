@@ -17,6 +17,7 @@ import static org.mockito.Mockito.*;
 
 import static ru.pkg.DishTestData.*;
 import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.pkg.RestaurantTestData.RESTAURANT_1_MENU;
 
 public class DishServiceMockitoTest extends AbstractServiceMockitoTest {
 
@@ -122,5 +123,19 @@ public class DishServiceMockitoTest extends AbstractServiceMockitoTest {
             verify(repository).delete(NOT_FOUND_INDEX, RESTAURANT_1_ID);
             throw e;
         }
+    }
+
+    @Test
+    public void testFindMenu() throws Exception {
+        when(repository.findMenu(RESTAURANT_1_ID)).thenReturn(RESTAURANT_1_MENU);
+        MATCHER.assertCollectionsEquals(RESTAURANT_1_MENU, service.findMenu(RESTAURANT_1_ID));
+        verify(repository).findMenu(RESTAURANT_1_ID);
+    }
+
+    @Test
+    public void testFindMenuRestaurantNotFound() throws Exception {
+        when(repository.findMenu(RestaurantTestData.NOT_FOUND_INDEX)).thenReturn(Collections.emptyList());
+        MATCHER.assertCollectionsEquals(Collections.emptyList(), service.findMenu(RestaurantTestData.NOT_FOUND_INDEX));
+        verify(repository).findMenu(RestaurantTestData.NOT_FOUND_INDEX);
     }
 }
