@@ -1,13 +1,22 @@
 package ru.pkg.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.*;
+
 public class Dish extends NamedEntity {
 
+    @NotEmpty
     private String description;
 
+    @Min(50)
+    @Max(500)
     private int weight;
 
+    @NotNull
     private DishCategory category;
 
+    @Min(1)
     private double price;
 
     private int restaurantId;

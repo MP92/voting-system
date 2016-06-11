@@ -26,6 +26,8 @@
         <postgres.version>9.4.1208</postgres.version>
 
         <apache.commons.dbcp2.version>2.1.1</apache.commons.dbcp2.version>
+
+        <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
     </properties>
 
     <build>
@@ -132,6 +134,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
         </dependency>
 
         <!-- DB -->

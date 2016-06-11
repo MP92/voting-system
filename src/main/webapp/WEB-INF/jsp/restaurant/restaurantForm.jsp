@@ -12,18 +12,22 @@
         <tr>
             <th><form:label path="name">Name</form:label></th>
             <td><form:input path="name"/></td>
+            <td><form:errors path="name"/></td>
         </tr>
         <tr>
             <th><form:label path="description">Description</form:label></th>
             <td><form:input path="description"/></td>
+            <td><form:errors path="description"/></td>
         </tr>
         <tr>
             <th><form:label path="address">Address</form:label></th>
             <td><form:input path="address"/></td>
+            <td><form:errors path="address"/></td>
         </tr>
         <tr>
             <th><form:label path="phoneNumber">Phone number</form:label></th>
             <td><form:input path="phoneNumber"/></td>
+            <td><form:errors path="phoneNumber"/></td>
         </tr>
         <tr>
             <td colspan="2"><input type="submit" value="Save Changes"/></td>

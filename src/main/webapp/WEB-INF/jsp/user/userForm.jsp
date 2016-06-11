@@ -7,20 +7,23 @@
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
 
 <h2>User form</h2>
-<form:form modelAttribute="user" action="${rootUrl}admin/save">
-    <form:hidden path="id"/>
+<form:form modelAttribute="user" action="save">
     <table>
+        <form:hidden path="id"/>
         <tr>
             <th><form:label path="name">First name</form:label></th>
             <td><form:input path="name"/></td>
+            <td><form:errors path="name"/></td>
         </tr>
         <tr>
             <th><form:label path="surname">Last name</form:label></th>
             <td><form:input path="surname"/></td>
+            <td><form:errors path="surname"/></td>
         </tr>
         <tr>
             <th><form:label path="password">Password</form:label></th>
             <td><form:password path="password"/></td>
+            <td><form:errors path="password"/></td>
         </tr>
         <tr>
             <td colspan="2">

@@ -1,7 +1,10 @@
 package ru.pkg.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class NamedEntity extends BaseEntity {
 
+    @NotEmpty
     private String name;
 
     protected NamedEntity() {

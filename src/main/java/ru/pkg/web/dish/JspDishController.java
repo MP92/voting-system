@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +12,8 @@ import ru.pkg.model.Dish;
 import ru.pkg.service.RestaurantService;
 
 import ru.pkg.utils.RestaurantUtil;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/dishes", method = RequestMethod.GET)
@@ -45,7 +48,11 @@ public class JspDishController extends AbstractDishController {
     }
 
     @RequestMapping(path = "/save", method = RequestMethod.POST)
-    public String save(Dish dish) {
+    public String save(@Valid Dish dish, BindingResult result) {
+        if (result.hasErrors()) {
+            return "dish/dishForm";
+        }
+
         boolean isNew = dish.isNew();
         if (isNew) {
             super.create(dish);

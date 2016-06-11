@@ -1,12 +1,21 @@
 package ru.pkg.to;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
+
 public class UserTO {
+
     private Integer id;
 
+    @NotEmpty
     private String name;
 
+    @NotEmpty
     private String surname;
 
+    @NotEmpty
+    @Size(min = 5, max = 64)
     private String password;
 
     public UserTO() {

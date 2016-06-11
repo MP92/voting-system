@@ -1,15 +1,20 @@
 package ru.pkg.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Restaurant extends NamedEntity {
 
+    @NotEmpty
     private String description;
 
+    @NotEmpty
     private String address;
 
+    @NotEmpty
     private String phoneNumber;
 
     private List<Dish> menu = Collections.emptyList();

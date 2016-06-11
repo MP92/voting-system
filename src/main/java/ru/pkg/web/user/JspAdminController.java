@@ -3,8 +3,11 @@ package ru.pkg.web.user;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.pkg.to.UserTO;
+
+import javax.validation.Valid;
 
 import static ru.pkg.utils.UserUtil.*;
 
@@ -13,7 +16,11 @@ import static ru.pkg.utils.UserUtil.*;
 public class JspAdminController extends AbstractUserController {
 
     @RequestMapping(path="/save", method = RequestMethod.POST)
-    public String saveUser(UserTO userTO) {
+    public String saveUser(@ModelAttribute("user") @Valid UserTO userTO, BindingResult result) {
+        if (result.hasErrors()) {
+            return "user/userForm";
+        }
+
         if (userTO.isNew()) {
             super.create(createFromTO(userTO));
         } else {
