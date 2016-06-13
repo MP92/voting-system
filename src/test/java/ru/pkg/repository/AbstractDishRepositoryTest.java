@@ -40,25 +40,25 @@ public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest 
 
     @Test
     public void testFindById() throws Exception {
-        Dish dish = repository.findById(R_1_DISH_1_ID, RESTAURANT_1_ID);
+        Dish dish = repository.findById(RESTAURANT_1_ID, R_1_DISH_1_ID);
         MATCHER.assertEquals(R_1_DISH_1, dish);
     }
 
     @Test
     public void testFindByIdDishNotFound() throws Exception {
-         Assert.assertNull(repository.findById(NOT_FOUND_INDEX, RESTAURANT_1_ID));
+         Assert.assertNull(repository.findById(RESTAURANT_1_ID, NOT_FOUND_INDEX));
     }
 
     @Test
     public void testFindByIdRestaurantNotFound() throws Exception {
-        Assert.assertNotNull(repository.findById(R_1_DISH_1_ID, RESTAURANT_1_ID));
-        Assert.assertNull(repository.findById(R_1_DISH_1_ID, RestaurantTestData.NOT_FOUND_INDEX));
+        Assert.assertNotNull(repository.findById(RESTAURANT_1_ID, R_1_DISH_1_ID));
+        Assert.assertNull(repository.findById(RestaurantTestData.NOT_FOUND_INDEX, R_1_DISH_1_ID));
     }
 
     @Test
     public void testFindByIdForeignDishShouldNotBeObtained() throws Exception {
-        Assert.assertNotNull(repository.findById(R_1_DISH_1_ID, RESTAURANT_1_ID));
-        Assert.assertNull(repository.findById(R_1_DISH_1_ID, RESTAURANT_2_ID));
+        Assert.assertNotNull(repository.findById(RESTAURANT_1_ID, R_1_DISH_1_ID));
+        Assert.assertNull(repository.findById(RESTAURANT_2_ID, R_1_DISH_1_ID));
     }
 
     @Test
@@ -104,7 +104,7 @@ public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest 
 
     @Test
     public void testDelete() throws Exception {
-        Assert.assertTrue(repository.delete(R_1_DISH_1_ID, RESTAURANT_1_ID));
+        Assert.assertTrue(repository.delete(RESTAURANT_1_ID, R_1_DISH_1_ID));
         MATCHER.assertCollectionsEquals(R_1_AFTER_DELETE_DISHES, repository.findAll(RESTAURANT_1_ID));
     }
 
@@ -121,21 +121,21 @@ public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest 
     }
 
     @Test
-    public void testFindMenu() throws Exception {
-        List<Dish> menu = repository.findMenu(RESTAURANT_1_ID);
+    public void testFindInAllMenus() throws Exception {
+        Map<Integer, List<Dish>> menus = repository.findInAllMenus();
+        Assert.assertEquals(menus.size(), 2);
+        MATCHER.assertCollectionsEquals(RESTAURANT_1_MENU, menus.get(RESTAURANT_1_ID));
+        MATCHER.assertCollectionsEquals(RESTAURANT_2_MENU, menus.get(RESTAURANT_2_ID));
+    }
+
+    @Test
+    public void testFindInMenu() throws Exception {
+        List<Dish> menu = repository.findInMenu(RESTAURANT_1_ID);
         MATCHER.assertCollectionsEquals(RESTAURANT_1_MENU, menu);
     }
 
     @Test
-    public void testFindMenuRestaurantNotFound() throws Exception {
-        MATCHER.assertCollectionsEquals(Collections.emptyList(), repository.findMenu(RestaurantTestData.NOT_FOUND_INDEX));
-    }
-
-    @Test
-    public void testFindAllMenus() throws Exception {
-        Map<Integer, List<Dish>> menus = repository.findAllMenus();
-        Assert.assertEquals(menus.size(), 2);
-        MATCHER.assertCollectionsEquals(RESTAURANT_1_MENU, menus.get(RESTAURANT_1_ID));
-        MATCHER.assertCollectionsEquals(RESTAURANT_2_MENU, menus.get(RESTAURANT_2_ID));
+    public void testFindInMenuRestaurantNotFound() throws Exception {
+        MATCHER.assertCollectionsEquals(Collections.emptyList(), repository.findInMenu(RestaurantTestData.NOT_FOUND_INDEX));
     }
 }

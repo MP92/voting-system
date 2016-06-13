@@ -10,7 +10,7 @@
         Dish for restaurant with id=${restaurantId} ${status}
     </c:if>
 </div>
-<c:if test="${not empty dishList}">
+<c:if test="${dishList != null}">
     <h2>Dish list for restaurant with id=${restaurantId}</h2>
     <a href="dishes/add?restaurantId=${restaurantId}">Add</a>
     <table border="1" cellspacing="0">

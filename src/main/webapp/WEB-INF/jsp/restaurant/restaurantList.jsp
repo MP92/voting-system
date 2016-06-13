@@ -38,7 +38,7 @@
             <td>${restaurant.description}</td>
             <td>${restaurant.address}</td>
             <td>${restaurant.phoneNumber}</td>
-            <td><a href="${rootUrl}vote?restaurantId=${restaurant.id}">Vote</a></td>
+            <td><a href="restaurants/vote?restaurantId=${restaurant.id}">Vote</a></td>
             <td><a href="restaurants/edit?id=${restaurant.id}">Update</a></td>
             <td><a href="restaurants/delete?id=${restaurant.id}">Delete</a></td>
         </tr>
@@ -49,14 +49,16 @@
 <table border="1" cellpadding="0">
     <thead>
     <tr>
+        <th>Restaurant ID</th>
         <th>Restaurant name</th>
         <th>Votes</th>
     </tr>
     </thead>
-    <c:forEach items="${restaurantList}" var="restaurant">
+    <c:forEach items="${votesList}" var="votes">
         <tr>
-            <td>${restaurant.name}</td>
-            <td>${restaurant.votes}</td>
+            <td>${votes.restaurantId}</td>
+            <td>${votes.restaurantName}</td>
+            <td>${votes.count}</td>
         </tr>
     </c:forEach>
 </table>

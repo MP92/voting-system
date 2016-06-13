@@ -19,9 +19,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    RestaurantService restaurantService;
-
     @Override
     public User add(User user) {
         return userRepository.save(user);
@@ -58,14 +55,5 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.delete(id)) {
             throw new UserNotFoundException(id);
         }
-    }
-
-    @Override
-    @Transactional
-    public void voteForRestaurant(int userId, int restaurantId) {
-        restaurantService.addVote(restaurantId);
-        User user = findById(userId);
-        user.setLastVoted(LocalDateTime.now());
-        update(user);
     }
 }

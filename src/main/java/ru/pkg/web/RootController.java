@@ -28,10 +28,4 @@ public class RootController {
         }
         return "redirect:/restaurants";
     }
-
-    @RequestMapping(path = "/vote", method = RequestMethod.GET)
-    public String voteForRestaurant(@RequestParam("restaurantId") int restaurantId) {
-        userService.voteForRestaurant(LoggedUser.getId(), restaurantId);
-        return "redirect:/restaurants?votedId=" + restaurantId;
-    }
 }

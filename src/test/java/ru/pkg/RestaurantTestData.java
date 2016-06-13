@@ -25,8 +25,8 @@ public class RestaurantTestData {
     public static final List<Dish> RESTAURANT_1_MENU = Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3);
     public static final List<Dish> RESTAURANT_2_MENU = Arrays.asList(R_2_DISH_1, R_2_DISH_2, R_2_DISH_3);
 
-    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_1_ID, "E Pellicci", "E Pellicci description", "332 Bethnal Green Rd, London E2 0AG, England", "+44 20 7739 4873", RESTAURANT_1_MENU);
-    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_2_ID, "taNgia", "taNgia description", "108 Mitcham Road | Tooting Broadway, London SW17 9NG, England", "+44 20 3774 0779", RESTAURANT_2_MENU);
+    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_1_ID, "E Pellicci", "E Pellicci description", "332 Bethnal Green Rd, London E2 0AG, England", "+44 20 7739 4873");
+    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_2_ID, "taNgia", "taNgia description", "108 Mitcham Road | Tooting Broadway, London SW17 9NG, England", "+44 20 3774 0779");
 
     public static final List<Restaurant> ALL_RESTAURANTS_WITHOUT_MENU = Arrays.asList(TestRestaurantFactory.newInstanceWithoutMenu(RESTAURANT_1), TestRestaurantFactory.newInstanceWithoutMenu(RESTAURANT_2));
 
@@ -43,15 +43,19 @@ public class RestaurantTestData {
         }
 
         public static Restaurant newIntanceForUpdate() {
-            return newInstance(RESTAURANT_1_ID, R_1_AFTER_DELETE_DISHES);
+            return newInstance(RESTAURANT_1_ID, null);
         }
 
         public static Restaurant newIntanceForUpdateNonexistent() {
-            return newInstance(NOT_FOUND_INDEX, R_1_AFTER_DELETE_DISHES);
+            return newInstance(NOT_FOUND_INDEX, null);
         }
 
         public static Restaurant newInstanceWithoutMenu(Restaurant r) {
-            return new Restaurant(r.getId(), r.getName(), r.getDescription(), r.getAddress(), r.getPhoneNumber(), null);
+            return newInstanceWithMenu(r, null);
+        }
+
+        public static Restaurant newInstanceWithMenu(Restaurant r, List<Dish> menu) {
+            return new Restaurant(r.getId(), r.getName(), r.getDescription(), r.getAddress(), r.getPhoneNumber(), menu);
         }
     }
 }

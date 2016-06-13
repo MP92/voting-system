@@ -112,7 +112,7 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
         service.delete(R_1_DISH_1_ID, RestaurantTestData.NOT_FOUND_INDEX);
     }
 
-    @Test
+/*    @Test
     public void testFindMenu() throws Exception {
         MATCHER.assertCollectionsEquals(RESTAURANT_1_MENU, service.findMenu(RESTAURANT_1_ID));
     }
@@ -120,5 +120,5 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
     @Test
     public void testFindMenuRestaurantNotFound() throws Exception {
         MATCHER.assertCollectionsEquals(Collections.emptyList(), service.findMenu(RestaurantTestData.NOT_FOUND_INDEX));
-    }
+    }*/
 }

@@ -20,12 +20,12 @@ public abstract class AbstractUserController {
         service.delete(id);
     }
 
-    public void create(User user) {
+    public User create(User user) {
         user.setId(null);
-        service.add(user);
+        return service.add(user);
     }
 
-    public void update(User user, int id) {
+    public void update(int id, User user) {
         user.setId(id);
         service.update(user);
     }

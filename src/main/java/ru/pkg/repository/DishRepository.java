@@ -11,13 +11,13 @@ public interface DishRepository {
 
     Dish save(Dish dish) throws DataIntegrityViolationException;
 
-    Dish findById(int id, int restaurantId);
-
-    List<Dish> findMenu(int restaurantId);
-
-    Map<Integer, List<Dish>> findAllMenus();
+    Dish findById(int restaurantId, int dishId);
 
     List<Dish> findAll(int restaurantId);
 
-    boolean delete(int id, int restaurantId);
+    boolean delete(int restaurantId, int dishId);
+
+    Map<Integer, List<Dish>> findInAllMenus();
+
+    List<Dish> findInMenu(int restaurantId);
 }

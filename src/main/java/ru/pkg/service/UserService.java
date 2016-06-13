@@ -19,6 +19,4 @@ public interface UserService {
     void update(UserTO to) throws UserNotFoundException;
 
     void delete(int id) throws UserNotFoundException;
-
-    void voteForRestaurant(int userId, int restaurantId);
 }

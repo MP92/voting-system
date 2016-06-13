@@ -22,12 +22,12 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
         Restaurant added = service.add(toCreateRestaurant);
         Assert.assertNotNull(toCreateRestaurant.getId());
         MATCHER.assertEquals(toCreateRestaurant, added);
-        MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_1, RESTAURANT_2, added), service.findAllWithMenu());
+        MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_1, RESTAURANT_2, added), service.findAll());
     }
 
     @Test
     public void testFindById() throws Exception {
-        MATCHER.assertEquals(RESTAURANT_1, service.findById(START_INDEX));
+        MATCHER.assertEquals(TestRestaurantFactory.newInstanceWithMenu(RESTAURANT_1, RESTAURANT_1_MENU), service.findById(START_INDEX));
     }
 
     @Test(expected = RestaurantNotFoundException.class)
@@ -44,7 +44,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
     public void testUpdate() throws Exception {
         Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdate();
         service.update(toUpdateRestaurant);
-        MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_2, toUpdateRestaurant), service.findAllWithMenu());
+        MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_2, toUpdateRestaurant), service.findAll());
     }
 
     @Test(expected = RestaurantNotFoundException.class)
@@ -56,7 +56,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
     @Test
     public void testDelete() throws Exception {
         service.delete(START_INDEX);
-        MATCHER.assertCollectionsEquals(Collections.singletonList(RESTAURANT_2), service.findAllWithMenu());
+        MATCHER.assertCollectionsEquals(Collections.singletonList(RESTAURANT_2), service.findAll());
     }
 
     @Test(expected = RestaurantNotFoundException.class)

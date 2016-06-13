@@ -61,20 +61,9 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
     }
 
     @Override
-    public Dish findById(int id, int restaurantId) throws DishNotFoundException {
-        List<Dish> list = getJdbcTemplate().query("SELECT * FROM dishes WHERE id=? AND restaurant_id=?", DISH_MAPPER, id, restaurantId);
+    public Dish findById(int restaurantId, int dishId) throws DishNotFoundException {
+        List<Dish> list = getJdbcTemplate().query("SELECT * FROM dishes WHERE id=? AND restaurant_id=?", DISH_MAPPER, dishId, restaurantId);
         return DataAccessUtils.singleResult(list);
-    }
-
-    @Override
-    public List<Dish> findMenu(int restaurantId) {
-        return getJdbcTemplate().query("SELECT * FROM dishes WHERE id in (SELECT dish_id FROM menus WHERE restaurant_id=?) ORDER BY id", DISH_MAPPER, restaurantId);
-    }
-
-    @Override
-    public Map<Integer, List<Dish>> findAllMenus() {
-        String menusQuery = "SELECT * from dishes INNER JOIN menus ON dishes.id=menus.dish_id ORDER BY id";
-        return getJdbcTemplate().query(menusQuery, DISH_MAPPER).stream().collect(Collectors.groupingBy(Dish::getRestaurantId));
     }
 
     @Override
@@ -84,7 +73,17 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
 
     @Transactional
     @Override
-    public boolean delete(int id, int restaurantId) throws DishNotFoundException {
-        return getJdbcTemplate().update("DELETE FROM dishes WHERE id=? AND restaurant_id=?", id, restaurantId) > 0;
+    public boolean delete(int restaurantId, int dishId) throws DishNotFoundException {
+        return getJdbcTemplate().update("DELETE FROM dishes WHERE id=? AND restaurant_id=?", dishId, restaurantId) > 0;
+    }
+
+    @Override
+    public Map<Integer, List<Dish>> findInAllMenus() {
+        String menusQuery = "SELECT * from dishes INNER JOIN menus ON dishes.id=menus.dish_id ORDER BY id";
+        return getJdbcTemplate().query(menusQuery, DISH_MAPPER).stream().collect(Collectors.groupingBy(Dish::getRestaurantId));    }
+
+    @Override
+    public List<Dish> findInMenu(int restaurantId) {
+        return getJdbcTemplate().query("SELECT * FROM dishes WHERE id in (SELECT dish_id FROM menus WHERE restaurant_id=?) ORDER BY id", DISH_MAPPER, restaurantId);
     }
 }

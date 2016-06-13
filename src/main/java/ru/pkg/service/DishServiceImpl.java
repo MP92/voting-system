@@ -9,6 +9,7 @@ import ru.pkg.utils.exception.DishNotFoundException;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DishServiceImpl implements DishService {
@@ -26,22 +27,27 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public Dish findById(int id, int restaurantId) throws DishNotFoundException {
-        Dish dish = repository.findById(id, restaurantId);
+    public Dish findById(int restaurantId, int dishId) throws DishNotFoundException {
+        Dish dish = repository.findById(restaurantId, dishId);
         if (dish == null) {
-            throw new DishNotFoundException(id, restaurantId);
+            throw new DishNotFoundException(dishId, restaurantId);
         }
         return dish;
     }
 
     @Override
-    public List<Dish> findMenu(int restaurantId) {
-        return repository.findMenu(restaurantId);
+    public List<Dish> findAll(int restaurantId) {
+        return repository.findAll(restaurantId);
     }
 
     @Override
-    public List<Dish> findAll(int restaurantId) {
-        return repository.findAll(restaurantId);
+    public Map<Integer, List<Dish>> findInAllMenus() {
+        return repository.findInAllMenus();
+    }
+
+    @Override
+    public List<Dish> findInMenu(int restaurantId) {
+        return repository.findInMenu(restaurantId);
     }
 
     @Override
@@ -52,9 +58,9 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public void delete(int id, int restaurantId) throws DishNotFoundException {
-        if (!repository.delete(id, restaurantId)) {
-            throw new DishNotFoundException(id, restaurantId);
+    public void delete(int restaurantId, int dishId) throws DishNotFoundException {
+        if (!repository.delete(restaurantId, dishId)) {
+            throw new DishNotFoundException(dishId, restaurantId);
         }
     }
 }
