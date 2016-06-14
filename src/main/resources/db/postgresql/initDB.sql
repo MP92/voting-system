@@ -36,20 +36,21 @@ CREATE TABLE restaurants (
 CREATE UNIQUE INDEX restaurant_unique_name_idx ON restaurants(name);
 
 CREATE TABLE dishes (
-  id SERIAL PRIMARY KEY,
+  id SERIAL,
   restaurant_id INTEGER REFERENCES restaurants(id) ON DELETE CASCADE,
   name VARCHAR NOT NULL,
   description VARCHAR NOT NULL,
   weight INTEGER NOT NULL,
   category VARCHAR NOT NULL,
   price NUMERIC(7, 2) NOT NULL,
+  PRIMARY KEY (id, restaurant_id),
   UNIQUE(restaurant_id, name)
 );
 
 CREATE TABLE menus (
-  restaurant_id INTEGER REFERENCES restaurants(id) ON DELETE CASCADE,
-  dish_id INTEGER REFERENCES dishes(id) ON DELETE CASCADE,
-  UNIQUE(restaurant_id, dish_id)
+  restaurant_id INTEGER,
+  dish_id INTEGER,
+  FOREIGN KEY (restaurant_id, dish_id) REFERENCES dishes(restaurant_id, id) ON DELETE CASCADE
 );
 
 CREATE TABLE votes (

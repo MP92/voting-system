@@ -30,7 +30,7 @@ public class VoteRestController extends AbstractVoteController {
     }
 
     @RequestMapping(path = "/{restaurantId}/votes/count", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Integer findCount(int restaurantId) {
+    public Integer findCount(@PathVariable("restaurantId") int restaurantId) {
         return super.findCount(restaurantId);
     }
 

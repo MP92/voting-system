@@ -2,7 +2,7 @@ package ru.pkg;
 
 public class LoggedUser {
 
-    private static int id;
+    private static int id = 1;
 
     public static int getId() {
         return id;

@@ -112,6 +112,7 @@ public class User extends NamedEntity {
         return "User{" +
                 "id=" + getId() +
                 ", name=" + getName() +
+                ", surname=" + getSurname() +
                 ", roles=" + roles +
                 ", registered=" + registered +
                 ", lastVoted=" + lastVoted +

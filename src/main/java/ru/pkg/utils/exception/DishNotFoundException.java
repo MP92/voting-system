@@ -4,7 +4,7 @@ import ru.pkg.model.Dish;
 
 public class DishNotFoundException extends RuntimeException {
 
-    private static final String MSG_PATTERN = "Dish with id=%d not found in restaurant with id=%d";
+    private static final String MSG_PATTERN = "Dish with id=%d not found for restaurant with id=%d";
 
     public DishNotFoundException(Dish dish) {
         this(dish.getId(), dish.getRestaurantId());
