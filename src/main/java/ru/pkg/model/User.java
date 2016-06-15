@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class User extends NamedEntity {
 
-    String surname;
+    private String surname;
 
     private String password;
 

@@ -13,4 +13,8 @@ public class DishNotFoundException extends RuntimeException {
     public DishNotFoundException(int id, int restaurantId) {
         super(String.format(MSG_PATTERN, id, restaurantId));
     }
+
+    public DishNotFoundException(Throwable cause) {
+        super(cause);
+    }
 }

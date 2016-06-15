@@ -41,11 +41,6 @@ public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositor
     }
 
     @Test
-    public void testFindAllWithMenu() throws Exception {
-        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITHOUT_MENU, repository.findAll());
-    }
-
-    @Test
     public void testUpdate() throws Exception {
         Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdate();
         Restaurant updated = repository.save(toUpdateRestaurant);

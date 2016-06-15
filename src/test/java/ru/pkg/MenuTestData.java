@@ -4,7 +4,13 @@ import ru.pkg.matcher.ModelMatcher;
 import ru.pkg.model.Menu;
 
 import static ru.pkg.DishTestData.R_1_DISH_1_ID;
+import static ru.pkg.DishTestData.R_1_DISH_2_ID;
+import static ru.pkg.DishTestData.R_1_DISH_3_ID;
+import static ru.pkg.DishTestData.R_1_DISH_4_ID;
+
 import static ru.pkg.DishTestData.R_2_DISH_1_ID;
+import static ru.pkg.DishTestData.R_2_DISH_2_ID;
+import static ru.pkg.DishTestData.R_2_DISH_3_ID;
 
 import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
 import static ru.pkg.RestaurantTestData.RESTAURANT_2_ID;
@@ -17,12 +23,18 @@ public class MenuTestData {
 
     public static final ModelMatcher<Menu, String> MATCHER = new ModelMatcher<>(Menu::toString);
 
-    public static final Menu R_1_MENU = new Menu(RESTAURANT_1_ID, Arrays.asList(R_1_DISH_1_ID, R_1_DISH_1_ID + 1, R_1_DISH_1_ID + 2));
-    public static final Menu R_2_MENU = new Menu(RESTAURANT_2_ID, Arrays.asList(R_2_DISH_1_ID, R_2_DISH_1_ID + 1, R_2_DISH_1_ID + 2));
+    public static final Menu R_1_MENU = new Menu(RESTAURANT_1_ID, Arrays.asList(R_1_DISH_1_ID, R_1_DISH_2_ID, R_1_DISH_3_ID));
+    public static final Menu R_2_MENU = new Menu(RESTAURANT_2_ID, Arrays.asList(R_2_DISH_1_ID, R_2_DISH_2_ID, R_2_DISH_3_ID));
 
-    public static final Menu R_1_AFTER_ADD_MENU = new Menu(RESTAURANT_1_ID, Arrays.asList(R_1_DISH_1_ID, R_1_DISH_1_ID + 1, R_1_DISH_1_ID + 2, R_1_DISH_1_ID + 3));
+    public static final Menu R_1_AFTER_ADD_MENU = new Menu(RESTAURANT_1_ID, Arrays.asList(R_1_DISH_1_ID, R_1_DISH_2_ID, R_1_DISH_3_ID, R_1_DISH_4_ID));
 
-    public static final Menu R_1_AFTER_DELETE_MENU = new Menu(RESTAURANT_1_ID, Arrays.asList(R_1_DISH_1_ID + 1, R_1_DISH_1_ID + 2));
+    public static final Menu R_1_AFTER_REPLACE_MENU = new Menu(RESTAURANT_1_ID, Arrays.asList(R_1_DISH_1_ID, R_1_DISH_4_ID));
+
+    public static final Menu R_1_AFTER_DELETE_MENU = new Menu(RESTAURANT_1_ID, Arrays.asList(R_1_DISH_2_ID, R_1_DISH_3_ID));
+
+    public static final Menu R_1_TO_PUT_MENU = R_1_AFTER_REPLACE_MENU;
+
+    public static final Menu R_1_DISH_NOT_FOUND_MENU = new Menu(RESTAURANT_1_ID, Arrays.asList(R_1_DISH_4_ID, R_2_DISH_1_ID));
 
     public static final Menu R_1_EMPTY_MENU = new Menu(RESTAURANT_1_ID, Collections.emptyList());
 

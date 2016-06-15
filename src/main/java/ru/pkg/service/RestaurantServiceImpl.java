@@ -9,7 +9,6 @@ import ru.pkg.repository.RestaurantRepository;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
-import java.util.Map;
 
 import static ru.pkg.utils.RestaurantUtil.getWithMenus;
 
@@ -21,7 +20,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private DishRepository dishRepository;
-
 
     @Override
     public Restaurant add(Restaurant restaurant) {

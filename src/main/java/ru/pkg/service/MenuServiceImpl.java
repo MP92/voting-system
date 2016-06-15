@@ -1,13 +1,15 @@
 package ru.pkg.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Menu;
 import ru.pkg.repository.MenuRepository;
+import ru.pkg.utils.exception.DishNotFoundException;
+import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -15,24 +17,37 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     private MenuRepository repository;
 
+
     @Override
-    public void add(int restaurantId, int dishId) {
-        repository.save(restaurantId, dishId);
+    public void add(int dishId, int restaurantId) throws DishNotFoundException {
+        try {
+            repository.save(dishId, restaurantId);
+        } catch (DataIntegrityViolationException e) {
+            throw new DishNotFoundException(e);
+        }
     }
 
     @Override
-    public void add(Menu menu) {
+    public void add(Menu menu) throws DishNotFoundException {
         if (!menu.isEmpty()) {
-            repository.save(menu);
+            try {
+                repository.save(menu);
+            } catch (DataIntegrityViolationException e) {
+                throw new DishNotFoundException(e);
+            }
         }
     }
 
     @Transactional
     @Override
-    public void replace(Menu menu) {
-        repository.deleteAll(menu.getRestaurantId());
+    public void replace(Menu menu) throws DishNotFoundException {
         if (!menu.isEmpty()) {
-            repository.save(menu);
+            repository.deleteAll(menu.getRestaurantId());
+            try {
+                repository.save(menu);
+            } catch (DataIntegrityViolationException e) {
+                throw new DishNotFoundException(e);
+            }
         }
     }
 
@@ -42,13 +57,19 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Menu findById(int restaurantId) {
-        return repository.findById(restaurantId);
+    public Menu findById(int restaurantId) throws RestaurantNotFoundException {
+        Menu menu = repository.findById(restaurantId);
+        if (menu == null) {
+            throw new RestaurantNotFoundException(restaurantId);
+        }
+        return menu;
     }
 
     @Override
-    public void delete(int restaurantId, int dishId) {
-        repository.delete(restaurantId, dishId);
+    public void delete(int dishId, int restaurantId) throws DishNotFoundException {
+        if (!repository.delete(dishId, restaurantId)) {
+            throw new DishNotFoundException(dishId, restaurantId);
+        }
     }
 
     @Override

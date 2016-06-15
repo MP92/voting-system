@@ -13,19 +13,19 @@ import java.util.List;
 public class DishRestController extends AbstractDishController {
 
     @RequestMapping( method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Dish create(@PathVariable("restaurantId") int restaurantId, @RequestBody Dish dish) throws RestaurantNotFoundException {
-        return super.create(restaurantId, dish);
+    public Dish create(@RequestBody Dish dish, @PathVariable("restaurantId") int restaurantId) throws RestaurantNotFoundException {
+        return super.create(dish, restaurantId);
     }
 
-    @RequestMapping(path = "/{dishId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void update(@PathVariable("restaurantId") int restaurantId, @PathVariable("dishId") int dishId, @RequestBody Dish dish) throws DishNotFoundException {
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void update(@PathVariable("id") int id, @RequestBody Dish dish, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
         dish.setRestaurantId(restaurantId);
-        super.update(restaurantId, dishId, dish);
+        super.update(id, dish, restaurantId);
     }
 
-    @RequestMapping(value = "/{dishId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Dish findById(@PathVariable("restaurantId") int restaurantId, @PathVariable("dishId") int dishId) throws DishNotFoundException {
-        return super.findById(restaurantId, dishId);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Dish findById(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
+        return super.findById(id, restaurantId);
     }
 
     @RequestMapping( method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -34,7 +34,7 @@ public class DishRestController extends AbstractDishController {
     }
 
     @RequestMapping(path = "/{dishId}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("restaurantId") int restaurantId, @PathVariable("dishId") int dishId) throws DishNotFoundException {
-        super.delete(restaurantId, dishId);
+    public void delete(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
+        super.delete(id, restaurantId);
     }
 }

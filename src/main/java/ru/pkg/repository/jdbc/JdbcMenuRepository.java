@@ -30,7 +30,7 @@ public class JdbcMenuRepository extends JdbcDaoSupport implements MenuRepository
 
     @Transactional
     @Override
-    public void save(int restaurantId, int dishId) {
+    public void save(int dishId, int restaurantId) {
         getJdbcTemplate().update("INSERT INTO menus(restaurant_id, dish_id) VALUES (?, ?)", restaurantId, dishId);
     }
 
@@ -67,13 +67,16 @@ public class JdbcMenuRepository extends JdbcDaoSupport implements MenuRepository
 
     @Override
     public Menu findById(int restaurantId) {
-        List<Integer> dishIDs = getJdbcTemplate().queryForList("SELECT dish_id FROM menus WHERE restaurant_id=? ORDER BY dish_id", Integer.class, restaurantId);
-        return new Menu(restaurantId, dishIDs);
+        if (isRestaurantExists(restaurantId)) {
+            List<Integer> dishIDs = getJdbcTemplate().queryForList("SELECT dish_id FROM menus WHERE restaurant_id=? ORDER BY dish_id", Integer.class, restaurantId);
+            return new Menu(restaurantId, dishIDs);
+        }
+        return null;
     }
 
     @Transactional
     @Override
-    public boolean delete(int restaurantId, int dishId) {
+    public boolean delete(int dishId, int restaurantId) {
         return getJdbcTemplate().update("DELETE FROM menus WHERE restaurant_id=? AND dish_id=?", restaurantId, dishId) > 0;
     }
 
@@ -81,5 +84,9 @@ public class JdbcMenuRepository extends JdbcDaoSupport implements MenuRepository
     @Override
     public void deleteAll(int restaurantId) {
         getJdbcTemplate().execute("DELETE FROM menus WHERE restaurant_id=" + restaurantId);
+    }
+
+    private boolean isRestaurantExists(int restaurantId) {
+        return getJdbcTemplate().queryForObject("SELECT exists(SELECT 1 FROM restaurants WHERE id=?)", Boolean.class, restaurantId);
     }
 }

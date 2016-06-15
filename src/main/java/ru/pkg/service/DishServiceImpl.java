@@ -27,10 +27,10 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public Dish findById(int restaurantId, int dishId) throws DishNotFoundException {
-        Dish dish = repository.findById(restaurantId, dishId);
+    public Dish findById(int id, int restaurantId) throws DishNotFoundException {
+        Dish dish = repository.findById(id, restaurantId);
         if (dish == null) {
-            throw new DishNotFoundException(dishId, restaurantId);
+            throw new DishNotFoundException(id, restaurantId);
         }
         return dish;
     }
@@ -58,9 +58,9 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public void delete(int restaurantId, int dishId) throws DishNotFoundException {
-        if (!repository.delete(restaurantId, dishId)) {
-            throw new DishNotFoundException(dishId, restaurantId);
+    public void delete(int id, int restaurantId) throws DishNotFoundException {
+        if (!repository.delete(id, restaurantId)) {
+            throw new DishNotFoundException(id, restaurantId);
         }
     }
 }

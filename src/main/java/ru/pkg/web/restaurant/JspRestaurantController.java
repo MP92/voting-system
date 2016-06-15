@@ -1,6 +1,5 @@
 package ru.pkg.web.restaurant;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -9,16 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.pkg.model.Restaurant;
-import ru.pkg.service.VotesService;
+import ru.pkg.utils.RestaurantUtil;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/restaurants", method = RequestMethod.GET)
 public class JspRestaurantController extends AbstractRestaurantController {
-
-    @Autowired
-    VotesService votesService;
 
     @RequestMapping
     public String showList(@RequestParam(value = "votedId", required = false) Integer votedId,
@@ -30,7 +27,8 @@ public class JspRestaurantController extends AbstractRestaurantController {
         if (!StringUtils.isEmpty(status)) {
             model.addAttribute("status", status);
         }
-        model.addAttribute("restaurantList", super.findAll()).addAttribute("votesList", votesService.findAll());
+        List<Restaurant> restaurants = super.findAll();
+        model.addAttribute("restaurantList", restaurants).addAttribute("votingStatistics", RestaurantUtil.getStatistics(restaurants));
         return "restaurant/restaurantList";
     }
 

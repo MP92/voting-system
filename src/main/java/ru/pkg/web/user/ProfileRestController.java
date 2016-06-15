@@ -7,13 +7,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.LoggedUser;
 import ru.pkg.model.User;
+import ru.pkg.to.UserWithVote;
 
 @RestController
 @RequestMapping(path = "/rest/profile")
 public class ProfileRestController extends AbstractUserController {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public User get() {
+    public UserWithVote get() {
         return super.get(LoggedUser.getId());
     }
 

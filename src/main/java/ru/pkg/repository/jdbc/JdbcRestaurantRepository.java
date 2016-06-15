@@ -1,7 +1,6 @@
 package ru.pkg.repository.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -40,7 +39,7 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
         if (restaurant.isNew()) {
             Number key = inserter.executeAndReturnKey(parameterSource);
             restaurant.setId(key.intValue());
-            insertVotesRecord(restaurant);
+            createVoteRecord(restaurant);
         } else {
             String query = "UPDATE restaurants SET name=:name, description=:description, address=:address, phone_number=:phoneNumber WHERE id=:id";
             if (getNamedParameterJdbcTemplate().update(query, parameterSource) == 0) {
@@ -52,12 +51,12 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
 
     @Override
     public Restaurant findById(int id) {
-        return DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT * FROM restaurants WHERE id=?", RESTAURANT_MAPPER, id));
+        return DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT r.*, vs.votes FROM restaurants as r LEFT JOIN voting_statistics as vs ON (r.id = vs.restaurant_id) WHERE id=?", RESTAURANT_MAPPER, id));
     }
 
     @Override
     public List<Restaurant> findAll() {
-        return getJdbcTemplate().query("SELECT * FROM restaurants ORDER BY name", RESTAURANT_MAPPER);
+        return getJdbcTemplate().query("SELECT r.*, vs.votes FROM restaurants as r LEFT JOIN voting_statistics as vs ON (r.id = vs.restaurant_id) ORDER BY name", RESTAURANT_MAPPER);
     }
 
     @Transactional
@@ -66,7 +65,8 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
         return getJdbcTemplate().update("DELETE FROM restaurants WHERE id=?", id) > 0;
     }
 
-    private void insertVotesRecord(Restaurant r) {
-        getJdbcTemplate().update("INSERT INTO votes (restaurant_id, count) VALUES (?, 0)", r.getId());
+    @Transactional
+    private void createVoteRecord(Restaurant r) {
+        getJdbcTemplate().update("INSERT INTO voting_statistics (restaurant_id, votes) VALUES (?, 0)", r.getId());
     }
 }

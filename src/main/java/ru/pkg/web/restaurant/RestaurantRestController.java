@@ -3,7 +3,6 @@ package ru.pkg.web.restaurant;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.pkg.model.Restaurant;
-import ru.pkg.to.RestaurantWithVotes;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;

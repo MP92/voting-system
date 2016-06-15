@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS restaurants CASCADE;
 DROP TABLE IF EXISTS dishes CASCADE;
 DROP TABLE IF EXISTS menus;
 DROP TABLE IF EXISTS votes;
+DROP TABLE IF EXISTS voting_statistics;
 
 DROP SEQUENCE IF EXISTS users_id_seq;
 DROP SEQUENCE IF EXISTS restaurants_id_seq;
@@ -54,6 +55,13 @@ CREATE TABLE menus (
 );
 
 CREATE TABLE votes (
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  restaurant_id INTEGER REFERENCES restaurants(id) ON DELETE CASCADE,
+  date_time TIMESTAMP NOT NULL DEFAULT now(),
+  UNIQUE(user_id, restaurant_id)
+);
+
+CREATE TABLE voting_statistics (
   restaurant_id INTEGER UNIQUE REFERENCES restaurants(id) ON DELETE CASCADE,
-  count INTEGER NOT NULL
+  votes INTEGER NOT NULL
 );

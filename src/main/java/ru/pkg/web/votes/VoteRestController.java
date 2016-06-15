@@ -5,10 +5,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ru.pkg.model.Votes;
+import ru.pkg.to.VotingStatistics;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/rest/restaurants")
@@ -19,28 +18,18 @@ public class VoteRestController extends AbstractVoteController {
         super.vote(restaurantId);
     }
 
-    @RequestMapping(path = "/{restaurantId}/votes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Votes findById(@PathVariable("restaurantId") int restaurantId) {
-        return super.findById(restaurantId);
+    @RequestMapping(path = "/votes/cancel", method = RequestMethod.POST)
+    public void cancelVote() {
+        super.cancelVote();
     }
 
-    @RequestMapping(path = "/votes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Votes> findAll() {
-        return super.findAll();
-    }
-
-    @RequestMapping(path = "/{restaurantId}/votes/count", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Integer findCount(@PathVariable("restaurantId") int restaurantId) {
-        return super.findCount(restaurantId);
-    }
-
-    @RequestMapping(path = "/{restaurantId}/votes/reset", method = RequestMethod.PUT)
+    @RequestMapping(path = "/votes/reset", method = RequestMethod.PUT)
     public void reset() {
         super.reset();
     }
 
-    @RequestMapping(path = "/{restaurantId}/unvote", method = RequestMethod.POST)
-    public void unvote(@PathVariable("restaurantId") int restaurantId) {
-        super.unvote(restaurantId);
+    @RequestMapping(path = "/votes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<VotingStatistics> getVotingStatistics() {
+        return super.getVotingStatistics();
     }
 }

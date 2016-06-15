@@ -11,12 +11,14 @@ import ru.pkg.utils.exception.RestaurantNotFoundException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static ru.pkg.DishTestData.*;
-import static ru.pkg.DishTestData.MATCHER;
+
 import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
-import static ru.pkg.RestaurantTestData.RESTAURANT_1_MENU;
 import static ru.pkg.RestaurantTestData.RESTAURANT_2_ID;
+import static ru.pkg.RestaurantTestData.R_1_IN_MENU_DISHES;
+import static ru.pkg.RestaurantTestData.R_2_IN_MENU_DISHES;
 
 public abstract class AbstractDishServiceTest extends AbstractServiceTest {
 
@@ -112,13 +114,22 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
         service.delete(R_1_DISH_1_ID, RestaurantTestData.NOT_FOUND_INDEX);
     }
 
-/*    @Test
-    public void testFindMenu() throws Exception {
-        MATCHER.assertCollectionsEquals(RESTAURANT_1_MENU, service.findMenu(RESTAURANT_1_ID));
+    @Test
+    public void testFindInAllMenus() throws Exception {
+        Map<Integer, List<Dish>> menus = service.findInAllMenus();
+        Assert.assertEquals(menus.size(), 2);
+        MATCHER.assertCollectionsEquals(R_1_IN_MENU_DISHES, menus.get(RESTAURANT_1_ID));
+        MATCHER.assertCollectionsEquals(R_2_IN_MENU_DISHES, menus.get(RESTAURANT_2_ID));
     }
 
     @Test
-    public void testFindMenuRestaurantNotFound() throws Exception {
-        MATCHER.assertCollectionsEquals(Collections.emptyList(), service.findMenu(RestaurantTestData.NOT_FOUND_INDEX));
-    }*/
+    public void testFindInMenu() throws Exception {
+        List<Dish> menu = service.findInMenu(RESTAURANT_1_ID);
+        MATCHER.assertCollectionsEquals(R_1_IN_MENU_DISHES, menu);
+    }
+
+    @Test
+    public void testFindInMenuRestaurantNotFound() throws Exception {
+        MATCHER.assertCollectionsEquals(Collections.emptyList(), service.findInMenu(RestaurantTestData.NOT_FOUND_INDEX));
+    }
 }

@@ -4,6 +4,7 @@ DELETE FROM restaurants;
 DELETE FROM dishes;
 DELETE FROM menus;
 DELETE FROM votes;
+DELETE FROM voting_statistics;
 
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 ALTER SEQUENCE restaurants_id_seq RESTART WITH 100;
@@ -11,14 +12,15 @@ ALTER SEQUENCE dishes_id_seq RESTART WITH 1000;
 
 INSERT INTO users(name, surname, password, registered, last_voted) VALUES ('Admin', 'Adminov', 'admin', '2016-01-01', '2016-01-01');
 INSERT INTO users(name, surname, password, registered, last_voted) VALUES ('User', 'Userov', 'user', '2016-01-01', '2016-01-01');
+INSERT INTO users(name, surname, password, registered, last_voted) VALUES ('User2', 'Userov2', 'user2', '2016-01-01', '2016-01-01');
 
 INSERT INTO roles(user_id, role) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO roles(user_id, role) VALUES (1, 'ROLE_USER');
 INSERT INTO roles(user_id, role) VALUES (2, 'ROLE_USER');
+INSERT INTO roles(user_id, role) VALUES (3, 'ROLE_USER');
 
 INSERT INTO restaurants(name, description, address, phone_number) VALUES ('E Pellicci', 'E Pellicci description', '332 Bethnal Green Rd, London E2 0AG, England', '+44 20 7739 4873');
 INSERT INTO restaurants(name, description, address, phone_number) VALUES ('taNgia', 'taNgia description', '108 Mitcham Road | Tooting Broadway, London SW17 9NG, England', '+44 20 3774 0779');
-
 
 INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VALUES (
   100, 'Beer-and-Cheddar SoupBeer-and-Cheddar Soup',
@@ -68,5 +70,8 @@ INSERT INTO menus(restaurant_id, dish_id) VALUES (101, 1004);
 INSERT INTO menus(restaurant_id, dish_id) VALUES (101, 1005);
 INSERT INTO menus(restaurant_id, dish_id) VALUES (101, 1006);
 
-INSERT INTO votes(restaurant_id, count) VALUES (100, 5);
-INSERT INTO votes(restaurant_id, count) VALUES (101, 10);
+INSERT INTO votes(user_id, restaurant_id, date_time) VALUES (1, 100, '2016-01-01');
+INSERT INTO votes(user_id, restaurant_id, date_time) VALUES (2, 101, '2016-01-01');
+
+INSERT INTO voting_statistics(restaurant_id, votes) VALUES (100, 1);
+INSERT INTO voting_statistics(restaurant_id, votes) VALUES (101, 1);

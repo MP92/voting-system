@@ -56,16 +56,16 @@ public class JspDishController extends AbstractDishController {
         int restaurantId = dish.getRestaurantId();
         boolean isNew = dish.isNew();
         if (isNew) {
-            super.create(restaurantId, dish);
+            super.create(dish, restaurantId);
         } else {
-            super.update(restaurantId, dish.getId(), dish);
+            super.update(dish, restaurantId);
         }
         return "redirect:/dishes?restaurantId=" + restaurantId + "&status=" + (isNew ? "created" : "updated");
     }
 
     @RequestMapping("/delete")
-    public String deleteDish(@RequestParam("restaurantId") int restaurantId, @RequestParam("id") int dishId) {
-        super.delete(restaurantId, dishId);
+    public String deleteDish(@RequestParam("id") int id, @RequestParam("restaurantId") int restaurantId) {
+        super.delete(id, restaurantId);
         return "redirect:/dishes?restaurantId=" + restaurantId + "&status=deleted";
     }
 }

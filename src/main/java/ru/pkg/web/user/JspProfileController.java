@@ -11,15 +11,16 @@ import ru.pkg.to.UserTO;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping(path = "/profile", method = RequestMethod.GET)
+@RequestMapping(path = "/profile")
 public class JspProfileController extends AbstractUserController {
 
+    @RequestMapping(method = RequestMethod.GET)
     public String showDetails(Model model) {
         model.addAttribute("user", super.get(LoggedUser.getId()));
         return "user/userDetails";
     }
 
-    @RequestMapping(path = "/edit")
+    @RequestMapping(path = "/edit", method = RequestMethod.GET)
     public String initEditForm(Model model) {
         model.addAttribute("user", super.get(LoggedUser.getId()));
         return "user/userForm";

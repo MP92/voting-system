@@ -11,7 +11,7 @@ public interface DishService {
 
     Dish add(Dish dish) throws RestaurantNotFoundException;
 
-    Dish findById(int restaurantId, int dishId) throws DishNotFoundException;
+    Dish findById(int id, int restaurantId) throws DishNotFoundException;
 
     List<Dish> findAll(int restaurantId);
 
@@ -21,5 +21,5 @@ public interface DishService {
 
     void update(Dish dish) throws DishNotFoundException;
 
-    void delete(int restaurantId, int dishId) throws DishNotFoundException;
+    void delete(int id, int restaurantId) throws DishNotFoundException;
 }

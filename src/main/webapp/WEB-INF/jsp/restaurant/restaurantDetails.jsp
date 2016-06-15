@@ -28,6 +28,10 @@
         <td>${restaurant.phoneNumber}</td>
     </tr>
     <tr>
+        <td>Votes</td>
+        <td>${restaurant.votes}</td>
+    </tr>
+    <tr>
         <td>Menu</td>
         <td>
             <a href="menu/form?restaurantId=${restaurant.id}">Update menu</a>

@@ -20,24 +20,24 @@ public class JspMenuController extends AbstractMenuController {
     DishService dishService;
 
     @RequestMapping(path = "/form")
-    public String initMenuForm(@RequestParam("restaurantId") int id, Model model) {
-        List<Dish> dishList = dishService.findAll(id);
+    public String initMenuForm(@RequestParam("restaurantId") int restaurantId, Model model) {
+        List<Dish> dishList = dishService.findAll(restaurantId);
 
         model.addAttribute("dishList", dishList);
-        model.addAttribute("holder", super.findById(id));
+        model.addAttribute("holder", super.findById(restaurantId));
 
         return "restaurant/addToMenuForm";
     }
 
     @RequestMapping(path = "/update", method = RequestMethod.POST)
     public String updateMenu(Menu menu) {
-        super.update(menu.getRestaurantId(), menu);
+        super.update(menu);
         return "redirect:/restaurants/details?id=" + menu.getRestaurantId();
     }
 
     @RequestMapping("/delete")
-    public String deleteFromMenu(@RequestParam("restaurantId") int restaurantId, @RequestParam("dishId") int dishId) {
-        super.delete(restaurantId, dishId);
+    public String deleteFromMenu(@RequestParam("dishId") int dishId, @RequestParam("restaurantId") int restaurantId) {
+        super.delete(dishId, restaurantId);
         return "redirect:/restaurants/details?id=" + restaurantId;
     }
 }

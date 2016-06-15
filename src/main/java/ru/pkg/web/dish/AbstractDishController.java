@@ -14,27 +14,32 @@ public abstract class AbstractDishController {
     @Autowired
     DishService service;
 
-    public Dish create(int restaurantId, Dish dish) throws RestaurantNotFoundException {
-        dish.setRestaurantId(restaurantId);
+    public Dish create(Dish dish, int restaurantId) throws RestaurantNotFoundException {
         dish.setId(null);
+        dish.setRestaurantId(restaurantId);
         return service.add(dish);
     }
 
-    public Dish findById(int restaurantId, int dishId) throws DishNotFoundException {
-        return service.findById(restaurantId, dishId);
+    public Dish findById(int id, int restaurantId) throws DishNotFoundException {
+        return service.findById(id, restaurantId);
     }
 
     public List<Dish> findAll(int restaurantId) {
         return service.findAll(restaurantId);
     }
 
-    public void delete(int restaurantId, int dishId) throws DishNotFoundException {
-        service.delete(restaurantId, dishId);
+    public void delete(int id, int restaurantId) throws DishNotFoundException {
+        service.delete(id, restaurantId);
     }
 
-    public void update(int restaurantId, int dishId, Dish dish) throws DishNotFoundException {
+    public void update(int id, Dish dish, int restaurantId) throws DishNotFoundException {
+        dish.setId(id);
         dish.setRestaurantId(restaurantId);
-        dish.setId(dishId);
+        service.update(dish);
+    }
+
+    public void update(Dish dish, int restaurantId) throws DishNotFoundException {
+        dish.setRestaurantId(restaurantId);
         service.update(dish);
     }
 }

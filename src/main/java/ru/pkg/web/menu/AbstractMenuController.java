@@ -28,12 +28,16 @@ public abstract class AbstractMenuController {
         return menuService.findAll();
     }
 
-    public void update(int restaurantId, Menu menu) {
+    public void update(Menu menu, int restaurantId) {
         menu.setRestaurantId(restaurantId);
         menuService.replace(menu);
     }
 
-    public void delete(int restaurantId, int dishId) {
-        menuService.delete(restaurantId, dishId);
+    public void update(Menu menu) {
+        menuService.replace(menu);
+    }
+
+    public void delete(int dishId, int restaurantId) {
+        menuService.delete(dishId, restaurantId);
     }
 }

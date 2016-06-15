@@ -3,6 +3,7 @@ package ru.pkg.web.user;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.pkg.model.User;
+import ru.pkg.to.UserWithVote;
 
 import java.util.Collection;
 
@@ -11,7 +12,7 @@ import java.util.Collection;
 public class AdminRestController extends AbstractUserController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public User get(@PathVariable("id") int id) {
+    public UserWithVote get(@PathVariable("id") int id) {
         return super.get(id);
     }
 
@@ -31,7 +32,9 @@ public class AdminRestController extends AbstractUserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Collection<User> findAll() {
+    public Collection<UserWithVote> findAll() {
         return super.findAll();
     }
+
+
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MenuRepository {
 
-    void save(int restaurantId, int dishId);
+    void save(int dishId, int restaurantId);
 
     void save(Menu menu);
 
@@ -14,7 +14,7 @@ public interface MenuRepository {
 
     Menu findById(int restaurantId);
 
-    boolean delete(int restaurantId, int dishId);
+    boolean delete(int dishId, int restaurantId);
 
     void deleteAll(int restaurantId);
 }

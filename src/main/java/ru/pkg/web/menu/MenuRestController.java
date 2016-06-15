@@ -21,12 +21,12 @@ public class MenuRestController extends AbstractMenuController {
     }
 
     @RequestMapping(path = "/{restaurantId}/menu", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void update(@PathVariable("restaurantId") int restaurantId, @RequestBody Menu menu) {
-        super.update(restaurantId, menu);
+    public void update(@RequestBody Menu menu, @PathVariable("restaurantId") int restaurantId) {
+        super.update(menu, restaurantId);
     }
 
     @RequestMapping(path = "/{restaurantId}/menu/{dishId}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("restaurantId") int restaurantId, @PathVariable("dishId") int dishId) {
-        super.delete(restaurantId, dishId);
+    public void delete(@PathVariable("dishId") int dishId, @PathVariable("restaurantId") int restaurantId) {
+        super.delete(dishId, restaurantId);
     }
 }

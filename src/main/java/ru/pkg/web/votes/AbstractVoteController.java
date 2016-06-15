@@ -2,38 +2,38 @@ package ru.pkg.web.votes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.pkg.LoggedUser;
-import ru.pkg.model.Votes;
-import ru.pkg.service.VotesService;
+import ru.pkg.model.UserVote;
+import ru.pkg.service.RestaurantService;
+import ru.pkg.service.UserVoteService;
+import ru.pkg.to.VotingStatistics;
+import ru.pkg.utils.RestaurantUtil;
 
 import java.util.List;
-import java.util.Map;
 
 public abstract class AbstractVoteController {
 
     @Autowired
-    VotesService service;
+    UserVoteService voteService;
+
+    @Autowired
+    RestaurantService restaurantService;
 
     public void vote(int restaurantId) {
-        service.vote(LoggedUser.getId(), restaurantId);
+        UserVote userVote = voteService.findById(LoggedUser.getId());
+        if (!userVote.isVotedToday()) {
+            voteService.save(new UserVote(LoggedUser.getId(), restaurantId));
+        }
     }
 
-    public Votes findById(int restaurantId) {
-        return service.findById(restaurantId);
-    }
-
-    public List<Votes> findAll() {
-        return service.findAll();
-    }
-
-    public Integer findCount(int restaurantId) {
-        return service.findCount(restaurantId);
+    public void cancelVote() {
+        voteService.delete(LoggedUser.getId());
     }
 
     public void reset() {
-        service.reset();
+        voteService.reset();
     }
 
-    public void unvote(int restaurantId) {
-        service.unvote(LoggedUser.getId(), restaurantId);
+    public List<VotingStatistics> getVotingStatistics() {
+        return RestaurantUtil.getStatistics(restaurantService.findAll());
     }
 }

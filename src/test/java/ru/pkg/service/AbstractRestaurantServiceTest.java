@@ -27,7 +27,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
 
     @Test
     public void testFindById() throws Exception {
-        MATCHER.assertEquals(TestRestaurantFactory.newInstanceWithMenu(RESTAURANT_1, RESTAURANT_1_MENU), service.findById(START_INDEX));
+        MATCHER.assertEquals(TestRestaurantFactory.newInstanceWithMenu(RESTAURANT_1, R_1_IN_MENU_DISHES), service.findById(START_INDEX));
     }
 
     @Test(expected = RestaurantNotFoundException.class)
@@ -38,6 +38,11 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
     @Test
     public void testFindAll() throws Exception {
         MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITHOUT_MENU, service.findAll());
+    }
+
+    @Test
+    public void testFindAllWithMenu() throws Exception {
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITH_MENU, service.findAllWithMenu());
     }
 
     @Test

@@ -12,7 +12,8 @@ public class UserTestData {
     public static final int START_INDEX = 1;
 
     public static final int ADMIN_ID = START_INDEX;
-    public static final int USER_ID = START_INDEX + 1;
+    public static final int USER_1_ID = START_INDEX + 1;
+    public static final int USER_2_ID = START_INDEX + 2;
 
     public static final int NEW_USER_ID = START_INDEX + 100;
 
@@ -23,11 +24,12 @@ public class UserTestData {
     public static final LocalDateTime TEST_DT = LocalDateTime.of(2016, 1, 1, 0, 0);
 
     public static final User ADMIN = new User(ADMIN_ID, "Admin", "Adminov", "admin", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
-    public static final User USER = new User(USER_ID, "User", "Userov", "user", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_USER));
+    public static final User USER_1 = new User(USER_1_ID, "User", "Userov", "user", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_USER));
+    public static final User USER_2 = new User(USER_2_ID, "User2", "Userov2", "user2", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_USER));
 
     public static final User NEW_USER = new User(null, "test", "test", "test", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
 
-    public static final List<User> ALL_USERS = Arrays.asList(ADMIN, USER);
+    public static final List<User> ALL_USERS = Arrays.asList(ADMIN, USER_1, USER_2);
 
     public static class TestUser extends User {
 

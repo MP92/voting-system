@@ -61,8 +61,8 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
     }
 
     @Override
-    public Dish findById(int restaurantId, int dishId) throws DishNotFoundException {
-        List<Dish> list = getJdbcTemplate().query("SELECT * FROM dishes WHERE id=? AND restaurant_id=?", DISH_MAPPER, dishId, restaurantId);
+    public Dish findById(int id, int restaurantId) throws DishNotFoundException {
+        List<Dish> list = getJdbcTemplate().query("SELECT * FROM dishes WHERE id=? AND restaurant_id=?", DISH_MAPPER, id, restaurantId);
         return DataAccessUtils.singleResult(list);
     }
 
@@ -73,8 +73,8 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
 
     @Transactional
     @Override
-    public boolean delete(int restaurantId, int dishId) throws DishNotFoundException {
-        return getJdbcTemplate().update("DELETE FROM dishes WHERE id=? AND restaurant_id=?", dishId, restaurantId) > 0;
+    public boolean delete(int id, int restaurantId) throws DishNotFoundException {
+        return getJdbcTemplate().update("DELETE FROM dishes WHERE id=? AND restaurant_id=?", id, restaurantId) > 0;
     }
 
     @Override
