@@ -2,5 +2,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
     <title>Voting system</title>
-    <c:url value="/" var="rootUrl" scope="application"/>
+    <c:set var="rootUrl" value="${pageContext.request.contextPath}" scope="application"/>
 </head>

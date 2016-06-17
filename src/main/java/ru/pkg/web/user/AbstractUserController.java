@@ -22,6 +22,10 @@ public abstract class AbstractUserController {
         return new UserWithVote(userService.findById(id), userVoteService.findById(id));
     }
 
+    public UserTO getForUpdate(int id) {
+        return UserUtil.asTO(userService.findById(id));
+    }
+
     public void delete(int id) {
         userService.delete(id);
     }

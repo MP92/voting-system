@@ -5,11 +5,12 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
 
-<div style="background-color:green;">
-    <c:if test="${not empty status}">
-        Dish for restaurant with id=${restaurantId} ${status}
-    </c:if>
-</div>
+<c:if test="${not empty message}">
+    <div style="background-color:green;">
+        ${message}
+    </div>
+</c:if>
+
 <c:if test="${dishList != null}">
     <h2>Dish list for restaurant with id=${restaurantId}</h2>
     <a href="dishes/add?restaurantId=${restaurantId}">Add</a>
@@ -37,7 +38,7 @@
             </tr>
         </c:forEach>
     </table>
-    <a href="${rootUrl}restaurants/details?id=${restaurantId}">Restaurant details</a>
+    <a href="${rootUrl}/restaurants/details?id=${restaurantId}">Restaurant details</a>
 </c:if>
 <form method="get">
     <label for="restaurantId">Select restaurant id: </label>

@@ -4,17 +4,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import ru.pkg.UserTestData;
+import ru.pkg.testdata.UserTestData;
 import ru.pkg.model.UserVote;
 import ru.pkg.repository.UserVoteRepository;
 import ru.pkg.service.UserVoteService;
 import ru.pkg.utils.exception.VotingException;
 
 import static org.mockito.Mockito.*;
-import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
-import static ru.pkg.UserTestData.USER_1_ID;
-import static ru.pkg.UserVoteTestData.*;
-import static ru.pkg.UserVoteTestData.MATCHER;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.pkg.testdata.UserTestData.USER_1_ID;
+import static ru.pkg.testdata.UserVoteTestData.*;
+import static ru.pkg.testdata.UserVoteTestData.MATCHER;
 
 public class UserVoteServiceMockitoTest extends AbstractServiceMockitoTest {
 
@@ -50,10 +50,11 @@ public class UserVoteServiceMockitoTest extends AbstractServiceMockitoTest {
         verify(repository).findById(USER_1_ID);
     }
 
-    @Test(expected = VotingException.class)
+    @Test
     public void testFindByIdNotFound() throws Exception {
         when(repository.findById(UserTestData.NOT_FOUND_INDEX)).thenReturn(null);
-        service.findById(UserTestData.NOT_FOUND_INDEX);
+        MATCHER.assertEquals(EMPTY_VOTE, service.findById(UserTestData.NOT_FOUND_INDEX));
+        verify(repository).findById(UserTestData.NOT_FOUND_INDEX);
     }
 
     @Test

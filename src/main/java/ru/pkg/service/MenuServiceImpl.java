@@ -41,8 +41,8 @@ public class MenuServiceImpl implements MenuService {
     @Transactional
     @Override
     public void replace(Menu menu) throws DishNotFoundException {
+        repository.deleteAll(menu.getRestaurantId());
         if (!menu.isEmpty()) {
-            repository.deleteAll(menu.getRestaurantId());
             try {
                 repository.save(menu);
             } catch (DataIntegrityViolationException e) {

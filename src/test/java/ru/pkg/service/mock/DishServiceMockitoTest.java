@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import ru.pkg.RestaurantTestData;
+import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.model.Dish;
 import ru.pkg.repository.DishRepository;
 import ru.pkg.service.DishService;
@@ -15,8 +15,8 @@ import java.util.Collections;
 
 import static org.mockito.Mockito.*;
 
-import static ru.pkg.DishTestData.*;
-import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.pkg.testdata.DishTestData.*;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 
 public class DishServiceMockitoTest extends AbstractServiceMockitoTest {
 

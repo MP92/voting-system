@@ -3,15 +3,18 @@ package ru.pkg.to;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 public class UserTO {
 
     private Integer id;
 
     @NotEmpty
+    @Size(min = 3, max = 25)
     private String name;
 
     @NotEmpty
+    @Size(min = 3, max = 25)
     private String surname;
 
     @NotEmpty
@@ -62,5 +65,27 @@ public class UserTO {
 
     public boolean isNew() {
         return id == null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserTO that = (UserTO) o;
+
+        return Objects.equals(this.id, that.id)
+                && Objects.equals(this.name, that.name)
+                && Objects.equals(this.surname, that.surname)
+                && Objects.equals(this.password, that.password);
+    }
+
+    @Override
+    public String toString() {
+        return "UserTO{" +
+                "surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

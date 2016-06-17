@@ -13,6 +13,10 @@ public class UserVote {
     public UserVote() {
     }
 
+    public UserVote(int userId) {
+        this.userId = userId;
+    }
+
     public UserVote(int userId, int restaurantId) {
         this.userId = userId;
         this.restaurantId = restaurantId;

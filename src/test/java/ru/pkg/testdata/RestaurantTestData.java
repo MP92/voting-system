@@ -1,4 +1,4 @@
-package ru.pkg;
+package ru.pkg.testdata;
 
 import ru.pkg.matcher.ModelMatcher;
 import ru.pkg.model.Dish;
@@ -9,10 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ru.pkg.DishTestData.*;
+import static ru.pkg.testdata.DishTestData.*;
 
-import static ru.pkg.UserVoteTestData.RESTAURANT_1_VOTES_COUNT;
-import static ru.pkg.UserVoteTestData.RESTAURANT_2_VOTES_COUNT;
+import static ru.pkg.testdata.UserVoteTestData.RESTAURANT_1_VOTES_COUNT;
+import static ru.pkg.testdata.UserVoteTestData.RESTAURANT_2_VOTES_COUNT;
 
 public class RestaurantTestData {
 

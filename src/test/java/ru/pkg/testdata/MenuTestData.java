@@ -1,19 +1,19 @@
-package ru.pkg;
+package ru.pkg.testdata;
 
 import ru.pkg.matcher.ModelMatcher;
 import ru.pkg.model.Menu;
 
-import static ru.pkg.DishTestData.R_1_DISH_1_ID;
-import static ru.pkg.DishTestData.R_1_DISH_2_ID;
-import static ru.pkg.DishTestData.R_1_DISH_3_ID;
-import static ru.pkg.DishTestData.R_1_DISH_4_ID;
+import static ru.pkg.testdata.DishTestData.R_1_DISH_1_ID;
+import static ru.pkg.testdata.DishTestData.R_1_DISH_2_ID;
+import static ru.pkg.testdata.DishTestData.R_1_DISH_3_ID;
+import static ru.pkg.testdata.DishTestData.R_1_DISH_4_ID;
 
-import static ru.pkg.DishTestData.R_2_DISH_1_ID;
-import static ru.pkg.DishTestData.R_2_DISH_2_ID;
-import static ru.pkg.DishTestData.R_2_DISH_3_ID;
+import static ru.pkg.testdata.DishTestData.R_2_DISH_1_ID;
+import static ru.pkg.testdata.DishTestData.R_2_DISH_2_ID;
+import static ru.pkg.testdata.DishTestData.R_2_DISH_3_ID;
 
-import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
-import static ru.pkg.RestaurantTestData.RESTAURANT_2_ID;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_2_ID;
 
 import java.util.Arrays;
 import java.util.Collections;

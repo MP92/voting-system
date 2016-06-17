@@ -23,6 +23,10 @@ public class UserUtil {
         return user;
     }
 
+    public static UserTO asTO(User user) {
+        return new UserTO(user.getId(), user.getName(), user.getSurname(), user.getPassword());
+    }
+
     public static List<UserWithVote> createWithVotes(List<User> users, List<UserVote> userVotes) {
         Map<Integer, UserVote> userVoteMap = userVotes.stream().collect(Collectors.toMap(UserVote::getUserId, Function.identity()));
         UserVote defaultUserVote = new UserVote();

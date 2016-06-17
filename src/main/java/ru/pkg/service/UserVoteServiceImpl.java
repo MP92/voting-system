@@ -5,7 +5,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ru.pkg.model.UserVote;
 import ru.pkg.repository.UserVoteRepository;
-import ru.pkg.utils.exception.UserNotFoundException;
 import ru.pkg.utils.exception.VotingException;
 
 import java.util.List;
@@ -26,12 +25,9 @@ public class UserVoteServiceImpl implements UserVoteService {
     }
 
     @Override
-    public UserVote findById(int userId) throws VotingException {
+    public UserVote findById(int userId) {
         UserVote userVote = repository.findById(userId);
-        if (userVote == null) {
-            throw new VotingException(userId);
-        }
-        return userVote;
+        return userVote != null ? userVote : new UserVote(userId);
     }
 
     @Override

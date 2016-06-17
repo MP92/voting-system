@@ -5,14 +5,14 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
 
-<div style="background-color:green;">
-    <c:if test="${not empty status}">
-        User ${status}
-    </c:if>
-</div>
+<c:if test="${not empty message}">
+    <div style="background-color:green;">
+        ${message}
+    </div>
+</c:if>
 
 <h2>User list</h2>
-<a href="add">Add</a>
+<a href="users/add">Add</a>
 <table border="1" cellspacing="0">
     <thead>
         <tr>
@@ -36,8 +36,8 @@
             <td>${user.lastVoted}</td>
             <td>${user.enabled}</td>
             <td>${user.roles}</td>
-            <td><a href="edit?id=${user.id}">update</a></td>
-            <td><a href="delete?id=${user.id}">delete</a></td>
+            <td><a href="users/edit?id=${user.id}">update</a></td>
+            <td><a href="users/delete?id=${user.id}">delete</a></td>
         </tr>
     </c:forEach>
 </table>

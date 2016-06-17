@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.pkg.model.Restaurant;
 import ru.pkg.utils.RestaurantUtil;
 
@@ -17,16 +18,10 @@ import java.util.List;
 @RequestMapping(path = "/restaurants", method = RequestMethod.GET)
 public class JspRestaurantController extends AbstractRestaurantController {
 
-    @RequestMapping
-    public String showList(@RequestParam(value = "votedId", required = false) Integer votedId,
-                           @RequestParam(value = "status", required = false) String status, Model model) {
+    private static final String MESSAGE_FORMAT = "Restaurant with id=%d has been %s";
 
-        if (!StringUtils.isEmpty(votedId)) {
-            model.addAttribute("votedId", votedId);
-        }
-        if (!StringUtils.isEmpty(status)) {
-            model.addAttribute("status", status);
-        }
+    @RequestMapping
+    public String showList(Model model) {
         List<Restaurant> restaurants = super.findAll();
         model.addAttribute("restaurantList", restaurants).addAttribute("votingStatistics", RestaurantUtil.getStatistics(restaurants));
         return "restaurant/restaurantList";
@@ -51,7 +46,7 @@ public class JspRestaurantController extends AbstractRestaurantController {
     }
 
     @RequestMapping(path = "/save", method = RequestMethod.POST)
-    public String save(@Valid Restaurant restaurant, BindingResult result) {
+    public String save(@Valid Restaurant restaurant, BindingResult result, RedirectAttributes attributes) {
 
         if (result.hasErrors()) {
             return "restaurant/restaurantForm";
@@ -63,12 +58,14 @@ public class JspRestaurantController extends AbstractRestaurantController {
         } else {
             super.update(restaurant.getId(), restaurant);
         }
-        return "redirect:/restaurants?status=" + (isNew ? "created" : "updated");
+        attributes.addFlashAttribute("message", String.format(MESSAGE_FORMAT, restaurant.getId(), isNew ? "created" : "updated"));
+        return "redirect:/restaurants";
     }
 
     @RequestMapping("/delete")
-    public String deleteRestaurant(@RequestParam("id") int id) {
+    public String deleteRestaurant(@RequestParam("id") int id, RedirectAttributes attributes) {
         super.delete(id);
-        return "redirect:/restaurants?status=deleted";
+        attributes.addFlashAttribute("message", String.format(MESSAGE_FORMAT, id, "deleted"));
+        return "redirect:/restaurants";
     }
 }

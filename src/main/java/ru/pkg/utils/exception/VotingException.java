@@ -2,7 +2,7 @@ package ru.pkg.utils.exception;
 
 public class VotingException extends RuntimeException {
 
-    private static final String MSG_PATTERN = "User with id=%d not voted";
+    private static final String MSG_PATTERN = "User with id=%d has not voted";
 
     public VotingException(Throwable cause) {
         super(cause);

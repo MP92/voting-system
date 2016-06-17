@@ -3,7 +3,7 @@ package ru.pkg.service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.pkg.UserTestData;
+import ru.pkg.testdata.UserTestData;
 import ru.pkg.model.Restaurant;
 import ru.pkg.model.UserVote;
 import ru.pkg.utils.exception.UserNotFoundException;
@@ -12,12 +12,12 @@ import ru.pkg.utils.exception.VotingException;
 import java.util.Collections;
 import java.util.List;
 
-import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
-import static ru.pkg.RestaurantTestData.RESTAURANT_2_ID;
-import static ru.pkg.UserTestData.USER_1_ID;
-import static ru.pkg.UserVoteTestData.*;
-import static ru.pkg.UserVoteTestData.MATCHER;
-import static ru.pkg.UserVoteTestData.RESTAURANT_1_VOTES_COUNT;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_2_ID;
+import static ru.pkg.testdata.UserTestData.USER_1_ID;
+import static ru.pkg.testdata.UserVoteTestData.*;
+import static ru.pkg.testdata.UserVoteTestData.MATCHER;
+import static ru.pkg.testdata.UserVoteTestData.RESTAURANT_1_VOTES_COUNT;
 
 public abstract class AbstractUserVoteServiceTest extends AbstractServiceTest {
 
@@ -74,9 +74,9 @@ public abstract class AbstractUserVoteServiceTest extends AbstractServiceTest {
         MATCHER.assertEquals(USER_1_VOTE, userVote);
     }
 
-    @Test(expected = VotingException.class)
+    @Test
     public void testFindByIdNotFound() throws Exception {
-        userVoteService.findById(UserTestData.NOT_FOUND_INDEX);
+        MATCHER.assertEquals(EMPTY_VOTE, userVoteService.findById(UserTestData.NOT_FOUND_INDEX));
     }
 
     @Test

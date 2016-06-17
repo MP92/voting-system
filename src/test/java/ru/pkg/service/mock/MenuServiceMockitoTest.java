@@ -4,8 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import ru.pkg.DishTestData;
-import ru.pkg.RestaurantTestData;
+import ru.pkg.testdata.DishTestData;
+import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.repository.MenuRepository;
 import ru.pkg.service.MenuService;
 import ru.pkg.utils.exception.DishNotFoundException;
@@ -13,13 +13,13 @@ import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import static org.mockito.Mockito.*;
 
-import static ru.pkg.DishTestData.R_1_DISH_1_ID;
-import static ru.pkg.DishTestData.R_1_DISH_4_ID;
-import static ru.pkg.DishTestData.R_2_DISH_1_ID;
+import static ru.pkg.testdata.DishTestData.R_1_DISH_1_ID;
+import static ru.pkg.testdata.DishTestData.R_1_DISH_4_ID;
+import static ru.pkg.testdata.DishTestData.R_2_DISH_1_ID;
 
-import static ru.pkg.MenuTestData.*;
+import static ru.pkg.testdata.MenuTestData.*;
 
-import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 
 public class MenuServiceMockitoTest extends AbstractServiceMockitoTest {
 

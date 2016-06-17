@@ -6,7 +6,7 @@ import ru.pkg.model.User;
 
 import java.util.Arrays;
 
-import static ru.pkg.UserTestData.*;
+import static ru.pkg.testdata.UserTestData.*;
 
 public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest {
 
@@ -17,7 +17,7 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
     public void testAdd() {
         User toCreateUser = new TestUser(NEW_USER);
         User created = repository.save(toCreateUser);
-        Assert.assertNotNull(toCreateUser.getId());
+        toCreateUser.setId(created.getId());
         MATCHER.assertEquals(toCreateUser, created);
         MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, toCreateUser, USER_1, USER_2), repository.findAll());
     }

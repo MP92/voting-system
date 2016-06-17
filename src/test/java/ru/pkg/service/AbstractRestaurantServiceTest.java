@@ -9,7 +9,7 @@ import ru.pkg.utils.exception.RestaurantNotFoundException;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static ru.pkg.RestaurantTestData.*;
+import static ru.pkg.testdata.RestaurantTestData.*;
 
 public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest {
 

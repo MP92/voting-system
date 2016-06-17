@@ -11,10 +11,8 @@ import ru.pkg.service.RestaurantService;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 
-import java.util.Arrays;
-
 import static org.mockito.Mockito.*;
-import static ru.pkg.RestaurantTestData.*;
+import static ru.pkg.testdata.RestaurantTestData.*;
 
 public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 

@@ -37,6 +37,9 @@ public class JdbcMenuRepository extends JdbcDaoSupport implements MenuRepository
     @Transactional
     @Override
     public void save(Menu menu) {
+        if (menu.isEmpty()) {
+            return;
+        }
         StringBuilder sb = new StringBuilder("INSERT INTO menus(restaurant_id, dish_id) VALUES (%1$d, ?)");
         for (int i = 1; i < menu.getDishIDs().size(); i++) {
             sb.append(", (%1$d, ?)");

@@ -37,7 +37,7 @@
     </tr>
 </table>
 
-<a href="${rootUrl}admin/edit?id=${user.id}"></a>
+<a href="${rootUrl}/admin/users/edit?id=${user.id}"></a>
 
 </body>
 </html>

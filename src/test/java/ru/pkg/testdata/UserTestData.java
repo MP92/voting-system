@@ -1,11 +1,16 @@
-package ru.pkg;
+package ru.pkg.testdata;
 
 import ru.pkg.matcher.ModelMatcher;
 import ru.pkg.model.Role;
 import ru.pkg.model.User;
+import ru.pkg.to.UserWithVote;
 
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static ru.pkg.testdata.UserVoteTestData.ADMIN_VOTE;
+import static ru.pkg.testdata.UserVoteTestData.USER_1_VOTE;
+import static ru.pkg.testdata.UserVoteTestData.EMPTY_VOTE;
 
 public class UserTestData {
 
@@ -15,7 +20,7 @@ public class UserTestData {
     public static final int USER_1_ID = START_INDEX + 1;
     public static final int USER_2_ID = START_INDEX + 2;
 
-    public static final int NEW_USER_ID = START_INDEX + 100;
+    public static final int CREATED_USER_ID = START_INDEX + 3;
 
     public static final int NOT_FOUND_INDEX = 100000;
 
@@ -27,9 +32,17 @@ public class UserTestData {
     public static final User USER_1 = new User(USER_1_ID, "User", "Userov", "user", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_USER));
     public static final User USER_2 = new User(USER_2_ID, "User2", "Userov2", "user2", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_USER));
 
-    public static final User NEW_USER = new User(null, "test", "test", "test", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
+    public static final User NEW_USER = new User(null, "test", "test", "password", TEST_DT, TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
 
     public static final List<User> ALL_USERS = Arrays.asList(ADMIN, USER_1, USER_2);
+
+    public static final int USERS_COUNT = 3;
+
+    public static final UserWithVote ADMIN_WITH_VOTE = new UserWithVote(ADMIN, ADMIN_VOTE);
+    public static final UserWithVote USER_1_WITH_VOTE = new UserWithVote(USER_1, USER_1_VOTE);
+    public static final UserWithVote USER_2_WITH_VOTE = new UserWithVote(USER_2, EMPTY_VOTE);
+
+    public static final List<UserWithVote> ALL_USERS_WITH_VOTES = Arrays.asList(ADMIN_WITH_VOTE, USER_1_WITH_VOTE, USER_2_WITH_VOTE);
 
     public static class TestUser extends User {
 

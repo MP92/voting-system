@@ -1,4 +1,4 @@
-package ru.pkg;
+package ru.pkg.testdata;
 
 import ru.pkg.matcher.ModelMatcher;
 import ru.pkg.model.Dish;
@@ -7,8 +7,8 @@ import ru.pkg.model.DishCategory;
 import java.util.Arrays;
 import java.util.List;
 
-import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
-import static ru.pkg.RestaurantTestData.RESTAURANT_2_ID;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_2_ID;
 
 public class DishTestData {
 

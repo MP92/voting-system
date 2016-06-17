@@ -10,7 +10,7 @@ import ru.pkg.utils.exception.UserNotFoundException;
 
 
 import static org.mockito.Mockito.*;
-import static ru.pkg.UserTestData.*;
+import static ru.pkg.testdata.UserTestData.*;
 
 public class UserServiceMockitoTest extends AbstractServiceMockitoTest {
 
@@ -24,12 +24,12 @@ public class UserServiceMockitoTest extends AbstractServiceMockitoTest {
     public void testAdd() {
         User toCreateUser = new TestUser(null, NEW_USER);
         when(repository.save(toCreateUser)).thenAnswer(invocation -> {
-            toCreateUser.setId(NEW_USER_ID);
+            toCreateUser.setId(CREATED_USER_ID);
             return toCreateUser;
         });
         User created = service.add(toCreateUser);
         verify(repository).save(toCreateUser);
-        Assert.assertTrue(toCreateUser.getId() == NEW_USER_ID);
+        Assert.assertTrue(toCreateUser.getId() == CREATED_USER_ID);
         MATCHER.assertEquals(toCreateUser, created);
     }
 

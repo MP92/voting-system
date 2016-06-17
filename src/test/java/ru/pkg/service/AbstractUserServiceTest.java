@@ -6,10 +6,9 @@ import ru.pkg.model.User;
 import ru.pkg.utils.exception.UserNotFoundException;
 
 import java.util.Arrays;
-import java.util.Collection;
 
-import static ru.pkg.UserTestData.*;
-import static ru.pkg.UserTestData.NEW_USER;
+import static ru.pkg.testdata.UserTestData.*;
+import static ru.pkg.testdata.UserTestData.NEW_USER;
 
 public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
@@ -19,7 +18,8 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Test
     public void testAdd() {
         User toCreateUser = new TestUser(NEW_USER);
-        service.add(toCreateUser);
+        User created = service.add(toCreateUser);
+        toCreateUser.setId(created.getId());
         MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, toCreateUser, USER_1, USER_2), service.findAll());
     }
     

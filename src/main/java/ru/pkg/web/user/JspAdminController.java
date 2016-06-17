@@ -5,35 +5,53 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.pkg.model.User;
 import ru.pkg.to.UserTO;
+import ru.pkg.utils.exception.UserNotFoundException;
 
 import javax.validation.Valid;
 
 import static ru.pkg.utils.UserUtil.*;
 
 @Controller
-@RequestMapping(path = "/admin", method = RequestMethod.GET)
+@RequestMapping(path = "/admin/users", method = RequestMethod.GET)
 public class JspAdminController extends AbstractUserController {
 
+    public static final String MESSAGE_FORMAT = "User with id=%d %s";
+
     @RequestMapping(path="/save", method = RequestMethod.POST)
-    public String saveUser(@ModelAttribute("user") @Valid UserTO userTO, BindingResult result) {
+    public String saveUser(@ModelAttribute("user") @Valid UserTO userTO, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             return "user/userForm";
         }
 
-        if (userTO.isNew()) {
-            super.create(createFromTO(userTO));
+        boolean isNew = userTO.isNew();
+        if (isNew) {
+            User created = super.create(createFromTO(userTO));
+            userTO.setId(created.getId());
         } else {
-            super.update(userTO);
+            try {
+                super.update(userTO);
+            } catch (UserNotFoundException e) {
+                result.rejectValue("id", "User with the specified id not found");
+                return "user/userForm";
+            }
         }
+        attributes.addFlashAttribute("message", String.format(MESSAGE_FORMAT, userTO.getId(), "has been " + (isNew ? "created" : "updated")));
 
-        return "redirect:/admin/users?status=" + (userTO.isNew() ? "created" : "updated");
+        return "redirect:/admin/users";
     }
 
     @RequestMapping(path = "/delete")
-    public String deleteUser(@RequestParam("id") int id, Model model) {
-        super.delete(id);
-        return "redirect:/admin/users?status=deleted";
+    public String deleteUser(@RequestParam("id") int id, RedirectAttributes attributes) {
+        try {
+            super.delete(id);
+            attributes.addFlashAttribute("message", String.format(MESSAGE_FORMAT, id, "has been deleted"));
+        } catch (UserNotFoundException e) {
+            attributes.addFlashAttribute("message", String.format(MESSAGE_FORMAT, id, "not found"));
+        }
+        return "redirect:/admin/users";
     }
 
     @RequestMapping(path="/add")
@@ -44,7 +62,7 @@ public class JspAdminController extends AbstractUserController {
 
     @RequestMapping(path="/edit")
     public String initUserEditForm(@RequestParam("id") int id, Model model) {
-        model.addAttribute("user", super.get(id));
+        model.addAttribute("user", super.getForUpdate(id));
         return "user/userForm";
     }
 
@@ -54,11 +72,8 @@ public class JspAdminController extends AbstractUserController {
         return "user/userDetails";
     }
 
-    @RequestMapping(path="/users")
-    public String showUserList(@RequestParam(value = "status", required = false) String status, Model model) {
-        if (!StringUtils.isEmpty(status)) {
-            model.addAttribute("status", status);
-        }
+    @RequestMapping
+    public String showUserList(Model model) {
         model.addAttribute("userList", super.findAll());
         return "user/userList";
     }

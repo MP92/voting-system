@@ -3,11 +3,13 @@ package ru.pkg.web.dish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.pkg.model.Dish;
 import ru.pkg.service.RestaurantService;
 
@@ -19,18 +21,17 @@ import javax.validation.Valid;
 @RequestMapping(value = "/dishes", method = RequestMethod.GET)
 public class JspDishController extends AbstractDishController {
 
+    private static final String MESSAGE_FORMAT = "Dish for restaurant with id=%d has been %s";
+
     @Autowired
     RestaurantService restaurantService;
 
     @RequestMapping
-    public String showList(@RequestParam(value = "restaurantId", required = false) Integer restaurantId, Model model,
-                           @RequestParam(value = "status", required = false) String status) {
-        if (!StringUtils.isEmpty(status)) {
-            model.addAttribute("status", status);
+    public String showList(@RequestParam(value = "restaurantId", required = false) Integer restaurantId, Model model) {
+        if (restaurantId != null) {
+            model.addAttribute("restaurantId", restaurantId).addAttribute("dishList", super.findAll(restaurantId));
         }
-        if (!StringUtils.isEmpty(restaurantId)) {
-            model.addAttribute("dishList", super.findAll(restaurantId)).addAttribute("restaurantId", restaurantId);
-        }
+
         model.addAttribute("restaurantIDs", RestaurantUtil.getIDs(restaurantService.findAll()));
         return "dish/dishList";
     }
@@ -48,7 +49,7 @@ public class JspDishController extends AbstractDishController {
     }
 
     @RequestMapping(path = "/save", method = RequestMethod.POST)
-    public String save(@Valid Dish dish, BindingResult result) {
+    public String save(@Valid Dish dish, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             return "dish/dishForm";
         }
@@ -60,12 +61,14 @@ public class JspDishController extends AbstractDishController {
         } else {
             super.update(dish, restaurantId);
         }
-        return "redirect:/dishes?restaurantId=" + restaurantId + "&status=" + (isNew ? "created" : "updated");
+        attributes.addFlashAttribute("message", String.format(MESSAGE_FORMAT, restaurantId, isNew ? "created" : "updated"));
+        return "redirect:/dishes?restaurantId=" + restaurantId;
     }
 
     @RequestMapping("/delete")
-    public String deleteDish(@RequestParam("id") int id, @RequestParam("restaurantId") int restaurantId) {
+    public String deleteDish(@RequestParam("id") int id, @RequestParam("restaurantId") int restaurantId, RedirectAttributes attributes) {
         super.delete(id, restaurantId);
-        return "redirect:/dishes?restaurantId=" + restaurantId + "&status=deleted";
+        attributes.addFlashAttribute("message", String.format(MESSAGE_FORMAT, restaurantId, "deleted"));
+        return "redirect:/dishes?restaurantId=" + restaurantId;
     }
 }

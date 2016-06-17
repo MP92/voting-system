@@ -33,7 +33,7 @@ public class Menu {
     }
 
     public boolean isEmpty() {
-        return dishIDs.isEmpty();
+        return dishIDs == null || dishIDs.isEmpty();
     }
 
     @Override

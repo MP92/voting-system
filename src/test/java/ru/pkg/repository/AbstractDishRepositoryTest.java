@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import ru.pkg.RestaurantTestData;
+import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.model.Dish;
 
 import java.util.Arrays;
@@ -12,11 +12,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static ru.pkg.DishTestData.*;
-import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
-import static ru.pkg.RestaurantTestData.R_1_IN_MENU_DISHES;
-import static ru.pkg.RestaurantTestData.RESTAURANT_2_ID;
-import static ru.pkg.RestaurantTestData.R_2_IN_MENU_DISHES;
+import static ru.pkg.testdata.DishTestData.*;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.pkg.testdata.RestaurantTestData.R_1_IN_MENU_DISHES;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_2_ID;
+import static ru.pkg.testdata.RestaurantTestData.R_2_IN_MENU_DISHES;
 
 public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest {
 

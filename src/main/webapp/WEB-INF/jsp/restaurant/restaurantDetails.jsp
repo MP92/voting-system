@@ -60,6 +60,6 @@
         </td>
     </tr>
 </table>
-<a href="${rootUrl}dishes?restaurantId=${restaurant.id}">Dish list</a>
+<a href="${rootUrl}/dishes?restaurantId=${restaurant.id}">Dish list</a>
 </body>
 </html>

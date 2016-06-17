@@ -33,7 +33,7 @@ public class DishRestController extends AbstractDishController {
         return super.findAll(restaurantId);
     }
 
-    @RequestMapping(path = "/{dishId}", method = RequestMethod.DELETE)
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
         super.delete(id, restaurantId);
     }

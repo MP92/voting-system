@@ -5,16 +5,11 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
 
-<div style="background-color:blue;">
-    <c:if test="${not empty votedId}">
-        You has voted for restaurant with id=${votedId}
-    </c:if>
-</div>
-<div style="background-color:green;">
-    <c:if test="${not empty status}">
-        Restaurant ${status}
-    </c:if>
-</div>
+<c:if test="${not empty message}">
+    <div style="background-color:green;">
+        ${message}
+    </div>
+</c:if>
 
 <h2>Restaurant list</h2>
 <a href="restaurants/add">Add</a>
@@ -54,6 +49,7 @@
         <th>Restaurant ID</th>
         <th>Restaurant name</th>
         <th>Votes</th>
+        <th>Percentage</th>
     </tr>
     </thead>
     <c:forEach items="${votingStatistics}" var="item">
@@ -66,5 +62,6 @@
     </c:forEach>
 </table>
 <a href="restaurants/resetVotes">Reset votes</a>
+<a href="restaurants/cancelVote">Cancel vote</a>
 </body>
 </html>

@@ -2,21 +2,21 @@ package ru.pkg.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.pkg.DishTestData;
-import ru.pkg.RestaurantTestData;
+import ru.pkg.testdata.DishTestData;
+import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.model.Menu;
 import ru.pkg.utils.exception.DishNotFoundException;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
 
-import static ru.pkg.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 
-import static ru.pkg.DishTestData.R_1_DISH_1_ID;
-import static ru.pkg.DishTestData.R_1_DISH_4_ID;
-import static ru.pkg.DishTestData.R_2_DISH_1_ID;
+import static ru.pkg.testdata.DishTestData.R_1_DISH_1_ID;
+import static ru.pkg.testdata.DishTestData.R_1_DISH_4_ID;
+import static ru.pkg.testdata.DishTestData.R_2_DISH_1_ID;
 
-import static ru.pkg.MenuTestData.*;
+import static ru.pkg.testdata.MenuTestData.*;
 
 public abstract class AbstractMenuServiceTest extends AbstractServiceTest {
 
