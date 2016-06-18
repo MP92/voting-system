@@ -66,9 +66,9 @@ public class DishTestData {
             70, DishCategory.SALAD, 65.5, RESTAURANT_2_ID);
 
     public static final Dish R_2_DISH_4 = new Dish(
-            R_1_DISH_1_ID + 7, "Gianduja Mousse",
-            "As if the chocolate-hazelnut spread gianduja isn't delicious enough straight off the spoon, Grace Parisi has folded in whipped cream and creme fraiche to create a truly decadent (and ridiculously easy) mousse. For a supereasy ice cream sandwich, spoon the mousse between chocolate wafers and freeze overnight.",
-            110, DishCategory.DESSERT, 175.5, RESTAURANT_2_ID);
+            R_1_DISH_1_ID + 7, "Равиоли из ананаса с тайским манго и лаймовым сорбетом",
+            "Долго смотреть на этот десерт невозможно - он нереально, ну просто фантастически летний. Тончайшие ломтики ананасовой мякоти выполняют роль теста в классических равиоли. Внутри – нарезанное мелкими кубиками манго с соусом из лайма.",
+            125, DishCategory.DESSERT, 245.5, RESTAURANT_2_ID);
 
 
     public static final List<Dish> R_1_ALL_DISHES = Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4);

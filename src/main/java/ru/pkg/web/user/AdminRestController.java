@@ -43,4 +43,9 @@ public class AdminRestController extends AbstractUserController {
     public Collection<UserWithVote> findAll() {
         return super.findAll();
     }
+
+    @RequestMapping(path = "/test", method = RequestMethod.GET)
+    public String testUTF8() {
+        return "Текст должно быть видно русскими буквами";
+    }
 }

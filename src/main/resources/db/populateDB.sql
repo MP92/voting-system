@@ -58,9 +58,9 @@ INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VA
   70, 'SALAD', 65.5);
 
 INSERT INTO dishes(restaurant_id, name, description, weight, category, price) VALUES (
-  101, 'Gianduja Mousse',
-  'As if the chocolate-hazelnut spread gianduja isn''t delicious enough straight off the spoon, Grace Parisi has folded in whipped cream and creme fraiche to create a truly decadent (and ridiculously easy) mousse. For a supereasy ice cream sandwich, spoon the mousse between chocolate wafers and freeze overnight.',
-  110, 'DESSERT', 175.5);
+  101, 'Равиоли из ананаса с тайским манго и лаймовым сорбетом',
+  'Долго смотреть на этот десерт невозможно - он нереально, ну просто фантастически летний. Тончайшие ломтики ананасовой мякоти выполняют роль теста в классических равиоли. Внутри – нарезанное мелкими кубиками манго с соусом из лайма.',
+  125, 'DESSERT', 245.5);
 
 INSERT INTO menus(restaurant_id, dish_id) VALUES (100, 1000);
 INSERT INTO menus(restaurant_id, dish_id) VALUES (100, 1001);

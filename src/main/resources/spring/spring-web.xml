@@ -10,14 +10,14 @@
 
     <mvc:annotation-driven>
         <mvc:message-converters>
-<!--            <bean class = "org.springframework.http.converter.StringHttpMessageConverter">
+            <bean class = "org.springframework.http.converter.StringHttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
                         <value>text/plain;charset=UTF-8</value>
                         <value>text/html;charset=UTF-8</value>
                     </list>
                 </property>
-            </bean>-->
+            </bean>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"
                   p:objectMapper-ref="objectMapper"/>
         </mvc:message-converters>

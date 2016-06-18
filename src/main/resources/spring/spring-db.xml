@@ -11,7 +11,7 @@
 
     <jdbc:initialize-database data-source="dataSource">
         <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
-        <jdbc:script location="classpath:db/populateDB.sql"/>
+        <jdbc:script location="classpath:db/populateDB.sql" encoding="utf-8"/>
     </jdbc:initialize-database>
 
     <beans profile="postgresql">
