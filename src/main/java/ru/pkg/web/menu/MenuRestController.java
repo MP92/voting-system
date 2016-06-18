@@ -3,12 +3,15 @@ package ru.pkg.web.menu;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.pkg.model.Menu;
+import ru.pkg.web.restaurant.RestaurantRestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/rest/restaurants")
+@RequestMapping(MenuRestController.REST_URL)
 public class MenuRestController extends AbstractMenuController {
+
+    public static final String REST_URL = RestaurantRestController.REST_URL;
 
     @RequestMapping(path = "/{restaurantId}/menu",  method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Menu findById(@PathVariable("restaurantId") int restaurantId) {

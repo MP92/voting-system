@@ -11,8 +11,13 @@ import ru.pkg.service.RestaurantService;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 import static ru.pkg.testdata.RestaurantTestData.*;
+import static ru.pkg.testdata.RestaurantTestData.TestRestaurantFactory.*;
 
 public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 
@@ -33,7 +38,7 @@ public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Test
     public void testAdd() throws Exception {
-        Restaurant toCreateRestaurant = TestRestaurantFactory.newIntanceForCreate();
+        Restaurant toCreateRestaurant = TestRestaurantFactory.newInstanceForCreate();
         when(restaurantRepository.save(toCreateRestaurant)).thenAnswer(invocation -> {
             toCreateRestaurant.setId(NEW_RESTAURANT_ID);
             return toCreateRestaurant;
@@ -46,7 +51,7 @@ public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Test
     public void testFindById() throws Exception {
-        when(restaurantRepository.findById(START_INDEX)).thenReturn(RESTAURANT_1);
+        when(restaurantRepository.findById(START_INDEX)).thenReturn(newInstanceWithoutMenu(RESTAURANT_1));
         MATCHER.assertEquals(RESTAURANT_1, service.findById(START_INDEX));
         verify(restaurantRepository).findById(START_INDEX);
     }
@@ -71,16 +76,18 @@ public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Test
     public void testFindAllWithMenu() throws Exception {
-        when(restaurantRepository.findAll()).thenReturn(ALL_RESTAURANTS_WITHOUT_MENU);
+        List<Restaurant> restaurants = Arrays.asList(newInstanceWithoutMenu(RESTAURANT_1), newInstanceWithoutMenu(RESTAURANT_2));
+        when(restaurantRepository.findAll()).thenReturn(restaurants);
         when(dishRepository.findInAllMenus()).thenReturn(ALL_MENUS);
-        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITH_MENU, service.findAllWithMenu());
+        List<Restaurant> allWithMenu = service.findAllWithMenu();
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITH_MENU, allWithMenu);
         verify(restaurantRepository).findAll();
         verify(dishRepository).findInAllMenus();
     }
 
     @Test
     public void testUpdate() throws Exception {
-        Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdate();
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdate();
         when(restaurantRepository.save(toUpdateRestaurant)).thenReturn(toUpdateRestaurant);
         service.update(toUpdateRestaurant);
         verify(restaurantRepository).save(toUpdateRestaurant);
@@ -88,7 +95,7 @@ public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Test(expected = RestaurantNotFoundException.class)
     public void testUpdateNotFound() throws Exception {
-        Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdateNonexistent();
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdateNonexistent();
         when(restaurantRepository.save(toUpdateRestaurant)).thenReturn(null);
         try {
             service.update(toUpdateRestaurant);

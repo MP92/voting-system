@@ -18,7 +18,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
 
     @Test
     public void testAdd() throws Exception {
-        Restaurant toCreateRestaurant = TestRestaurantFactory.newIntanceForCreate();
+        Restaurant toCreateRestaurant = TestRestaurantFactory.newInstanceForCreate();
         Restaurant added = service.add(toCreateRestaurant);
         Assert.assertNotNull(toCreateRestaurant.getId());
         MATCHER.assertEquals(toCreateRestaurant, added);
@@ -27,7 +27,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
 
     @Test
     public void testFindById() throws Exception {
-        MATCHER.assertEquals(TestRestaurantFactory.newInstanceWithMenu(RESTAURANT_1, R_1_IN_MENU_DISHES), service.findById(START_INDEX));
+        MATCHER.assertEquals(RESTAURANT_1_WITH_MENU, service.findById(START_INDEX));
     }
 
     @Test(expected = RestaurantNotFoundException.class)
@@ -47,14 +47,14 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
 
     @Test
     public void testUpdate() throws Exception {
-        Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdate();
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdate();
         service.update(toUpdateRestaurant);
         MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_2, toUpdateRestaurant), service.findAll());
     }
 
     @Test(expected = RestaurantNotFoundException.class)
     public void testUpdateNotFound() throws Exception {
-        Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdateNonexistent();
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdateNonexistent();
         service.update(toUpdateRestaurant);
     }
 

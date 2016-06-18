@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import ru.pkg.AbstractTest;
+import ru.pkg.service.*;
 
 import javax.annotation.PostConstruct;
 
@@ -28,6 +29,21 @@ public abstract class AbstractControllerTest extends AbstractTest {
     private WebApplicationContext webApplicationContext;
 
     protected MockMvc mockMvc;
+
+    @Autowired
+    protected UserService userService;
+
+    @Autowired
+    protected RestaurantService restaurantService;
+
+    @Autowired
+    protected DishService dishService;
+
+    @Autowired
+    protected MenuService menuService;
+
+    @Autowired
+    protected UserVoteService userVoteService;
 
     @PostConstruct
     void initMockMvc() {

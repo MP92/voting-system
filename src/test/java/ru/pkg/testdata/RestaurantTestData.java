@@ -3,6 +3,8 @@ package ru.pkg.testdata;
 import ru.pkg.matcher.ModelMatcher;
 import ru.pkg.model.Dish;
 import ru.pkg.model.Restaurant;
+import ru.pkg.to.VotingStatistics;
+import ru.pkg.utils.RestaurantUtil;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -40,9 +42,13 @@ public class RestaurantTestData {
     public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_1_ID, "E Pellicci", "E Pellicci description", "332 Bethnal Green Rd, London E2 0AG, England", "+44 20 7739 4873", RESTAURANT_1_VOTES_COUNT);
     public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_2_ID, "taNgia", "taNgia description", "108 Mitcham Road | Tooting Broadway, London SW17 9NG, England", "+44 20 3774 0779", RESTAURANT_2_VOTES_COUNT);
 
+    public static final Restaurant RESTAURANT_1_WITH_MENU = TestRestaurantFactory.newInstanceWithMenu(RESTAURANT_1, R_1_IN_MENU_DISHES);
+
     public static final List<Restaurant> ALL_RESTAURANTS_WITHOUT_MENU = Arrays.asList(RESTAURANT_1, RESTAURANT_2);
 
     public static final List<Restaurant> ALL_RESTAURANTS_WITH_MENU = Arrays.asList(TestRestaurantFactory.newInstanceWithMenu(RESTAURANT_1, R_1_IN_MENU_DISHES), TestRestaurantFactory.newInstanceWithMenu(RESTAURANT_2, R_2_IN_MENU_DISHES));
+
+    public static final List<VotingStatistics> VOTING_STATISTICS = RestaurantUtil.getStatistics(ALL_RESTAURANTS_WITHOUT_MENU);
 
     public static class TestRestaurantFactory {
 
@@ -50,15 +56,15 @@ public class RestaurantTestData {
             return new Restaurant(id, "test", "test", "test", "test", votes, menu);
         }
 
-        public static Restaurant newIntanceForCreate() {
+        public static Restaurant newInstanceForCreate() {
             return newInstance(null, 0, null);
         }
 
-        public static Restaurant newIntanceForUpdate() {
+        public static Restaurant newInstanceForUpdate() {
             return newInstance(RESTAURANT_1_ID, RESTAURANT_1_VOTES_COUNT, null);
         }
 
-        public static Restaurant newIntanceForUpdateNonexistent() {
+        public static Restaurant newInstanceForUpdateNonexistent() {
             return newInstance(NOT_FOUND_INDEX, 0, null);
         }
 

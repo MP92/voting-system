@@ -17,7 +17,7 @@ public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositor
 
     @Test
     public void testAdd() throws Exception {
-        Restaurant toCreateRestaurant = TestRestaurantFactory.newIntanceForCreate();
+        Restaurant toCreateRestaurant = TestRestaurantFactory.newInstanceForCreate();
         Restaurant created = repository.save(toCreateRestaurant);
         Assert.assertNotNull(toCreateRestaurant.getId());
         MATCHER.assertEquals(toCreateRestaurant, created);
@@ -42,7 +42,7 @@ public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositor
 
     @Test
     public void testUpdate() throws Exception {
-        Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdate();
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdate();
         Restaurant updated = repository.save(toUpdateRestaurant);
         Assert.assertTrue(updated.getId() == RESTAURANT_1_ID);
         MATCHER.assertEquals(toUpdateRestaurant, updated);
@@ -51,7 +51,7 @@ public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositor
 
     @Test
     public void testUpdateNotFound() throws Exception {
-        Restaurant toUpdateRestaurant = TestRestaurantFactory.newIntanceForUpdateNonexistent();
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdateNonexistent();
         Assert.assertNull(repository.save(toUpdateRestaurant));
         MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITHOUT_MENU, repository.findAll());
     }

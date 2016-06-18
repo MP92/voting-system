@@ -10,8 +10,10 @@ import ru.pkg.model.User;
 import ru.pkg.to.UserWithVote;
 
 @RestController
-@RequestMapping(path = "/rest/profile")
+@RequestMapping(ProfileRestController.REST_URL)
 public class ProfileRestController extends AbstractUserController {
+
+    public static final String REST_URL = "/rest/profile";
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public UserWithVote get() {

@@ -77,7 +77,7 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
     public void testUpdate() throws Exception {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdate();
         service.update(toUpdateDish);
-        MATCHER.assertCollectionsEquals(Arrays.asList(TestDishFactory.newInstanceForUpdate(), R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), service.findAll(RESTAURANT_1_ID));
+        MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateDish, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), service.findAll(RESTAURANT_1_ID));
     }
 
     @Test(expected = DishNotFoundException.class)

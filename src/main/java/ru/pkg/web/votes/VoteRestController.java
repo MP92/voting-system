@@ -6,12 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.to.VotingStatistics;
+import ru.pkg.web.restaurant.RestaurantRestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/rest/restaurants")
+@RequestMapping(VoteRestController.REST_URL)
 public class VoteRestController extends AbstractVoteController {
+
+    public static final String REST_URL = RestaurantRestController.REST_URL;
 
     @RequestMapping(path = "/{restaurantId}/vote", method = RequestMethod.POST)
     public void vote(@PathVariable("restaurantId") int restaurantId) {

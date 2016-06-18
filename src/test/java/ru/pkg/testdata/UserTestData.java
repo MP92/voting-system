@@ -25,6 +25,7 @@ public class UserTestData {
     public static final int NOT_FOUND_INDEX = 100000;
 
     public static final ModelMatcher<User, TestUser> MATCHER = new ModelMatcher<>(u -> (u instanceof TestUser ? (TestUser)u : new TestUser(u)));
+    public static final ModelMatcher<UserWithVote, TestUserWithVote> USER_WITH_VOTE_MATCHER = new ModelMatcher<>(u -> (u instanceof TestUserWithVote ? (TestUserWithVote)u : new TestUserWithVote(u)));
 
     public static final LocalDateTime TEST_DT = LocalDateTime.of(2016, 1, 1, 0, 0);
 
@@ -74,7 +75,8 @@ public class UserTestData {
                     && Objects.equals(this.getName(), that.getName())
                     && Objects.equals(this.getSurname(), that.getSurname())
                     && Objects.equals(this.getLastVoted(), that.getLastVoted())
-                    && Objects.equals(this.isEnabled(), that.isEnabled());
+                    && Objects.equals(this.isEnabled(), that.isEnabled())
+                    && Objects.equals(this.getRegistered(), that.getRegistered());
         }
 
         @Override
@@ -88,6 +90,57 @@ public class UserTestData {
                     ", enabled=" + isEnabled() +
                     ", password=" + getPassword() +
                     ", authorities=" + getRoles() +
+                    ')';
+        }
+    }
+
+    public static class TestUserWithVote extends UserWithVote {
+
+        public TestUserWithVote(UserWithVote user){
+            this(user.getId(), user);
+        }
+
+        public TestUserWithVote(Integer id, UserWithVote user){
+            super(id, user.getName(), user.getSurname(), user.getPassword(), user.getRegistered(), user.isEnabled(), user.getRoles(), user.getVotedRestaurantId(), user.getLastVoted());
+        }
+
+        public UserWithVote asUserWithVote() {
+            return new UserWithVote(getId(), getName(), getSurname(), getPassword(), getRegistered(), isEnabled(), getRoles(), getVotedRestaurantId(), getLastVoted());
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
+            TestUserWithVote that = (TestUserWithVote) o;
+            return Objects.equals(this.getId(), that.getId())
+                    && Objects.equals(this.getName(), that.getName())
+                    && Objects.equals(this.getSurname(), that.getSurname())
+                    && Objects.equals(this.getPassword(), that.getPassword())
+                    && Objects.equals(this.getRegistered(), that.getRegistered())
+                    && Objects.equals(this.isEnabled(), that.isEnabled())
+                    && Objects.equals(this.getRoles(), that.getRoles())
+                    && Objects.equals(this.getVotedRestaurantId(), that.getVotedRestaurantId())
+                    && Objects.equals(this.getLastVoted(), that.getLastVoted());
+        }
+
+        @Override
+        public String toString() {
+            return "TestUserWithVote (" +
+                    "id=" + getId() +
+                    ", name=" + getName() +
+                    ", surname=" + getSurname() +
+                    ", password=" + getPassword() +
+                    ", registered=" + getRegistered() +
+                    ", enabled=" + isEnabled() +
+                    ", authorities=" + getRoles() +
+                    ", lastVoted=" + getLastVoted() +
+                    ", votedRestaurantId=" + getVotedRestaurantId() +
                     ')';
         }
     }

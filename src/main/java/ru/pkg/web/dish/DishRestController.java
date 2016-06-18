@@ -1,20 +1,30 @@
 package ru.pkg.web.dish;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import ru.pkg.model.Dish;
 import ru.pkg.utils.exception.DishNotFoundException;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
+import ru.pkg.web.restaurant.RestaurantRestController;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rest/restaurants/{restaurantId}/dishes")
+@RequestMapping(DishRestController.REST_URL)
 public class DishRestController extends AbstractDishController {
 
-    @RequestMapping( method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Dish create(@RequestBody Dish dish, @PathVariable("restaurantId") int restaurantId) throws RestaurantNotFoundException {
-        return super.create(dish, restaurantId);
+    public static final String REST_URL = RestaurantRestController.REST_URL + "/{restaurantId}/dishes";
+
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Dish> createWithLocation(@RequestBody Dish dish, @PathVariable("restaurantId") int restaurantId) throws RestaurantNotFoundException {
+        Dish created = super.create(dish, restaurantId);
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path(REST_URL + "/{id}")
+                    .buildAndExpand(restaurantId, created.getId()).toUri();
+        return ResponseEntity.created(uri).body(created);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -28,7 +38,7 @@ public class DishRestController extends AbstractDishController {
         return super.findById(id, restaurantId);
     }
 
-    @RequestMapping( method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Dish> findAll(@PathVariable("restaurantId") int restaurantId) {
         return super.findAll(restaurantId);
     }
