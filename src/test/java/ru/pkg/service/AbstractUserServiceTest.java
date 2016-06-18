@@ -15,6 +15,11 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Autowired
     private UserService service;
 
+    @After
+    public void tearDown() throws Exception {
+        cacheManager.getCache("users").clear();
+    }
+
     @Test
     public void testAdd() {
         User toCreateUser = new TestUser(NEW_USER);

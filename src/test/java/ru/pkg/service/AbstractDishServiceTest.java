@@ -1,5 +1,6 @@
 package ru.pkg.service;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
 
     @Autowired
     private DishService service;
+
+    @After
+    public void tearDown() throws Exception {
+        cacheManager.getCache("dishes").clear();
+    }
 
     @Test
     public void testAdd() throws Exception {

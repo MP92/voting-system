@@ -1,5 +1,7 @@
 package ru.pkg.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.AbstractTest;
@@ -10,4 +12,7 @@ import ru.pkg.AbstractTest;
 })
 @Transactional
 public abstract class AbstractServiceTest extends AbstractTest {
+
+    @Autowired
+    protected CacheManager cacheManager;
 }

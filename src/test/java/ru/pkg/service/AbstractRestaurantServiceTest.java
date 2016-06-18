@@ -1,5 +1,6 @@
 package ru.pkg.service;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,11 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
 
     @Autowired
     private RestaurantService service;
+
+    @After
+    public void tearDown() throws Exception {
+        cacheManager.getCache("restaurants").clear();
+    }
 
     @Test
     public void testAdd() throws Exception {

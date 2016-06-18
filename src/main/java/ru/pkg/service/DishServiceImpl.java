@@ -1,6 +1,9 @@
 package ru.pkg.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ru.pkg.model.Dish;
@@ -12,12 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@CacheConfig(cacheNames = "dishes")
 public class DishServiceImpl implements DishService {
 
     @Autowired
     DishRepository repository;
 
-    @Override
+    @CacheEvict(allEntries = true)
     public Dish add(Dish dish) throws RestaurantNotFoundException {
         try {
             return repository.save(dish);
@@ -40,24 +44,24 @@ public class DishServiceImpl implements DishService {
         return repository.findAll(restaurantId);
     }
 
-    @Override
+    @Cacheable
     public Map<Integer, List<Dish>> findInAllMenus() {
         return repository.findInAllMenus();
     }
 
-    @Override
+    @Cacheable
     public List<Dish> findInMenu(int restaurantId) {
         return repository.findInMenu(restaurantId);
     }
 
-    @Override
+    @CacheEvict(allEntries = true)
     public void update(Dish dish) throws DishNotFoundException {
         if (repository.save(dish) == null) {
             throw new DishNotFoundException(dish);
         }
     }
 
-    @Override
+    @CacheEvict(allEntries = true)
     public void delete(int id, int restaurantId) throws DishNotFoundException {
         if (!repository.delete(id, restaurantId)) {
             throw new DishNotFoundException(id, restaurantId);
