@@ -22,6 +22,7 @@
             <th>Weight</th>
             <th>Category</th>
             <th>Price</th>
+            <th>In Menu?</th>
             <th></th>
             <th></th>
         </tr>
@@ -33,6 +34,7 @@
                 <td>${dish.weight}</td>
                 <td>${dish.category}</td>
                 <td>${dish.price}</td>
+                <td>${dish.inMenu}(<a href="dishes/menuState?id=${dish.id}&restaurantId=${restaurantId}">Switch</a>)</td>
                 <td><a href="dishes/edit?id=${dish.id}&restaurantId=${restaurantId}">Edit</a></td>
                 <td><a href="dishes/delete?id=${dish.id}&restaurantId=${restaurantId}">Delete</a></td>
             </tr>

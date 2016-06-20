@@ -1,5 +1,7 @@
 package ru.pkg.to;
 
+import ru.pkg.model.Restaurant;
+
 public class VotingStatistics {
 
     private int restaurantId;
@@ -13,11 +15,12 @@ public class VotingStatistics {
     public VotingStatistics() {
     }
 
-    public VotingStatistics(int restaurantId, String restaurantName, int votes, double percentage) {
-        this.restaurantId = restaurantId;
-        this.restaurantName = restaurantName;
-        this.votes = votes;
-        this.percentage = percentage;
+    public VotingStatistics(Restaurant r, Double sumVotes) {
+        this.restaurantId = r.getId();
+        this.restaurantName = r.getName();
+        this.votes = r.getVotes();
+        Double percentage = r.getVotes() / sumVotes;
+        this.percentage = percentage.isNaN() ? 0 : percentage;
     }
 
     public int getRestaurantId() {

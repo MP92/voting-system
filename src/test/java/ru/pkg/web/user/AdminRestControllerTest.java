@@ -1,5 +1,6 @@
 package ru.pkg.web.user;
 
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -18,6 +19,11 @@ import static ru.pkg.TestUtils.*;
 public class AdminRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = AdminRestController.REST_URL + "/";
+
+    @After
+    public void tearDown() throws Exception {
+        cacheManager.getCache("users").clear();
+    }
 
     @Test
     public void testGet() throws Exception {

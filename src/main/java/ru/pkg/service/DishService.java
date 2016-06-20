@@ -21,5 +21,7 @@ public interface DishService {
 
     void update(Dish dish) throws DishNotFoundException;
 
+    void changeInMenuState(int id, int restaurantId);
+
     void delete(int id, int restaurantId) throws DishNotFoundException;
 }

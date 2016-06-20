@@ -44,6 +44,7 @@ CREATE TABLE dishes (
   weight INTEGER NOT NULL,
   category VARCHAR NOT NULL,
   price NUMERIC(7, 2) NOT NULL,
+  in_menu BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (id, restaurant_id),
   UNIQUE(restaurant_id, name)
 );

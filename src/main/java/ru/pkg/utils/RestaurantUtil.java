@@ -28,6 +28,6 @@ public class RestaurantUtil {
 
     public static List<VotingStatistics> getStatistics(List<Restaurant> restaurants) {
         Double sumVotes = restaurants.stream().collect(Collectors.summingDouble(Restaurant::getVotes));
-        return restaurants.stream().map(restaurant -> new VotingStatistics(restaurant.getId(), restaurant.getName(), restaurant.getVotes(), restaurant.getVotes() / sumVotes)).collect(Collectors.toList());
+        return restaurants.stream().map(r -> new VotingStatistics(r, sumVotes)).collect(Collectors.toList());
     }
 }

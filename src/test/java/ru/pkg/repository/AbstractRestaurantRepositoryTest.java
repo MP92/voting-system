@@ -37,7 +37,7 @@ public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositor
 
     @Test
     public void testFindAll() throws Exception {
-        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITHOUT_MENU, repository.findAll());
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS, repository.findAll());
     }
 
     @Test
@@ -53,7 +53,7 @@ public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositor
     public void testUpdateNotFound() throws Exception {
         Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdateNonexistent();
         Assert.assertNull(repository.save(toUpdateRestaurant));
-        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITHOUT_MENU, repository.findAll());
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS, repository.findAll());
     }
 
     @Test
@@ -65,6 +65,6 @@ public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositor
     @Test
     public void testDeleteNotFound() throws Exception {
         Assert.assertFalse(repository.delete(NOT_FOUND_INDEX));
-        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITHOUT_MENU, repository.findAll());
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS, repository.findAll());
     }
 }

@@ -1,5 +1,6 @@
 package ru.pkg.web.user;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,6 +29,11 @@ public class JspAdminControllerTest extends AbstractControllerTest {
 
     private static final String ADMIN_ID = String.valueOf(UserTestData.ADMIN_ID);
     private static final String NOT_FOUND_INDEX = String.valueOf(UserTestData.NOT_FOUND_INDEX);
+
+    @After
+    public void tearDown() throws Exception {
+        cacheManager.getCache("users").clear();
+    }
 
     @Test
     public void testCreate() throws Exception {

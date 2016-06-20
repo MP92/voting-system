@@ -1,5 +1,6 @@
 package ru.pkg.web.restaurant;
 
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -20,6 +21,11 @@ import static ru.pkg.testdata.RestaurantTestData.TestRestaurantFactory.*;
 public class RestaurantRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = RestaurantRestController.REST_URL + "/";
+
+    @After
+    public void tearDown() throws Exception {
+        cacheManager.getCache("restaurants").clear();
+    }
 
     @Test
     public void testCreate() throws Exception {
@@ -52,7 +58,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL + RESTAURANT_1_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonMatcher(RESTAURANT_1_WITH_MENU));
+                .andExpect(jsonMatcher(RESTAURANT_1));
     }
 
     @Test
@@ -60,15 +66,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonMatcher(ALL_RESTAURANTS_WITHOUT_MENU));
-    }
-
-    @Test
-    public void testFindAllWithMenu() throws Exception {
-        mockMvc.perform(get(REST_URL + "withmenu"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonMatcher(ALL_RESTAURANTS_WITH_MENU));
+                .andExpect(jsonMatcher(ALL_RESTAURANTS));
     }
 
     @Test

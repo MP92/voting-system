@@ -7,9 +7,7 @@ import ru.pkg.to.VotingStatistics;
 import ru.pkg.utils.RestaurantUtil;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static ru.pkg.testdata.DishTestData.*;
 
@@ -32,23 +30,12 @@ public class RestaurantTestData {
     public static final List<Dish> R_1_IN_MENU_DISHES = Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3);
     public static final List<Dish> R_2_IN_MENU_DISHES = Arrays.asList(R_2_DISH_1, R_2_DISH_2, R_2_DISH_3);
 
-    public static final Map<Integer, List<Dish>> ALL_MENUS = new HashMap<Integer, List<Dish>>() {
-        {
-            put(RESTAURANT_1_ID, R_1_IN_MENU_DISHES);
-            put(RESTAURANT_2_ID, R_2_IN_MENU_DISHES);
-        }
-    };
+    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_1_ID, "E Pellicci", "E Pellicci description", "332 Bethnal Green Rd, London E2 0AG, England", "+44 20 7739 4873", RESTAURANT_1_VOTES_COUNT, R_1_IN_MENU_DISHES);
+    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_2_ID, "taNgia", "taNgia description", "108 Mitcham Road | Tooting Broadway, London SW17 9NG, England", "+44 20 3774 0779", RESTAURANT_2_VOTES_COUNT, R_2_IN_MENU_DISHES);
 
-    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_1_ID, "E Pellicci", "E Pellicci description", "332 Bethnal Green Rd, London E2 0AG, England", "+44 20 7739 4873", RESTAURANT_1_VOTES_COUNT);
-    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_2_ID, "taNgia", "taNgia description", "108 Mitcham Road | Tooting Broadway, London SW17 9NG, England", "+44 20 3774 0779", RESTAURANT_2_VOTES_COUNT);
+    public static final List<Restaurant> ALL_RESTAURANTS = Arrays.asList(RESTAURANT_1, RESTAURANT_2);
 
-    public static final Restaurant RESTAURANT_1_WITH_MENU = TestRestaurantFactory.newInstanceWithMenu(RESTAURANT_1, R_1_IN_MENU_DISHES);
-
-    public static final List<Restaurant> ALL_RESTAURANTS_WITHOUT_MENU = Arrays.asList(RESTAURANT_1, RESTAURANT_2);
-
-    public static final List<Restaurant> ALL_RESTAURANTS_WITH_MENU = Arrays.asList(TestRestaurantFactory.newInstanceWithMenu(RESTAURANT_1, R_1_IN_MENU_DISHES), TestRestaurantFactory.newInstanceWithMenu(RESTAURANT_2, R_2_IN_MENU_DISHES));
-
-    public static final List<VotingStatistics> VOTING_STATISTICS = RestaurantUtil.getStatistics(ALL_RESTAURANTS_WITHOUT_MENU);
+    public static final List<VotingStatistics> VOTING_STATISTICS = RestaurantUtil.getStatistics(ALL_RESTAURANTS);
 
     public static class TestRestaurantFactory {
 
@@ -61,19 +48,15 @@ public class RestaurantTestData {
         }
 
         public static Restaurant newInstanceForUpdate() {
-            return newInstance(RESTAURANT_1_ID, RESTAURANT_1_VOTES_COUNT, null);
+            return newInstance(RESTAURANT_1_ID, RESTAURANT_1_VOTES_COUNT, R_1_IN_MENU_DISHES);
         }
 
         public static Restaurant newInstanceForUpdateNonexistent() {
             return newInstance(NOT_FOUND_INDEX, 0, null);
         }
 
-        public static Restaurant newInstanceWithoutMenu(Restaurant r) {
-            return newInstanceWithMenu(r, null);
-        }
-
-        public static Restaurant newInstanceWithMenu(Restaurant r, List<Dish> menu) {
-            return new Restaurant(r.getId(), r.getName(), r.getDescription(), r.getAddress(), r.getPhoneNumber(), r.getVotes(), menu);
+        public static Restaurant copy(Restaurant r) {
+            return new Restaurant(r.getId(), r.getName(), r.getDescription(), r.getAddress(), r.getPhoneNumber(), r.getVotes(), r.getMenu());
         }
     }
 }

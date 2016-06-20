@@ -1,5 +1,6 @@
 package ru.pkg.web.votes;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -24,6 +25,11 @@ public class VoteRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_BASE_URL = VoteRestController.REST_URL + "/votes/";
     private static final String RESTAURANT_1_VOTE_URL = String.format(VoteRestController.REST_URL + "/%d/vote", RESTAURANT_1_ID);
+
+    @After
+    public void tearDown() throws Exception {
+        cacheManager.getCache("restaurants").clear();
+    }
 
     @Test
     public void testVote() throws Exception {

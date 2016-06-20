@@ -39,11 +39,6 @@ public class RestaurantRestController extends AbstractRestaurantController {
         return super.findAll();
     }
 
-    @RequestMapping(path = "/withmenu", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Restaurant> findAllWithMenu() {
-        return super.findAllWithMenu();
-    }
-
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") int id) throws RestaurantNotFoundException {
         super.delete(id);

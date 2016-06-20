@@ -9,17 +9,21 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.pkg.model.Dish;
 import ru.pkg.model.Restaurant;
 import ru.pkg.repository.RestaurantRepository;
 
 import javax.sql.DataSource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @Transactional(readOnly = true)
 public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport implements RestaurantRepository {
 
-    private static final RowMapper<Restaurant> RESTAURANT_MAPPER = new BeanPropertyRowMapper<>(Restaurant.class);
+    private static final RowMapper<Restaurant> RESTAURANT_MAPPER = BeanPropertyRowMapper.newInstance(Restaurant.class);
+
+    private static final RowMapper<Dish> DISH_MAPPER = BeanPropertyRowMapper.newInstance(Dish.class);
 
     private SimpleJdbcInsert inserter;
 
@@ -39,7 +43,7 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
         if (restaurant.isNew()) {
             Number key = inserter.executeAndReturnKey(parameterSource);
             restaurant.setId(key.intValue());
-            createVoteRecord(restaurant);
+            insertVoteRecord(restaurant);
         } else {
             String query = "UPDATE restaurants SET name=:name, description=:description, address=:address, phone_number=:phoneNumber WHERE id=:id";
             if (getNamedParameterJdbcTemplate().update(query, parameterSource) == 0) {
@@ -51,12 +55,16 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
 
     @Override
     public Restaurant findById(int id) {
-        return DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT r.*, vs.votes FROM restaurants as r LEFT JOIN voting_statistics as vs ON (r.id = vs.restaurant_id) WHERE id=?", RESTAURANT_MAPPER, id));
+        Restaurant restaurant = DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT r.*, vs.votes FROM restaurants as r LEFT JOIN voting_statistics as vs ON (r.id = vs.restaurant_id) WHERE id=?", RESTAURANT_MAPPER, id));
+        loadMenu(restaurant);
+        return restaurant;
     }
 
     @Override
     public List<Restaurant> findAll() {
-        return getJdbcTemplate().query("SELECT r.*, vs.votes FROM restaurants as r LEFT JOIN voting_statistics as vs ON (r.id = vs.restaurant_id) ORDER BY name", RESTAURANT_MAPPER);
+        List<Restaurant> restaurants = getJdbcTemplate().query("SELECT r.*, vs.votes FROM restaurants as r LEFT JOIN voting_statistics as vs ON (r.id = vs.restaurant_id) ORDER BY name", RESTAURANT_MAPPER);
+        loadMenus(restaurants);
+        return restaurants;
     }
 
     @Transactional
@@ -65,8 +73,21 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
         return getJdbcTemplate().update("DELETE FROM restaurants WHERE id=?", id) > 0;
     }
 
-    @Transactional
-    private void createVoteRecord(Restaurant r) {
+
+    private void insertVoteRecord(Restaurant r) {
         getJdbcTemplate().update("INSERT INTO voting_statistics (restaurant_id, votes) VALUES (?, 0)", r.getId());
+    }
+
+    private void loadMenu(Restaurant r) {
+        if (r != null) {
+            List<Dish> menu = getJdbcTemplate().query("SELECT * FROM dishes WHERE restaurant_id=? AND in_menu=TRUE ORDER BY id", DISH_MAPPER, r.getId());
+            r.setMenu(menu);
+        }
+    }
+
+    private void loadMenus(List<Restaurant> restaurants) {
+        String menusQuery = "SELECT * FROM dishes WHERE in_menu=TRUE ORDER BY id";
+        Map<Integer, List<Dish>> menus = getJdbcTemplate().query(menusQuery, DISH_MAPPER).stream().collect(Collectors.groupingBy(Dish::getRestaurantId));
+        restaurants.forEach(r -> r.setMenu(menus.getOrDefault(r.getId(), Collections.emptyList())));
     }
 }

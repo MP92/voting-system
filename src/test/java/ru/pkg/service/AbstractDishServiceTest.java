@@ -138,4 +138,11 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
     public void testFindInMenuRestaurantNotFound() throws Exception {
         MATCHER.assertCollectionsEquals(Collections.emptyList(), service.findInMenu(RestaurantTestData.NOT_FOUND_INDEX));
     }
+
+    @Test
+    public void testChangeInMenuState() throws Exception {
+        boolean initialState = service.findById(R_1_DISH_1_ID, RESTAURANT_1_ID).isInMenu();
+        service.changeInMenuState(R_1_DISH_1_ID, RESTAURANT_1_ID);
+        Assert.assertNotEquals(initialState, service.findById(R_1_DISH_1_ID, RESTAURANT_1_ID).isInMenu());
+    }
 }

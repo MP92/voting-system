@@ -1,6 +1,7 @@
 package ru.pkg.service.mock;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.pkg.model.User;
@@ -19,6 +20,11 @@ public class UserServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Autowired
     protected UserRepository repository;
+
+    @Before
+    public void setUp() throws Exception {
+        reset(repository);
+    }
 
     @Test
     public void testAdd() {

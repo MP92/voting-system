@@ -3,8 +3,6 @@ package ru.pkg.web.dish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -69,6 +67,12 @@ public class JspDishController extends AbstractDishController {
     public String deleteDish(@RequestParam("id") int id, @RequestParam("restaurantId") int restaurantId, RedirectAttributes attributes) {
         super.delete(id, restaurantId);
         attributes.addFlashAttribute("message", String.format(MESSAGE_FORMAT, restaurantId, "deleted"));
+        return "redirect:/dishes?restaurantId=" + restaurantId;
+    }
+
+    @RequestMapping(path = "/menuState")
+    public String switchInMenuState(@RequestParam("id") int id, @RequestParam("restaurantId") int restaurantId) {
+        super.changeInMenuState(id, restaurantId);
         return "redirect:/dishes?restaurantId=" + restaurantId;
     }
 }

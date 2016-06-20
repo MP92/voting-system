@@ -1,5 +1,7 @@
 package ru.pkg.web.dish;
 
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -21,6 +23,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class DishRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = String.format(RestaurantRestController.REST_URL + "/%d/dishes/", RESTAURANT_1_ID);
+
+    @After
+    public void tearDown() throws Exception {
+        cacheManager.getCache("dishes").clear();
+    }
 
     @Test
     public void testCreate() throws Exception {
@@ -71,5 +78,15 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(R_1_AFTER_DELETE_DISHES, dishService.findAll(RESTAURANT_1_ID));
+    }
+
+    @Test
+    public void testChangeInMenuState() throws Exception {
+        boolean initialState = dishService.findById(R_1_DISH_1_ID, RESTAURANT_1_ID).isInMenu();
+
+        mockMvc.perform(put(REST_URL + R_1_DISH_1_ID + "/menuState"))
+                .andExpect(status().isOk());
+
+        Assert.assertNotEquals(initialState, dishService.findById(R_1_DISH_1_ID, RESTAURANT_1_ID).isInMenu());
     }
 }

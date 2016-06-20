@@ -31,11 +31,7 @@ public class Main {
         RestaurantService restaurantService = appCtx.getBean(RestaurantService.class);
         LOG.debug(restaurantService.findAll().toString());
         LOG.debug("==========\n");
-        LOG.debug(restaurantService.findAllWithMenu().toString());
-        LOG.debug("==========\n");
         LOG.debug(restaurantService.findAll().toString());
-        LOG.debug("==========\n");
-        LOG.debug(restaurantService.findAllWithMenu().toString());
 
         DishService dishService = appCtx.getBean(DishService.class);
         LOG.debug(dishService.findInMenu(100).toString());

@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Dish;
 import ru.pkg.repository.DishRepository;
 import ru.pkg.utils.exception.DishNotFoundException;
@@ -59,6 +60,14 @@ public class DishServiceImpl implements DishService {
         if (repository.save(dish) == null) {
             throw new DishNotFoundException(dish);
         }
+    }
+
+    @CacheEvict(cacheNames = {"dishes", "restaurants"}, allEntries = true)
+    @Transactional
+    public void changeInMenuState(int id, int restaurantId) {
+        Dish dish = findById(id, restaurantId);
+        dish.setInMenu(!dish.isInMenu());
+        update(dish);
     }
 
     @CacheEvict(allEntries = true)

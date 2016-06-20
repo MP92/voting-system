@@ -1,6 +1,7 @@
 package ru.pkg.service.mock;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,6 +26,11 @@ public class DishServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Autowired
     DishRepository repository;
+
+    @Before
+    public void setUp() throws Exception {
+        reset(repository);
+    }
 
     @Test
     public void testAdd() throws Exception {

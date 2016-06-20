@@ -5,15 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.pkg.model.Restaurant;
-import ru.pkg.repository.DishRepository;
 import ru.pkg.repository.RestaurantRepository;
 import ru.pkg.service.RestaurantService;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static ru.pkg.testdata.RestaurantTestData.*;
@@ -25,100 +20,85 @@ public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
     RestaurantService service;
 
     @Autowired
-    RestaurantRepository restaurantRepository;
-
-    @Autowired
-    private DishRepository dishRepository;
+    RestaurantRepository repository;
 
     @Before
     public void setUp() throws Exception {
-        reset(restaurantRepository);
-        reset(dishRepository);
+        reset(repository);
     }
 
     @Test
     public void testAdd() throws Exception {
         Restaurant toCreateRestaurant = TestRestaurantFactory.newInstanceForCreate();
-        when(restaurantRepository.save(toCreateRestaurant)).thenAnswer(invocation -> {
+        when(repository.save(toCreateRestaurant)).thenAnswer(invocation -> {
             toCreateRestaurant.setId(NEW_RESTAURANT_ID);
             return toCreateRestaurant;
         });
         Restaurant created = service.add(toCreateRestaurant);
-        verify(restaurantRepository).save(toCreateRestaurant);
+        verify(repository).save(toCreateRestaurant);
         Assert.assertTrue(toCreateRestaurant.getId() == NEW_RESTAURANT_ID);
         MATCHER.assertEquals(toCreateRestaurant, created);
     }
 
     @Test
     public void testFindById() throws Exception {
-        when(restaurantRepository.findById(START_INDEX)).thenReturn(newInstanceWithoutMenu(RESTAURANT_1));
+        when(repository.findById(START_INDEX)).thenReturn(copy(RESTAURANT_1));
         MATCHER.assertEquals(RESTAURANT_1, service.findById(START_INDEX));
-        verify(restaurantRepository).findById(START_INDEX);
+        verify(repository).findById(START_INDEX);
     }
 
     @Test(expected = RestaurantNotFoundException.class)
     public void testFindByIdNotFound() throws Exception {
-        when(restaurantRepository.findById(NOT_FOUND_INDEX)).thenReturn(null);
+        when(repository.findById(NOT_FOUND_INDEX)).thenReturn(null);
         try {
             service.findById(NOT_FOUND_INDEX);
         } catch (RestaurantNotFoundException e) {
-            verify(restaurantRepository).findById(NOT_FOUND_INDEX);
+            verify(repository).findById(NOT_FOUND_INDEX);
             throw e;
         }
     }
 
     @Test
     public void testFindAll() throws Exception {
-        when(restaurantRepository.findAll()).thenReturn(ALL_RESTAURANTS_WITHOUT_MENU);
-        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITHOUT_MENU, service.findAll());
-        verify(restaurantRepository).findAll();
-    }
-
-    @Test
-    public void testFindAllWithMenu() throws Exception {
-        List<Restaurant> restaurants = Arrays.asList(newInstanceWithoutMenu(RESTAURANT_1), newInstanceWithoutMenu(RESTAURANT_2));
-        when(restaurantRepository.findAll()).thenReturn(restaurants);
-        when(dishRepository.findInAllMenus()).thenReturn(ALL_MENUS);
-        List<Restaurant> allWithMenu = service.findAllWithMenu();
-        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITH_MENU, allWithMenu);
-        verify(restaurantRepository).findAll();
-        verify(dishRepository).findInAllMenus();
+        when(repository.findAll()).thenReturn(ALL_RESTAURANTS);
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS, service.findAll());
+        verify(repository).findAll();
     }
 
     @Test
     public void testUpdate() throws Exception {
         Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdate();
-        when(restaurantRepository.save(toUpdateRestaurant)).thenReturn(toUpdateRestaurant);
+        when(repository.save(toUpdateRestaurant)).thenReturn(toUpdateRestaurant);
         service.update(toUpdateRestaurant);
-        verify(restaurantRepository).save(toUpdateRestaurant);
+        verify(repository).save(toUpdateRestaurant);
     }
 
     @Test(expected = RestaurantNotFoundException.class)
     public void testUpdateNotFound() throws Exception {
         Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdateNonexistent();
-        when(restaurantRepository.save(toUpdateRestaurant)).thenReturn(null);
+        when(repository.save(toUpdateRestaurant)).thenReturn(null);
         try {
             service.update(toUpdateRestaurant);
         } catch (RestaurantNotFoundException e) {
-            verify(restaurantRepository).save(toUpdateRestaurant);
+            verify(repository).save(toUpdateRestaurant);
             throw e;
         }
     }
 
     @Test
     public void testDelete() throws Exception {
-        when(restaurantRepository.delete(START_INDEX)).thenReturn(true);
+        when(repository.delete(START_INDEX)).thenReturn(true);
         service.delete(START_INDEX);
-        verify(restaurantRepository).delete(START_INDEX);
+        verify(repository).delete(START_INDEX);
     }
 
     @Test(expected = RestaurantNotFoundException.class)
     public void testDeleteNotFound() throws Exception {
-        when(restaurantRepository.delete(NOT_FOUND_INDEX)).thenReturn(false);
+        when(repository.delete(NOT_FOUND_INDEX)).thenReturn(false);
         try {
             service.delete(NOT_FOUND_INDEX);
         } catch (RestaurantNotFoundException e) {
-            verify(restaurantRepository).delete(NOT_FOUND_INDEX);
+            verify(repository).delete(NOT_FOUND_INDEX);
             throw e;
         }
     }

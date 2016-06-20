@@ -1,6 +1,7 @@
 package ru.pkg.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -31,6 +32,9 @@ public abstract class AbstractControllerTest extends AbstractTest {
     protected MockMvc mockMvc;
 
     @Autowired
+    protected CacheManager cacheManager;
+
+    @Autowired
     protected UserService userService;
 
     @Autowired
@@ -38,9 +42,6 @@ public abstract class AbstractControllerTest extends AbstractTest {
 
     @Autowired
     protected DishService dishService;
-
-    @Autowired
-    protected MenuService menuService;
 
     @Autowired
     protected UserVoteService userVoteService;

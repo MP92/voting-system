@@ -7,7 +7,6 @@ import ru.pkg.utils.exception.DishNotFoundException;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
-import java.util.Objects;
 
 public abstract class AbstractDishController {
 
@@ -41,5 +40,9 @@ public abstract class AbstractDishController {
     public void update(Dish dish, int restaurantId) throws DishNotFoundException {
         dish.setRestaurantId(restaurantId);
         service.update(dish);
+    }
+
+    public void changeInMenuState(int id, int restaurantId) {
+        service.changeInMenuState(id, restaurantId);
     }
 }

@@ -6,7 +6,6 @@ import ru.pkg.model.UserVote;
 import ru.pkg.service.RestaurantService;
 import ru.pkg.service.UserVoteService;
 import ru.pkg.to.VotingStatistics;
-import ru.pkg.utils.RestaurantUtil;
 
 import java.util.List;
 
@@ -34,6 +33,6 @@ public abstract class AbstractVoteController {
     }
 
     public List<VotingStatistics> getVotingStatistics() {
-        return RestaurantUtil.getStatistics(restaurantService.findAll());
+        return restaurantService.findStatistics();
     }
 }

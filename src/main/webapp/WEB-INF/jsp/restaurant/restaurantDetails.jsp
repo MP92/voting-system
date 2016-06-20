@@ -34,7 +34,6 @@
     <tr>
         <td>Menu</td>
         <td>
-            <a href="menu/form?restaurantId=${restaurant.id}">Update menu</a>
             <table border="1" cellspacing="0">
                 <tr>
                     <th>ID</th>
@@ -53,7 +52,6 @@
                         <td>${dish.weight}</td>
                         <td>${dish.category}</td>
                         <td>${dish.price}</td>
-                        <td><a href="menu/delete?restaurantId=${restaurant.id}&dishId=${dish.id}">Delete</a></td>
                     </tr>
                 </c:forEach>
             </table>

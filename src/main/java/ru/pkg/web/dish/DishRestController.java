@@ -4,7 +4,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 import ru.pkg.model.Dish;
 import ru.pkg.utils.exception.DishNotFoundException;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
@@ -46,5 +45,10 @@ public class DishRestController extends AbstractDishController {
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
         super.delete(id, restaurantId);
+    }
+
+    @RequestMapping(path = "/{id}/menuState", method = RequestMethod.PUT)
+    public void changeInMenuState(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {
+        super.changeInMenuState(id, restaurantId);
     }
 }

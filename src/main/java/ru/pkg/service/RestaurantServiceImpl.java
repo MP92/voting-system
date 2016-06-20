@@ -7,13 +7,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Restaurant;
-import ru.pkg.repository.DishRepository;
 import ru.pkg.repository.RestaurantRepository;
+import ru.pkg.to.VotingStatistics;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
-
-import static ru.pkg.utils.RestaurantUtil.getWithMenus;
+import java.util.stream.Collectors;
 
 @Service
 @CacheConfig(cacheNames = "restaurants")
@@ -21,9 +20,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
-
-    @Autowired
-    private DishRepository dishRepository;
 
     @CacheEvict(allEntries = true)
     public Restaurant add(Restaurant restaurant) {
@@ -37,20 +33,13 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (restaurant == null) {
             throw new RestaurantNotFoundException(id);
         }
-        restaurant.setMenu(dishRepository.findInMenu(id));
 
         return restaurant;
     }
 
-    @Cacheable(key = "#root.methodName")
+    @Cacheable
     public List<Restaurant> findAll() {
         return restaurantRepository.findAll();
-    }
-
-    @Cacheable(key = "#root.methodName")
-    @Transactional(readOnly = true)
-    public List<Restaurant> findAllWithMenu() {
-        return getWithMenus(restaurantRepository.findAll(), dishRepository.findInAllMenus());
     }
 
     @CacheEvict(allEntries = true)
@@ -65,5 +54,11 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (!restaurantRepository.delete(id)) {
             throw new RestaurantNotFoundException(id);
         }
+    }
+
+    public List<VotingStatistics> findStatistics() {
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+        Double sumVotes = restaurants.stream().collect(Collectors.summingDouble(Restaurant::getVotes));
+        return restaurants.stream().map(r -> new VotingStatistics(r, sumVotes)).collect(Collectors.toList());
     }
 }

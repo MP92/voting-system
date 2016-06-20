@@ -46,13 +46,14 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
                 .addValue("description", dish.getDescription())
                 .addValue("weight", dish.getWeight())
                 .addValue("category", dish.getCategory().toString())
-                .addValue("price", dish.getPrice());
+                .addValue("price", dish.getPrice())
+                .addValue("in_menu", dish.isInMenu());
 
         if (dish.isNew()) {
             Number key = inserter.executeAndReturnKey(parameters);
             dish.setId(key.intValue());
         } else {
-            String query = "UPDATE dishes SET name=:name, description=:description, weight=:weight, category=:category, price=:price WHERE id=:id AND restaurant_id=:restaurant_id";
+            String query = "UPDATE dishes SET name=:name, description=:description, weight=:weight, category=:category, price=:price, in_menu=:in_menu WHERE id=:id AND restaurant_id=:restaurant_id";
             if (getNamedParameterJdbcTemplate().update(query, parameters) == 0) {
                 return null;
             }
@@ -80,7 +81,8 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
     @Override
     public Map<Integer, List<Dish>> findInAllMenus() {
         String menusQuery = "SELECT dishes.* from dishes INNER JOIN menus ON dishes.id=menus.dish_id ORDER BY id";
-        return getJdbcTemplate().query(menusQuery, DISH_MAPPER).stream().collect(Collectors.groupingBy(Dish::getRestaurantId));    }
+        return getJdbcTemplate().query(menusQuery, DISH_MAPPER).stream().collect(Collectors.groupingBy(Dish::getRestaurantId));
+    }
 
     @Override
     public List<Dish> findInMenu(int restaurantId) {

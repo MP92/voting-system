@@ -1,5 +1,6 @@
 package ru.pkg.web.user;
 
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import ru.pkg.LoggedUser;
@@ -21,6 +22,11 @@ import static ru.pkg.testdata.UserTestData.USER_2;
 public class ProfileRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = ProfileRestController.REST_URL + "/";
+
+    @After
+    public void tearDown() throws Exception {
+        cacheManager.getCache("users").clear();
+    }
 
     @Test
     public void testGet() throws Exception {
