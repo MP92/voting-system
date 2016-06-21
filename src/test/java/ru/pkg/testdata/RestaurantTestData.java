@@ -11,9 +11,6 @@ import java.util.List;
 
 import static ru.pkg.testdata.DishTestData.*;
 
-import static ru.pkg.testdata.UserVoteTestData.RESTAURANT_1_VOTES_COUNT;
-import static ru.pkg.testdata.UserVoteTestData.RESTAURANT_2_VOTES_COUNT;
-
 public class RestaurantTestData {
 
     public static final int START_INDEX = 100;
@@ -29,6 +26,9 @@ public class RestaurantTestData {
 
     public static final List<Dish> R_1_IN_MENU_DISHES = Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3);
     public static final List<Dish> R_2_IN_MENU_DISHES = Arrays.asList(R_2_DISH_1, R_2_DISH_2, R_2_DISH_3);
+
+    public static final Integer RESTAURANT_1_VOTES_COUNT = 1;
+    public static final Integer RESTAURANT_2_VOTES_COUNT = 1;
 
     public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_1_ID, "E Pellicci", "E Pellicci description", "332 Bethnal Green Rd, London E2 0AG, England", "+44 20 7739 4873", RESTAURANT_1_VOTES_COUNT, R_1_IN_MENU_DISHES);
     public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_2_ID, "taNgia", "taNgia description", "108 Mitcham Road | Tooting Broadway, London SW17 9NG, England", "+44 20 3774 0779", RESTAURANT_2_VOTES_COUNT, R_2_IN_MENU_DISHES);

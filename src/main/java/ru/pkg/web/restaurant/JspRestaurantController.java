@@ -19,7 +19,7 @@ public class JspRestaurantController extends AbstractRestaurantController {
 
     @RequestMapping
     public String showList(Model model) {
-        model.addAttribute("restaurantList", super.findAll()).addAttribute("votingStatistics", service.findStatistics());
+        model.addAttribute("restaurantList", super.findAll()).addAttribute("votingStatistics", super.findStatistics());
         return "restaurant/restaurantList";
     }
 

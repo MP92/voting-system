@@ -2,6 +2,7 @@ package ru.pkg.repository.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Role;
 import ru.pkg.model.User;
+import ru.pkg.repository.RestaurantRepository;
 import ru.pkg.repository.UserRepository;
 
 import javax.sql.DataSource;
@@ -30,7 +32,8 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements UserRepository {
 
-    private static final RowMapper<User> USER_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
+//    private static final RowMapper<User> USER_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
+    private static final RowMapper<JdbcUser> USER_MAPPER = BeanPropertyRowMapper.newInstance(JdbcUser.class);
     private static final RowMapper<Role> ROLES_MAPPER = (rs, rowNum) -> Role.valueOf(rs.getString("role"));
 
     private SimpleJdbcInsert inserter;
@@ -43,6 +46,9 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
                 .usingGeneratedKeyColumns("id");
     }
 
+    @Autowired
+    RestaurantRepository restaurantRepository;
+
     @Override
     @Transactional
     public User save(User user) {
@@ -52,9 +58,7 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
             Number key = inserter.executeAndReturnKey(parameters);
             user.setId(key.intValue());
         } else {
-            String queryUpdate = "UPDATE users SET name=:name, surname=:surname, password=:password, registered=:registered, " +
-                    (!user.neverVoted() ? "last_voted=:lastVoted, " : "") + "enabled=:enabled WHERE id=:id";
-
+            String queryUpdate = "UPDATE users SET name=:name, surname=:surname, password=:password, registered=:registered, enabled=:enabled WHERE id=:id";
             if (getNamedParameterJdbcTemplate().update(queryUpdate, parameters) == 0) {
                 return null;
             }
@@ -67,14 +71,15 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
 
     @Override
     public User findById(int id) {
-        User user = DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT * FROM users WHERE users.id=?", USER_MAPPER, id));
-        fetchRoles(user);
-        return user;
+        JdbcUser jdbcUser = DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT u.*, v.restaurant_id AS chosenRestaurantId, v.last_voted FROM users as u LEFT JOIN votes as v ON (u.id=v.user_id) WHERE u.id=?", USER_MAPPER, id));
+        loadRoles(jdbcUser);
+        loadRestaurant(jdbcUser);
+        return jdbcUser;
     }
 
     @Override
     public List<User> findAll() {
-        String query = "SELECT * FROM users as u LEFT JOIN roles as r ON u.id=r.user_id ORDER BY u.name, u.registered";
+        String query = "SELECT * FROM users as u LEFT JOIN votes as v ON (u.id=v.user_id) LEFT JOIN roles as r ON (u.id=r.user_id) ORDER BY u.name, u.registered";
         return getJdbcTemplate().query(query, new UsersExtractor());
     }
 
@@ -82,6 +87,40 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     @Transactional
     public boolean delete(int id) {
         return getJdbcTemplate().update("DELETE FROM users WHERE users.id=?", id) != 0;
+    }
+
+    @Transactional
+    public void saveVote(int userId, int restaurantId) {
+        if (isUserVotedToday(userId)) {
+            throw new DataIntegrityViolationException("User with id=" + userId + " already voted today");
+        }
+        if (getJdbcTemplate().update("UPDATE votes SET restaurant_id=?, last_voted=now() WHERE user_id=?", restaurantId, userId) == 0) {
+            getJdbcTemplate().update("INSERT INTO votes (user_id, restaurant_id) VALUES (?, ?)", userId, restaurantId);
+        }
+        getJdbcTemplate().update("UPDATE voting_statistics SET votes = votes + 1 WHERE restaurant_id=?", restaurantId);
+    }
+
+    @Transactional
+    public boolean deleteVote(int userId) {
+        Integer restaurantId;
+        try {
+            restaurantId = getJdbcTemplate().queryForObject("SELECT restaurant_id FROM votes WHERE user_id=?", Integer.class, userId);
+        } catch (DataAccessException e) {
+            return false;
+        }
+        getJdbcTemplate().update("DELETE FROM votes WHERE user_id=?", userId);
+
+        return getJdbcTemplate().update("UPDATE voting_statistics SET votes = GREATEST(votes - 1, 0) WHERE restaurant_id=?", restaurantId) > 0;
+    }
+
+    @Transactional
+    public void resetVotes() {
+        getJdbcTemplate().update("DELETE FROM votes");
+        getJdbcTemplate().update("UPDATE voting_statistics SET votes = 0");
+    }
+
+    private boolean isUserVotedToday(int userId) {
+        return getJdbcTemplate().queryForObject("SELECT exists(SELECT 1 FROM votes WHERE user_id=? AND last_voted >= now()::date)", Boolean.class, userId);
     }
 
     private void insertRoles(User u) {
@@ -107,10 +146,16 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
         getJdbcTemplate().execute("DELETE FROM roles WHERE user_id=" + u.getId());
     }
 
-    private void fetchRoles(User u) {
+    private void loadRoles(User u) {
         if (u != null) {
             List<Role> roles = getJdbcTemplate().query("SELECT role FROM roles WHERE roles.user_id=?", ROLES_MAPPER, u.getId());
             u.setRoles(roles);
+        }
+    }
+
+    private void loadRestaurant(JdbcUser u) {
+        if (u != null && u.getChosenRestaurantId() != null) {
+            u.setChosenRestaurant(restaurantRepository.findById(u.getChosenRestaurantId()));
         }
     }
 
@@ -131,10 +176,15 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
                     String surname = rs.getString("surname");
                     String password = rs.getString("password");
                     LocalDateTime registered = rs.getTimestamp("registered").toLocalDateTime();
+                    boolean enabled = rs.getBoolean("enabled");
                     Timestamp ts = rs.getTimestamp("last_voted");
                     LocalDateTime lastVoted = ts != null ? ts.toLocalDateTime() : null;
-                    boolean enabled = rs.getBoolean("enabled");
-                    userMap.put(id, new User(id, name, surname, password, registered, lastVoted, enabled, EnumSet.of(role)));
+                    User newUser = new User(id, name, surname, password, registered, lastVoted, enabled, EnumSet.of(role));
+                    int restaurantId = rs.getInt("restaurant_id");
+                    if (restaurantId > 0) {
+                        newUser.setChosenRestaurant(restaurantRepository.findById(restaurantId));
+                    }
+                    userMap.put(id, newUser);
                 }
             }
 

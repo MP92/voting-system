@@ -61,7 +61,7 @@
         </tr>
     </c:forEach>
 </table>
-<a href="restaurants/resetVotes">Reset votes</a>
+<a href="admin/resetVotes">Reset votes</a>
 <a href="restaurants/cancelVote">Cancel vote</a>
 </body>
 </html>

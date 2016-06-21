@@ -11,6 +11,7 @@
     <table>
         <form:hidden path="id"/>
         <form:hidden path="restaurantId"/>
+        <form:hidden path="inMenu"/>
         <tr>
             <th><form:label path="name">Name</form:label></th>
             <td><form:input path="name"/></td>

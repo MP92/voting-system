@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.pkg.model.User;
-import ru.pkg.to.UserWithVote;
 
 import java.net.URI;
 import java.util.Collection;
@@ -14,19 +13,19 @@ import java.util.Collection;
 @RequestMapping(AdminRestController.REST_URL)
 public class AdminRestController extends AbstractUserController {
 
-    public static final String REST_URL = "/rest/admin/users";
+    public static final String REST_URL = "/rest/admin";
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public UserWithVote get(@PathVariable("id") int id) {
+    @RequestMapping(path = "/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public User get(@PathVariable("id") int id) {
         return super.get(id);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(path = "/users/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/users", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<User> createWithLocation(@RequestBody User user) {
         User created = super.create(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -34,18 +33,23 @@ public class AdminRestController extends AbstractUserController {
         return ResponseEntity.created(uri).body(created);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/users/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void update(@PathVariable("id") int id, @RequestBody User user) {
         super.update(id, user);
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Collection<UserWithVote> findAll() {
+    @RequestMapping(path = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Collection<User> findAll() {
         return super.findAll();
     }
 
     @RequestMapping(path = "/test", method = RequestMethod.GET)
     public String testUTF8() {
         return "Текст должно быть видно русскими буквами";
+    }
+
+    @RequestMapping(path = "/votes/reset", method = RequestMethod.PUT)
+    public void resetVotes() {
+        super.resetVotes();
     }
 }

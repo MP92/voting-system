@@ -1,10 +1,7 @@
 package ru.pkg.model;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 public class User extends NamedEntity {
 
@@ -20,12 +17,10 @@ public class User extends NamedEntity {
 
     private Set<Role> roles = Collections.emptySet();
 
+    private Restaurant chosenRestaurant;
+
     public User() {
     }
-
-/*    public User(User user) {
-        this(user.getId(), user.getName(), user.getSurname(), user.getPassword(), user.getRegistered(), user.lastVoted, user.isEnabled(), user.getRoles());
-    }*/
 
     public User(Integer id, String name, String surname, String password, Role role, Role... roles) {
         this(id, name, surname, password, LocalDateTime.now(), null, true, EnumSet.of(role, roles));
@@ -99,12 +94,16 @@ public class User extends NamedEntity {
         this.lastVoted = lastVoted;
     }
 
-    public void vote() {
-        lastVoted = LocalDateTime.now();
+    public boolean isVotedToday() {
+        return lastVoted != null && lastVoted.isAfter(lastVoted.toLocalDate().atStartOfDay());
     }
 
-    public boolean neverVoted() {
-        return lastVoted == null;
+    public Restaurant getChosenRestaurant() {
+        return chosenRestaurant;
+    }
+
+    public void setChosenRestaurant(Restaurant chosenRestaurant) {
+        this.chosenRestaurant = chosenRestaurant;
     }
 
     @Override
@@ -118,5 +117,14 @@ public class User extends NamedEntity {
                 ", lastVoted=" + lastVoted +
                 ", enabled=" + enabled +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof User)) return false;
+
+        BaseEntity that = (BaseEntity) o;
+        return Objects.equals(this.getId(), that.getId());
     }
 }

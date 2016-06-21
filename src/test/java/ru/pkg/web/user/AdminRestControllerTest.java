@@ -1,12 +1,17 @@
 package ru.pkg.web.user;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import ru.pkg.model.Restaurant;
+import ru.pkg.model.User;
 import ru.pkg.web.AbstractControllerTest;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -18,7 +23,7 @@ import static ru.pkg.TestUtils.*;
 
 public class AdminRestControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL = AdminRestController.REST_URL + "/";
+    private static final String REST_URL = AdminRestController.REST_URL + "/users/";
 
     @After
     public void tearDown() throws Exception {
@@ -30,7 +35,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL + ADMIN_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonMatcher(ADMIN_WITH_VOTE));
+                .andExpect(jsonMatcher(ADMIN));
     }
 
     @Test
@@ -70,6 +75,24 @@ public class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonMatcher(ALL_USERS_WITH_VOTES));
+                .andExpect(jsonMatcher(ALL_USERS));
+    }
+
+
+    @Test
+    public void testResetVotes() throws Exception {
+        mockMvc.perform(put(AdminRestController.REST_URL + "/votes/reset"))
+                .andExpect(status().isOk());
+
+        List<User> users = userService.findAll();
+        for (User user : users) {
+            Assert.assertNull(user.getChosenRestaurant());
+            Assert.assertNull(user.getLastVoted());
+        }
+
+        List<Restaurant> restaurants = restaurantService.findAll();
+        for (Restaurant restaurant : restaurants) {
+            Assert.assertEquals(0, restaurant.getVotes());
+        }
     }
 }

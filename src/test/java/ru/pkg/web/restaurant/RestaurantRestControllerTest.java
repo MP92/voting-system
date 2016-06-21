@@ -76,4 +76,12 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
 
         MATCHER.assertCollectionsEquals(Collections.singletonList(RESTAURANT_2), restaurantService.findAll());
     }
+
+    @Test
+    public void testGetVotingStatistics() throws Exception {
+        mockMvc.perform(get(REST_URL + "votes"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonMatcher(VOTING_STATISTICS));
+    }
 }

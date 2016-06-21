@@ -14,8 +14,4 @@ public class TimeUtil {
     public static String toString(LocalDateTime ldt) {
         return ldt.toString();
     }
-
-    public static boolean isUserVotedJustNow(User user) {
-        return ChronoUnit.MILLIS.between(user.getLastVoted(), LocalDateTime.now()) < 500;
-    }
 }

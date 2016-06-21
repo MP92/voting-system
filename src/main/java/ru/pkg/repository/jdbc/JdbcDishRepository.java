@@ -80,12 +80,11 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
 
     @Override
     public Map<Integer, List<Dish>> findInAllMenus() {
-        String menusQuery = "SELECT dishes.* from dishes INNER JOIN menus ON dishes.id=menus.dish_id ORDER BY id";
-        return getJdbcTemplate().query(menusQuery, DISH_MAPPER).stream().collect(Collectors.groupingBy(Dish::getRestaurantId));
+        return getJdbcTemplate().query("SELECT * FROM dishes WHERE in_menu=TRUE ORDER BY id", DISH_MAPPER).stream().collect(Collectors.groupingBy(Dish::getRestaurantId));
     }
 
     @Override
     public List<Dish> findInMenu(int restaurantId) {
-        return getJdbcTemplate().query("SELECT * FROM dishes WHERE id in (SELECT dish_id FROM menus WHERE restaurant_id=?) ORDER BY id", DISH_MAPPER, restaurantId);
+        return getJdbcTemplate().query("SELECT * FROM dishes WHERE restaurant_id=? AND in_menu=TRUE ORDER BY id", DISH_MAPPER, restaurantId);
     }
 }

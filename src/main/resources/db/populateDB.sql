@@ -2,7 +2,6 @@ DELETE FROM users;
 DELETE FROM roles;
 DELETE FROM restaurants;
 DELETE FROM dishes;
-DELETE FROM menus;
 DELETE FROM votes;
 DELETE FROM voting_statistics;
 
@@ -10,9 +9,9 @@ ALTER SEQUENCE users_id_seq RESTART WITH 1;
 ALTER SEQUENCE restaurants_id_seq RESTART WITH 100;
 ALTER SEQUENCE dishes_id_seq RESTART WITH 1000;
 
-INSERT INTO users(name, surname, password, registered, last_voted) VALUES ('Admin', 'Adminov', 'admin', '2016-01-01', '2016-01-01');
-INSERT INTO users(name, surname, password, registered, last_voted) VALUES ('User', 'Userov', 'user', '2016-01-01', '2016-01-01');
-INSERT INTO users(name, surname, password, registered, last_voted) VALUES ('User2', 'Userov2', 'user2', '2016-01-01', '2016-01-01');
+INSERT INTO users(name, surname, password, registered) VALUES ('Admin', 'Adminov', 'admin', '2016-01-01');
+INSERT INTO users(name, surname, password, registered) VALUES ('User', 'Userov', 'user', '2016-01-01');
+INSERT INTO users(name, surname, password, registered) VALUES ('User2', 'Userov2', 'user2', '2016-01-01');
 
 INSERT INTO roles(user_id, role) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO roles(user_id, role) VALUES (1, 'ROLE_USER');
@@ -62,16 +61,8 @@ INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in
   'Долго смотреть на этот десерт невозможно - он нереально, ну просто фантастически летний. Тончайшие ломтики ананасовой мякоти выполняют роль теста в классических равиоли. Внутри – нарезанное мелкими кубиками манго с соусом из лайма.',
   125, 'DESSERT', 245.5, FALSE);
 
-INSERT INTO menus(restaurant_id, dish_id) VALUES (100, 1000);
-INSERT INTO menus(restaurant_id, dish_id) VALUES (100, 1001);
-INSERT INTO menus(restaurant_id, dish_id) VALUES (100, 1002);
-
-INSERT INTO menus(restaurant_id, dish_id) VALUES (101, 1004);
-INSERT INTO menus(restaurant_id, dish_id) VALUES (101, 1005);
-INSERT INTO menus(restaurant_id, dish_id) VALUES (101, 1006);
-
-INSERT INTO votes(user_id, restaurant_id, date_time) VALUES (1, 100, '2016-01-01');
-INSERT INTO votes(user_id, restaurant_id, date_time) VALUES (2, 101, '2016-01-01');
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (1, 100, '2016-01-01');
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (2, 101, '2016-01-01');
 
 INSERT INTO voting_statistics(restaurant_id, votes) VALUES (100, 1);
 INSERT INTO voting_statistics(restaurant_id, votes) VALUES (101, 1);

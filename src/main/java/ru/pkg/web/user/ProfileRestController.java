@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.LoggedUser;
 import ru.pkg.model.User;
-import ru.pkg.to.UserWithVote;
 
 @RestController
 @RequestMapping(ProfileRestController.REST_URL)
@@ -16,7 +15,7 @@ public class ProfileRestController extends AbstractUserController {
     public static final String REST_URL = "/rest/profile";
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public UserWithVote get() {
+    public User get() {
         return super.get(LoggedUser.getId());
     }
 

@@ -160,7 +160,7 @@ public class JspAdminControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("user/userDetails"))
                 .andExpect(forwardedUrl("/WEB-INF/jsp/user/userDetails.jsp"))
-                .andExpect(model().attribute("user", is(ADMIN_WITH_VOTE)));
+                .andExpect(model().attribute("user", is(ADMIN)));
     }
 
     @Test
@@ -170,6 +170,6 @@ public class JspAdminControllerTest extends AbstractControllerTest {
                 .andExpect(view().name("user/userList"))
                 .andExpect(forwardedUrl("/WEB-INF/jsp/user/userList.jsp"))
                 .andExpect(model().attribute("userList", hasSize(USERS_COUNT)))
-                .andExpect(model().attribute("userList", is(ALL_USERS_WITH_VOTES)));
+                .andExpect(model().attribute("userList", is(ALL_USERS)));
     }
 }

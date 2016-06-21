@@ -55,7 +55,7 @@ public class DishServiceImpl implements DishService {
         return repository.findInMenu(restaurantId);
     }
 
-    @CacheEvict(allEntries = true)
+    @CacheEvict(cacheNames = {"dishes", "restaurants"}, allEntries = true)
     public void update(Dish dish) throws DishNotFoundException {
         if (repository.save(dish) == null) {
             throw new DishNotFoundException(dish);
@@ -70,7 +70,7 @@ public class DishServiceImpl implements DishService {
         update(dish);
     }
 
-    @CacheEvict(allEntries = true)
+    @CacheEvict(cacheNames = {"dishes", "restaurants"}, allEntries = true)
     public void delete(int id, int restaurantId) throws DishNotFoundException {
         if (!repository.delete(id, restaurantId)) {
             throw new DishNotFoundException(id, restaurantId);
