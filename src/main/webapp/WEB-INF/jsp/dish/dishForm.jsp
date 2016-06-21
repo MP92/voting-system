@@ -9,8 +9,8 @@
 
 <form:form modelAttribute="dish" action="save">
     <table>
+        <input type="hidden" name="restaurantId" value="${restaurantId}">
         <form:hidden path="id"/>
-        <form:hidden path="restaurantId"/>
         <form:hidden path="inMenu"/>
         <tr>
             <th><form:label path="name">Name</form:label></th>

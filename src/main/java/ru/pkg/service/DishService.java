@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface DishService {
 
-    Dish add(Dish dish) throws RestaurantNotFoundException;
+    Dish add(Dish dish, int restaurantId) throws RestaurantNotFoundException;
 
     Dish findById(int id, int restaurantId) throws DishNotFoundException;
 
@@ -19,7 +19,7 @@ public interface DishService {
 
     List<Dish> findInMenu(int restaurantId);
 
-    void update(Dish dish) throws DishNotFoundException;
+    void update(Dish dish, int restaurantId) throws DishNotFoundException;
 
     void changeInMenuState(int id, int restaurantId);
 

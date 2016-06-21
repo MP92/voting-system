@@ -42,7 +42,6 @@
                     <th>Weight</th>
                     <th>Category</th>
                     <th>Price</th>
-                    <th></th>
                 </tr>
                 <c:forEach items="${restaurant.menu}" var="dish">
                     <tr>

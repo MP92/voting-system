@@ -35,12 +35,14 @@ public class DishServiceMockitoTest extends AbstractServiceMockitoTest {
     @Test
     public void testAdd() throws Exception {
         Dish toCreateDish = TestDishFactory.newInstanceForCreate();
-        when(repository.save(toCreateDish)).thenAnswer(invocation -> {
+        Integer restaurantId = toCreateDish.getRestaurant().getId();
+
+        when(repository.save(toCreateDish, restaurantId)).thenAnswer(invocation -> {
             toCreateDish.setId(NEW_DISH_ID);
             return toCreateDish;
         });
-        Dish created = service.add(toCreateDish);
-        verify(repository).save(toCreateDish);
+        Dish created = service.add(toCreateDish, restaurantId);
+        verify(repository).save(toCreateDish, restaurantId);
         Assert.assertNotNull(toCreateDish.getId());
         MATCHER.assertEquals(toCreateDish, created);
     }
@@ -48,12 +50,14 @@ public class DishServiceMockitoTest extends AbstractServiceMockitoTest {
     @Test(expected = RestaurantNotFoundException.class)
     public void testAddRestaurantNotFound() throws Exception {
         Dish toCreateDish = TestDishFactory.newInstanceForCreateForNonexistentRestaurant();
+        Integer restaurantId = toCreateDish.getRestaurant().getId();
+
         DataIntegrityViolationException exception = new DataIntegrityViolationException("");
-        when(repository.save(toCreateDish)).thenThrow(exception);
+        when(repository.save(toCreateDish, restaurantId)).thenThrow(exception);
         try {
-            service.add(toCreateDish);
+            service.add(toCreateDish, restaurantId);
         } catch (RestaurantNotFoundException e) {
-            verify(repository).save(toCreateDish);
+            verify(repository).save(toCreateDish, restaurantId);
             Assert.assertEquals(e.getCause(), exception);
             throw e;
         }
@@ -95,19 +99,23 @@ public class DishServiceMockitoTest extends AbstractServiceMockitoTest {
     @Test
     public void testUpdate() throws Exception {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdate();
-        when(repository.save(toUpdateDish)).thenReturn(toUpdateDish);
-        service.update(toUpdateDish);
-        verify(repository).save(toUpdateDish);
+        Integer restaurantId = toUpdateDish.getRestaurant().getId();
+
+        when(repository.save(toUpdateDish, restaurantId)).thenReturn(toUpdateDish);
+        service.update(toUpdateDish, restaurantId);
+        verify(repository).save(toUpdateDish, restaurantId);
     }
 
     @Test(expected = DishNotFoundException.class)
     public void testUpdateDishNotFound() throws Exception {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdateNonexistentDish();
-        when(repository.save(toUpdateDish)).thenReturn(null);
+        Integer restaurantId = toUpdateDish.getRestaurant().getId();
+
+        when(repository.save(toUpdateDish, restaurantId)).thenReturn(null);
         try {
-            service.update(toUpdateDish);
+            service.update(toUpdateDish, restaurantId);
         } catch (DishNotFoundException e) {
-            verify(repository).save(toUpdateDish);
+            verify(repository).save(toUpdateDish, restaurantId);
             throw e;
         }
     }

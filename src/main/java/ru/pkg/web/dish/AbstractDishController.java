@@ -15,8 +15,7 @@ public abstract class AbstractDishController {
 
     public Dish create(Dish dish, int restaurantId) throws RestaurantNotFoundException {
         dish.setId(null);
-        dish.setRestaurantId(restaurantId);
-        return service.add(dish);
+        return service.add(dish, restaurantId);
     }
 
     public Dish findById(int id, int restaurantId) throws DishNotFoundException {
@@ -33,13 +32,11 @@ public abstract class AbstractDishController {
 
     public void update(int id, Dish dish, int restaurantId) throws DishNotFoundException {
         dish.setId(id);
-        dish.setRestaurantId(restaurantId);
-        service.update(dish);
+        service.update(dish, restaurantId);
     }
 
     public void update(Dish dish, int restaurantId) throws DishNotFoundException {
-        dish.setRestaurantId(restaurantId);
-        service.update(dish);
+        service.update(dish, restaurantId);
     }
 
     public void changeInMenuState(int id, int restaurantId) {

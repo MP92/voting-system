@@ -6,8 +6,8 @@ public class DishNotFoundException extends RuntimeException {
 
     private static final String MSG_PATTERN = "Dish with id=%d not found for restaurant with id=%d";
 
-    public DishNotFoundException(Dish dish) {
-        this(dish.getId(), dish.getRestaurantId());
+    public DishNotFoundException(Dish dish, int restaurantId) {
+        this(dish.getId(), restaurantId);
     }
 
     public DishNotFoundException(int id, int restaurantId) {

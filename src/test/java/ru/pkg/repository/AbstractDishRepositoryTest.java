@@ -26,16 +26,17 @@ public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest 
     @Test
     public void testAdd() throws Exception {
         Dish toCreateDish = TestDishFactory.newInstanceForCreate();
-        Dish created = repository.save(toCreateDish);
+        int restaurantId = toCreateDish.getRestaurant().getId();
+        Dish created = repository.save(toCreateDish, restaurantId);
         Assert.assertNotNull(toCreateDish.getId());
         MATCHER.assertEquals(toCreateDish, created);
-        MATCHER.assertCollectionsEquals(Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4, created), repository.findAll(RESTAURANT_1_ID));
+        MATCHER.assertCollectionsEquals(Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4, created), repository.findAll(restaurantId));
     }
 
     @Test(expected = DataIntegrityViolationException.class)
     public void testAddRestaurantNotFound() throws Exception {
         Dish toCreateDish = TestDishFactory.newInstanceForCreateForNonexistentRestaurant();
-        repository.save(toCreateDish);
+        repository.save(toCreateDish, toCreateDish.getRestaurant().getId());
     }
 
     @Test
@@ -73,31 +74,34 @@ public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest 
 
     @Test
     public void testUpdate() throws Exception {
-        Dish toUpdate = TestDishFactory.newInstanceForUpdate();
-        Dish updated = repository.save(toUpdate);
+        Dish toUpdateDish = TestDishFactory.newInstanceForUpdate();
+        int restaurantId = toUpdateDish.getRestaurant().getId();
+        Dish updated = repository.save(toUpdateDish, restaurantId);
         Assert.assertTrue(updated.getId() == R_1_DISH_1_ID);
-        MATCHER.assertEquals(toUpdate, updated);
-        MATCHER.assertCollectionsEquals(Arrays.asList(TestDishFactory.newInstanceForUpdate(), R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), repository.findAll(RESTAURANT_1_ID));
+        MATCHER.assertEquals(toUpdateDish, updated);
+        MATCHER.assertCollectionsEquals(Arrays.asList(TestDishFactory.newInstanceForUpdate(), R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), repository.findAll(restaurantId));
     }
 
     @Test
     public void testUpdateDishNotFound() throws Exception {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdateNonexistentDish();
-        Assert.assertNull(repository.save(toUpdateDish));
-        MATCHER.assertCollectionsEquals(R_1_ALL_DISHES, repository.findAll(RESTAURANT_1_ID));
+        int restaurantId = toUpdateDish.getRestaurant().getId();
+        Assert.assertNull(repository.save(toUpdateDish, restaurantId));
+        MATCHER.assertCollectionsEquals(R_1_ALL_DISHES, repository.findAll(restaurantId));
     }
 
     @Test
     public void testUpdateRestaurantNotFound() throws Exception {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdateForNonexistentRestaurant();
-        Assert.assertNull(repository.save(toUpdateDish));
-        MATCHER.assertCollectionsEquals(R_1_ALL_DISHES, repository.findAll(RESTAURANT_1_ID));
+        int restaurantId = toUpdateDish.getRestaurant().getId();
+        Assert.assertNull(repository.save(toUpdateDish, restaurantId));
     }
 
     @Test
     public void testUpdateForeignDishShouldNotBeUpdated() throws Exception {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdateForeignDish();
-        Assert.assertNull(repository.save(toUpdateDish));
+        int restaurantId = toUpdateDish.getRestaurant().getId();
+        Assert.assertNull(repository.save(toUpdateDish, restaurantId));
         MATCHER.assertCollectionsEquals(R_1_ALL_DISHES, repository.findAll(RESTAURANT_1_ID));
         MATCHER.assertCollectionsEquals(R_2_ALL_DISHES, repository.findAll(RESTAURANT_2_ID));
     }

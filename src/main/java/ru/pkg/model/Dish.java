@@ -19,25 +19,20 @@ public class Dish extends NamedEntity {
     @Min(1)
     private double price;
 
-    private int restaurantId;
+    private Restaurant restaurant;
 
     private boolean inMenu;
 
     public Dish() {
     }
 
-    public Dish(int restaurantId) {
-        this.restaurantId = restaurantId;
-    }
-
-    public Dish(Integer id, String name, String description, int weight, DishCategory category, double price, boolean inMenu, int restaurantId) {
+    public Dish(Integer id, String name, String description, int weight, DishCategory category, double price, boolean inMenu/*, int restaurantId*/) {
         super(id, name);
         this.description = description;
         this.weight = weight;
         this.category = category;
         this.price = price;
         this.inMenu = inMenu;
-        this.restaurantId = restaurantId;
     }
 
     public String getDescription() {
@@ -72,12 +67,12 @@ public class Dish extends NamedEntity {
         this.price = price;
     }
 
-    public int getRestaurantId() {
-        return restaurantId;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantId(int restaurantId) {
-        this.restaurantId = restaurantId;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public boolean isInMenu() {
@@ -97,7 +92,6 @@ public class Dish extends NamedEntity {
                 ", weight=" + weight +
                 ", category=" + category +
                 ", price=" + price +
-                ", restaurantId=" + restaurantId +
                 ", inMenu=" + inMenu +
                 '}';
     }

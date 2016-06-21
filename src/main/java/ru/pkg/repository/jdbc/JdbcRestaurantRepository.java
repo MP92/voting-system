@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Dish;
 import ru.pkg.model.Restaurant;
+import ru.pkg.repository.DishRepository;
 import ru.pkg.repository.RestaurantRepository;
 
 import javax.sql.DataSource;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
 @Transactional(readOnly = true)
@@ -34,6 +34,9 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
                 .withTableName("restaurants")
                 .usingGeneratedKeyColumns("id");
     }
+
+    @Autowired
+    DishRepository dishRepository;
 
     @Transactional
     @Override
@@ -86,8 +89,7 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
     }
 
     private void loadMenus(List<Restaurant> restaurants) {
-        String menusQuery = "SELECT * FROM dishes WHERE in_menu=TRUE ORDER BY id";
-        Map<Integer, List<Dish>> menus = getJdbcTemplate().query(menusQuery, DISH_MAPPER).stream().collect(Collectors.groupingBy(Dish::getRestaurantId));
+        Map<Integer, List<Dish>> menus = dishRepository.findInAllMenus();
         restaurants.forEach(r -> r.setMenu(menus.getOrDefault(r.getId(), Collections.emptyList())));
     }
 }

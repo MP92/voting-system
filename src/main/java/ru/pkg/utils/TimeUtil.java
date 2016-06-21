@@ -1,9 +1,6 @@
 package ru.pkg.utils;
 
-import ru.pkg.model.User;
-
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 public class TimeUtil {
 

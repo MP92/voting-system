@@ -28,7 +28,6 @@ public class DishRestController extends AbstractDishController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void update(@PathVariable("id") int id, @RequestBody Dish dish, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
-        dish.setRestaurantId(restaurantId);
         super.update(id, dish, restaurantId);
     }
 

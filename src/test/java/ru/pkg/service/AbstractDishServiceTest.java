@@ -34,16 +34,18 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
     @Test
     public void testAdd() throws Exception {
         Dish toCreateDish = TestDishFactory.newInstanceForCreate();
-        Dish created = service.add(toCreateDish);
+        Integer restaurantId = toCreateDish.getRestaurant().getId();
+        Dish created = service.add(toCreateDish, restaurantId);
         Assert.assertNotNull(toCreateDish.getId());
         MATCHER.assertEquals(toCreateDish, created);
-        MATCHER.assertCollectionsEquals(Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4, created), service.findAll(RESTAURANT_1_ID));
+        MATCHER.assertCollectionsEquals(Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4, created), service.findAll(restaurantId));
     }
 
     @Test(expected = RestaurantNotFoundException.class)
     public void testAddRestaurantNotFound() throws Exception {
         Dish toCreateDish = TestDishFactory.newInstanceForCreateForNonexistentRestaurant();
-        service.add(toCreateDish);
+        Integer restaurantId = toCreateDish.getRestaurant().getId();
+        service.add(toCreateDish, restaurantId);
     }
 
     @Test
@@ -82,26 +84,30 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
     @Test
     public void testUpdate() throws Exception {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdate();
-        service.update(toUpdateDish);
-        MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateDish, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), service.findAll(RESTAURANT_1_ID));
+        Integer restaurantId = toUpdateDish.getRestaurant().getId();
+        service.update(toUpdateDish, restaurantId);
+        MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateDish, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), service.findAll(restaurantId));
     }
 
     @Test(expected = DishNotFoundException.class)
     public void testUpdateDishNotFound() throws Exception {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdateNonexistentDish();
-        service.update(toUpdateDish);
+        Integer restaurantId = toUpdateDish.getRestaurant().getId();
+        service.update(toUpdateDish, restaurantId);
     }
 
     @Test(expected = DishNotFoundException.class)
     public void testUpdateRestaurantNotFound() throws Exception {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdateForNonexistentRestaurant();
-        service.update(toUpdateDish);
+        Integer restaurantId = toUpdateDish.getRestaurant().getId();
+        service.update(toUpdateDish, restaurantId);
     }
 
     @Test(expected = DishNotFoundException.class)
     public void testUpdateForeignDishShouldNotBeUpdated() throws Exception {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdateForeignDish();
-        service.update(toUpdateDish);
+        Integer restaurantId = toUpdateDish.getRestaurant().getId();
+        service.update(toUpdateDish, restaurantId);
     }
 
     @Test

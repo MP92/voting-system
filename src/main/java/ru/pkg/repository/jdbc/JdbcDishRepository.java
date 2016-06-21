@@ -12,7 +12,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Dish;
+import ru.pkg.model.Restaurant;
 import ru.pkg.repository.DishRepository;
+import ru.pkg.repository.RestaurantRepository;
+import ru.pkg.utils.DishUtil;
 import ru.pkg.utils.exception.DishNotFoundException;
 
 import javax.sql.DataSource;
@@ -25,6 +28,7 @@ import java.util.stream.Collectors;
 public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements DishRepository {
 
     private static final RowMapper<Dish> DISH_MAPPER = BeanPropertyRowMapper.newInstance(Dish.class);
+    private static final RowMapper<JdbcDish> JDBC_DISH_MAPPER = BeanPropertyRowMapper.newInstance(JdbcDish.class);
 
     private SimpleJdbcInsert inserter;
 
@@ -36,12 +40,15 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
                     .usingGeneratedKeyColumns("id");
     }
 
+    @Autowired
+    RestaurantRepository restaurantRepository;
+
     @Transactional
     @Override
-    public Dish save(Dish dish) throws DishNotFoundException, DataIntegrityViolationException {
+    public Dish save(Dish dish, int restaurantId) throws DishNotFoundException, DataIntegrityViolationException {
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", dish.getId())
-                .addValue("restaurant_id", dish.getRestaurantId())
+                .addValue("restaurant_id", restaurantId)
                 .addValue("name", dish.getName())
                 .addValue("description", dish.getDescription())
                 .addValue("weight", dish.getWeight())
@@ -63,13 +70,16 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
 
     @Override
     public Dish findById(int id, int restaurantId) throws DishNotFoundException {
-        List<Dish> list = getJdbcTemplate().query("SELECT * FROM dishes WHERE id=? AND restaurant_id=?", DISH_MAPPER, id, restaurantId);
-        return DataAccessUtils.singleResult(list);
+        Dish dish = DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT * FROM dishes WHERE id=? AND restaurant_id=?", DISH_MAPPER, id, restaurantId));
+        loadRestaurant(dish, restaurantId);
+        return dish;
     }
 
     @Override
     public List<Dish> findAll(int restaurantId) {
-        return getJdbcTemplate().query("SELECT * FROM dishes WHERE restaurant_id=? ORDER BY id", DISH_MAPPER, restaurantId);
+        List<Dish> dishes = getJdbcTemplate().query("SELECT * FROM dishes WHERE restaurant_id=? ORDER BY id", DISH_MAPPER, restaurantId);
+        loadRestaurants(dishes, restaurantId);
+        return dishes;
     }
 
     @Transactional
@@ -80,11 +90,22 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
 
     @Override
     public Map<Integer, List<Dish>> findInAllMenus() {
-        return getJdbcTemplate().query("SELECT * FROM dishes WHERE in_menu=TRUE ORDER BY id", DISH_MAPPER).stream().collect(Collectors.groupingBy(Dish::getRestaurantId));
+        return getJdbcTemplate().query("SELECT * FROM dishes WHERE in_menu=TRUE ORDER BY id", JDBC_DISH_MAPPER).stream().collect(Collectors.groupingBy(JdbcDish::getRestaurantId, Collectors.mapping(DishUtil::asDish, Collectors.toList())));
     }
 
     @Override
     public List<Dish> findInMenu(int restaurantId) {
         return getJdbcTemplate().query("SELECT * FROM dishes WHERE restaurant_id=? AND in_menu=TRUE ORDER BY id", DISH_MAPPER, restaurantId);
+    }
+
+    private void loadRestaurant(Dish dish, int restaurantId) {
+        if (dish != null) {
+            dish.setRestaurant(restaurantRepository.findById(restaurantId));
+        }
+    }
+
+    private void loadRestaurants(List<Dish> dishes, int restaurantId) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId);
+        dishes.forEach(dish -> dish.setRestaurant(restaurant));
     }
 }

@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
+    @CacheEvict(cacheNames = "restaurants", allEntries = true)
     public void saveVote(int userId, int restaurantId) throws VotingException {
         try {
             repository.saveVote(userId, restaurantId);
@@ -69,14 +69,14 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
+    @CacheEvict(cacheNames = "restaurants", allEntries = true)
     public void deleteVote(int userId) throws VotingException {
         if (!repository.deleteVote(userId)) {
             throw new VotingException(userId);
         }
     }
 
-    @Override
+    @CacheEvict(cacheNames = "restaurants", allEntries = true)
     public void resetVotes() {
         repository.resetVotes();
     }

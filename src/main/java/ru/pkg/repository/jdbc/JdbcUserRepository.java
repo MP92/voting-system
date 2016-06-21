@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements UserRepository {
 
-//    private static final RowMapper<User> USER_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
     private static final RowMapper<JdbcUser> USER_MAPPER = BeanPropertyRowMapper.newInstance(JdbcUser.class);
     private static final RowMapper<Role> ROLES_MAPPER = (rs, rowNum) -> Role.valueOf(rs.getString("role"));
 

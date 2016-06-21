@@ -36,23 +36,22 @@ public class JspDishController extends AbstractDishController {
 
     @RequestMapping("/edit")
     public String initEditForm(@RequestParam("id") int id, @RequestParam("restaurantId") int restaurantId, Model model) {
-        model.addAttribute(super.findById(id, restaurantId));
+        model.addAttribute(super.findById(id, restaurantId)).addAttribute("restaurantId", restaurantId);
         return "dish/dishForm";
     }
 
     @RequestMapping("/add")
     public String initCreateForm(@RequestParam("restaurantId") int restaurantId, Model model) {
-        model.addAttribute(new Dish(restaurantId));
+        model.addAttribute(new Dish()).addAttribute("restaurantId", restaurantId);
         return "dish/dishForm";
     }
 
     @RequestMapping(path = "/save", method = RequestMethod.POST)
-    public String save(@Valid Dish dish, BindingResult result, RedirectAttributes attributes) {
+    public String save(@Valid Dish dish, @RequestParam("restaurantId") int restaurantId, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             return "dish/dishForm";
         }
 
-        int restaurantId = dish.getRestaurantId();
         boolean isNew = dish.isNew();
         if (isNew) {
             super.create(dish, restaurantId);

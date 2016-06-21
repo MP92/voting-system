@@ -23,9 +23,9 @@ public class DishServiceImpl implements DishService {
     DishRepository repository;
 
     @CacheEvict(allEntries = true)
-    public Dish add(Dish dish) throws RestaurantNotFoundException {
+    public Dish add(Dish dish, int restaurantId) throws RestaurantNotFoundException {
         try {
-            return repository.save(dish);
+            return repository.save(dish, restaurantId);
         } catch (DataIntegrityViolationException e) {
             throw new RestaurantNotFoundException(e);
         }
@@ -56,9 +56,9 @@ public class DishServiceImpl implements DishService {
     }
 
     @CacheEvict(cacheNames = {"dishes", "restaurants"}, allEntries = true)
-    public void update(Dish dish) throws DishNotFoundException {
-        if (repository.save(dish) == null) {
-            throw new DishNotFoundException(dish);
+    public void update(Dish dish, int restaurantId) throws DishNotFoundException {
+        if (repository.save(dish, restaurantId) == null) {
+            throw new DishNotFoundException(dish, restaurantId);
         }
     }
 
@@ -67,7 +67,7 @@ public class DishServiceImpl implements DishService {
     public void changeInMenuState(int id, int restaurantId) {
         Dish dish = findById(id, restaurantId);
         dish.setInMenu(!dish.isInMenu());
-        update(dish);
+        update(dish, restaurantId);
     }
 
     @CacheEvict(cacheNames = {"dishes", "restaurants"}, allEntries = true)

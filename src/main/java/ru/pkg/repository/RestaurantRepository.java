@@ -3,7 +3,6 @@ package ru.pkg.repository;
 import ru.pkg.model.Restaurant;
 
 import java.util.List;
-import java.util.Map;
 
 public interface RestaurantRepository {
 
