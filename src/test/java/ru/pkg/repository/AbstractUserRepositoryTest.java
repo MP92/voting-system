@@ -28,7 +28,7 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
 
     @Test
     public void testAdd() {
-        User toCreateUser = new UserTestData.TestUser(NEW_USER);
+        User toCreateUser = new TestUser(NEW_USER).asUser();
         User created = userRepository.save(toCreateUser);
         toCreateUser.setId(created.getId());
         MATCHER.assertEquals(toCreateUser, created);
@@ -53,7 +53,7 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
 
     @Test
     public void testUpdate() {
-        User toUpdateUser = new UserTestData.TestUser(USER_1_ID, NEW_USER);
+        User toUpdateUser = new TestUser(USER_1_ID, NEW_USER).asUser();
         User updated = userRepository.save(toUpdateUser);
         Assert.assertTrue(updated.getId() == USER_1_ID);
         MATCHER.assertEquals(toUpdateUser, updated);
@@ -62,7 +62,7 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
 
     @Test
     public void testUpdateNotFound() {
-        User toUpdateUser = new TestUser(NOT_FOUND_INDEX, NEW_USER);
+        User toUpdateUser = new TestUser(NOT_FOUND_INDEX, NEW_USER).asUser();
         Assert.assertNull(userRepository.save(toUpdateUser));
         MATCHER.assertCollectionsEquals(ALL_USERS, userRepository.findAll());
     }

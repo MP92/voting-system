@@ -11,11 +11,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Dish;
 import ru.pkg.model.Restaurant;
-import ru.pkg.repository.DishRepository;
 import ru.pkg.repository.RestaurantRepository;
+import ru.pkg.utils.DishUtil;
 
 import javax.sql.DataSource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @Transactional(readOnly = true)
@@ -24,6 +25,7 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
     private static final RowMapper<Restaurant> RESTAURANT_MAPPER = BeanPropertyRowMapper.newInstance(Restaurant.class);
 
     private static final RowMapper<Dish> DISH_MAPPER = BeanPropertyRowMapper.newInstance(Dish.class);
+    private static final RowMapper<JdbcDish> JDBC_DISH_MAPPER = BeanPropertyRowMapper.newInstance(JdbcDish.class);
 
     private SimpleJdbcInsert inserter;
 
@@ -34,9 +36,6 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
                 .withTableName("restaurants")
                 .usingGeneratedKeyColumns("id");
     }
-
-    @Autowired
-    DishRepository dishRepository;
 
     @Transactional
     @Override
@@ -89,7 +88,7 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
     }
 
     private void loadMenus(List<Restaurant> restaurants) {
-        Map<Integer, List<Dish>> menus = dishRepository.findInAllMenus();
+        Map<Integer, List<Dish>> menus = getJdbcTemplate().query("SELECT * FROM dishes WHERE in_menu=TRUE ORDER BY id", JDBC_DISH_MAPPER).stream().collect(Collectors.groupingBy(JdbcDish::getRestaurantId, Collectors.mapping(DishUtil::asDish, Collectors.toList())));
         restaurants.forEach(r -> r.setMenu(menus.getOrDefault(r.getId(), Collections.emptyList())));
     }
 }

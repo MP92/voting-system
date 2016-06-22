@@ -15,9 +15,9 @@ public interface DishService {
 
     List<Dish> findAll(int restaurantId);
 
-    Map<Integer, List<Dish>> findInAllMenus();
+/*    Map<Integer, List<Dish>> findInAllMenus();
 
-    List<Dish> findInMenu(int restaurantId);
+    List<Dish> findInMenu(int restaurantId);*/
 
     void update(Dish dish, int restaurantId) throws DishNotFoundException;
 

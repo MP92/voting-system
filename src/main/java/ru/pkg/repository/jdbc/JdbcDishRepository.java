@@ -15,20 +15,16 @@ import ru.pkg.model.Dish;
 import ru.pkg.model.Restaurant;
 import ru.pkg.repository.DishRepository;
 import ru.pkg.repository.RestaurantRepository;
-import ru.pkg.utils.DishUtil;
 import ru.pkg.utils.exception.DishNotFoundException;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Repository
 @Transactional(readOnly = true)
 public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements DishRepository {
 
     private static final RowMapper<Dish> DISH_MAPPER = BeanPropertyRowMapper.newInstance(Dish.class);
-    private static final RowMapper<JdbcDish> JDBC_DISH_MAPPER = BeanPropertyRowMapper.newInstance(JdbcDish.class);
 
     private SimpleJdbcInsert inserter;
 
@@ -86,16 +82,6 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
     @Override
     public boolean delete(int id, int restaurantId) throws DishNotFoundException {
         return getJdbcTemplate().update("DELETE FROM dishes WHERE id=? AND restaurant_id=?", id, restaurantId) > 0;
-    }
-
-    @Override
-    public Map<Integer, List<Dish>> findInAllMenus() {
-        return getJdbcTemplate().query("SELECT * FROM dishes WHERE in_menu=TRUE ORDER BY id", JDBC_DISH_MAPPER).stream().collect(Collectors.groupingBy(JdbcDish::getRestaurantId, Collectors.mapping(DishUtil::asDish, Collectors.toList())));
-    }
-
-    @Override
-    public List<Dish> findInMenu(int restaurantId) {
-        return getJdbcTemplate().query("SELECT * FROM dishes WHERE restaurant_id=? AND in_menu=TRUE ORDER BY id", DISH_MAPPER, restaurantId);
     }
 
     private void loadRestaurant(Dish dish, int restaurantId) {

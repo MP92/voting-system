@@ -9,14 +9,10 @@ import ru.pkg.model.Dish;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 import static ru.pkg.testdata.DishTestData.*;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
-import static ru.pkg.testdata.RestaurantTestData.R_1_IN_MENU_DISHES;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_2_ID;
-import static ru.pkg.testdata.RestaurantTestData.R_2_IN_MENU_DISHES;
 
 public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest {
 
@@ -122,24 +118,5 @@ public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest 
     public void testDeleteRestaurantNotFound() throws Exception {
         Assert.assertFalse(repository.delete(R_1_DISH_1_ID, RestaurantTestData.NOT_FOUND_INDEX));
         MATCHER.assertCollectionsEquals(R_1_ALL_DISHES, repository.findAll(RESTAURANT_1_ID));
-    }
-
-    @Test
-    public void testFindInAllMenus() throws Exception {
-        Map<Integer, List<Dish>> menus = repository.findInAllMenus();
-        Assert.assertEquals(menus.size(), 2);
-        MATCHER.assertCollectionsEquals(R_1_IN_MENU_DISHES, menus.get(RESTAURANT_1_ID));
-        MATCHER.assertCollectionsEquals(R_2_IN_MENU_DISHES, menus.get(RESTAURANT_2_ID));
-    }
-
-    @Test
-    public void testFindInMenu() throws Exception {
-        List<Dish> menu = repository.findInMenu(RESTAURANT_1_ID);
-        MATCHER.assertCollectionsEquals(R_1_IN_MENU_DISHES, menu);
-    }
-
-    @Test
-    public void testFindInMenuRestaurantNotFound() throws Exception {
-        MATCHER.assertCollectionsEquals(Collections.emptyList(), repository.findInMenu(RestaurantTestData.NOT_FOUND_INDEX));
     }
 }

@@ -4,7 +4,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import ru.pkg.model.Dish;
 
 import java.util.List;
-import java.util.Map;
 
 public interface DishRepository {
 
@@ -15,8 +14,4 @@ public interface DishRepository {
     List<Dish> findAll(int restaurantId);
 
     boolean delete(int id, int restaurantId);
-
-    Map<Integer, List<Dish>> findInAllMenus();
-
-    List<Dish> findInMenu(int restaurantId);
 }

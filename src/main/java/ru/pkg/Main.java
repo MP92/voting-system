@@ -2,7 +2,6 @@ package ru.pkg;
 
 import org.slf4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.pkg.service.DishService;
 import ru.pkg.service.RestaurantService;
 import ru.pkg.service.UserService;
 
@@ -32,15 +31,5 @@ public class Main {
         LOG.debug(restaurantService.findAll().toString());
         LOG.debug("==========\n");
         LOG.debug(restaurantService.findAll().toString());
-
-        DishService dishService = appCtx.getBean(DishService.class);
-        LOG.debug(dishService.findInMenu(100).toString());
-        LOG.debug("==========\n");
-        LOG.debug(dishService.findInAllMenus().toString());
-        LOG.debug("==========\n");
-        LOG.debug(dishService.findInMenu(100).toString());
-        LOG.debug("==========\n");
-        LOG.debug(dishService.findInAllMenus().toString());
-
     }
 }

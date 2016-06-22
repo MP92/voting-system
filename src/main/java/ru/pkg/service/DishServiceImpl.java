@@ -13,7 +13,6 @@ import ru.pkg.utils.exception.DishNotFoundException;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 @CacheConfig(cacheNames = "dishes")
@@ -31,7 +30,7 @@ public class DishServiceImpl implements DishService {
         }
     }
 
-    @Override
+    @Cacheable
     public Dish findById(int id, int restaurantId) throws DishNotFoundException {
         Dish dish = repository.findById(id, restaurantId);
         if (dish == null) {
@@ -40,19 +39,9 @@ public class DishServiceImpl implements DishService {
         return dish;
     }
 
-    @Override
+    @Cacheable
     public List<Dish> findAll(int restaurantId) {
         return repository.findAll(restaurantId);
-    }
-
-    @Cacheable
-    public Map<Integer, List<Dish>> findInAllMenus() {
-        return repository.findInAllMenus();
-    }
-
-    @Cacheable
-    public List<Dish> findInMenu(int restaurantId) {
-        return repository.findInMenu(restaurantId);
     }
 
     @CacheEvict(cacheNames = {"dishes", "restaurants"}, allEntries = true)
