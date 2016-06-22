@@ -1,5 +1,6 @@
 package ru.pkg.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.*;
@@ -19,6 +20,7 @@ public class Dish extends NamedEntity {
     @Min(1)
     private double price;
 
+    @JsonBackReference
     private Restaurant restaurant;
 
     private boolean inMenu;

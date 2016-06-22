@@ -1,5 +1,6 @@
 package ru.pkg.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class Restaurant extends NamedEntity {
     @NotEmpty
     private String phoneNumber;
 
+    @JsonManagedReference
     private List<Dish> menu = Collections.emptyList();
 
     public Restaurant() {
