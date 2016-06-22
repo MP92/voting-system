@@ -3,11 +3,11 @@ DELETE FROM roles;
 DELETE FROM restaurants;
 DELETE FROM dishes;
 DELETE FROM votes;
-DELETE FROM voting_statistics;
 
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 ALTER SEQUENCE restaurants_id_seq RESTART WITH 100;
 ALTER SEQUENCE dishes_id_seq RESTART WITH 1000;
+ALTER SEQUENCE votes_id_seq RESTART WITH 10000;
 
 INSERT INTO users(name, surname, password, registered) VALUES ('Admin', 'Adminov', 'admin', '2016-01-01');
 INSERT INTO users(name, surname, password, registered) VALUES ('User', 'Userov', 'user', '2016-01-01');
@@ -63,6 +63,3 @@ INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in
 
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (1, 100, now()::date);
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (2, 101, now()::date);
-
-INSERT INTO voting_statistics(restaurant_id, votes) VALUES (100, 1);
-INSERT INTO voting_statistics(restaurant_id, votes) VALUES (101, 1);

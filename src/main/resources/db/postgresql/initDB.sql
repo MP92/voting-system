@@ -4,11 +4,11 @@ DROP TABLE IF EXISTS restaurants CASCADE;
 DROP TABLE IF EXISTS dishes CASCADE;
 DROP TABLE IF EXISTS menus;
 DROP TABLE IF EXISTS votes;
-DROP TABLE IF EXISTS voting_statistics;
 
 DROP SEQUENCE IF EXISTS users_id_seq;
 DROP SEQUENCE IF EXISTS restaurants_id_seq;
 DROP SEQUENCE IF EXISTS dishes_id_seq;
+DROP SEQUENCE IF EXISTS votes_id_seq;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -53,9 +53,4 @@ CREATE TABLE votes (
   restaurant_id INTEGER REFERENCES restaurants(id) ON DELETE SET NULL,
   last_voted TIMESTAMP DEFAULT now(),
   UNIQUE(user_id, restaurant_id)
-);
-
-CREATE TABLE voting_statistics (
-  restaurant_id INTEGER NOT NULL UNIQUE REFERENCES restaurants(id) ON DELETE CASCADE,
-  votes INTEGER NOT NULL
 );
