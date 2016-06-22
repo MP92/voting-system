@@ -1,17 +1,12 @@
 package ru.pkg.web.user;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
-import ru.pkg.model.Restaurant;
-import ru.pkg.model.User;
 import ru.pkg.web.AbstractControllerTest;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -76,23 +71,5 @@ public class AdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonMatcher(ALL_USERS));
-    }
-
-
-    @Test
-    public void testResetVotes() throws Exception {
-        mockMvc.perform(put(AdminRestController.REST_URL + "/votes/reset"))
-                .andExpect(status().isOk());
-
-        List<User> users = userService.findAll();
-        for (User user : users) {
-            Assert.assertNull(user.getChosenRestaurant());
-            Assert.assertNull(user.getLastVoted());
-        }
-
-        List<Restaurant> restaurants = restaurantService.findAll();
-        for (Restaurant restaurant : restaurants) {
-            Assert.assertEquals(0, restaurant.getVotes());
-        }
     }
 }

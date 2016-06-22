@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.pkg.model.Restaurant;
-import ru.pkg.to.VotingStatistics;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.net.URI;
@@ -43,10 +42,5 @@ public class RestaurantRestController extends AbstractRestaurantController {
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") int id) throws RestaurantNotFoundException {
         super.delete(id);
-    }
-
-    @RequestMapping(path = "/votes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<VotingStatistics> findStatistics() {
-        return super.findStatistics();
     }
 }

@@ -47,9 +47,4 @@ public class AdminRestController extends AbstractUserController {
     public String testUTF8() {
         return "Текст должно быть видно русскими буквами";
     }
-
-    @RequestMapping(path = "/votes/reset", method = RequestMethod.PUT)
-    public void resetVotes() {
-        super.resetVotes();
-    }
 }

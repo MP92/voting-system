@@ -1,7 +1,6 @@
 package ru.pkg.web.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.pkg.LoggedUser;
 import ru.pkg.model.User;
 import ru.pkg.service.UserService;
 import ru.pkg.to.UserTO;
@@ -42,20 +41,5 @@ public abstract class AbstractUserController {
 
     public Collection<User> findAll() {
         return service.findAll();
-    }
-
-    public void vote(int restaurantId) {
-        User user = get(LoggedUser.getId());
-        if (!user.isVotedToday()) {
-            service.saveVote(LoggedUser.getId(), restaurantId);
-        }
-    }
-
-    public void cancelVote() {
-        service.deleteVote(LoggedUser.getId());
-    }
-
-    public void resetVotes() {
-        service.resetVotes();
     }
 }

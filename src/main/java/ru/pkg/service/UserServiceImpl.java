@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ru.pkg.model.User;
 import ru.pkg.repository.UserRepository;
 import ru.pkg.to.UserTO;
 import ru.pkg.utils.exception.UserNotFoundException;
-import ru.pkg.utils.exception.VotingException;
 
 import java.util.List;
 
@@ -58,26 +56,5 @@ public class UserServiceImpl implements UserService {
         if (!repository.delete(id)) {
             throw new UserNotFoundException(id);
         }
-    }
-
-    @CacheEvict(cacheNames = "restaurants", allEntries = true)
-    public void saveVote(int userId, int restaurantId) throws VotingException {
-        try {
-            repository.saveVote(userId, restaurantId);
-        } catch (DataIntegrityViolationException e) {
-            throw new VotingException(e);
-        }
-    }
-
-    @CacheEvict(cacheNames = "restaurants", allEntries = true)
-    public void deleteVote(int userId) throws VotingException {
-        if (!repository.deleteVote(userId)) {
-            throw new VotingException(userId);
-        }
-    }
-
-    @CacheEvict(cacheNames = "restaurants", allEntries = true)
-    public void resetVotes() {
-        repository.resetVotes();
     }
 }

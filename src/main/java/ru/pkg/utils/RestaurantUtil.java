@@ -3,7 +3,6 @@ package ru.pkg.utils;
 import ru.pkg.model.BaseEntity;
 import ru.pkg.model.Dish;
 import ru.pkg.model.Restaurant;
-import ru.pkg.to.VotingStatistics;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,10 +18,5 @@ public class RestaurantUtil {
 
     public static List<Integer> getIDs(List<Restaurant> restaurants) {
         return restaurants.stream().map(BaseEntity::getId).collect(Collectors.toList());
-    }
-
-    public static List<VotingStatistics> getStatistics(List<Restaurant> restaurants) {
-        Double sumVotes = restaurants.stream().collect(Collectors.summingDouble(Restaurant::getVotes));
-        return restaurants.stream().map(r -> new VotingStatistics(r, sumVotes)).collect(Collectors.toList());
     }
 }

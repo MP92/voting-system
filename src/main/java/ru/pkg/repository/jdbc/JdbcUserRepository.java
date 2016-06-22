@@ -2,7 +2,6 @@ package ru.pkg.repository.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -56,6 +55,7 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
         if (user.isNew()) {
             Number key = inserter.executeAndReturnKey(parameters);
             user.setId(key.intValue());
+            insertVoteRecord(user);
         } else {
             String queryUpdate = "UPDATE users SET name=:name, surname=:surname, password=:password, registered=:registered, enabled=:enabled WHERE id=:id";
             if (getNamedParameterJdbcTemplate().update(queryUpdate, parameters) == 0) {
@@ -86,36 +86,6 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     @Transactional
     public boolean delete(int id) {
         return getJdbcTemplate().update("DELETE FROM users WHERE users.id=?", id) != 0;
-    }
-
-    @Transactional
-    public void saveVote(int userId, int restaurantId) {
-        if (isUserVotedToday(userId)) {
-            throw new DataIntegrityViolationException("User with id=" + userId + " already voted today");
-        }
-        if (getJdbcTemplate().update("UPDATE votes SET restaurant_id=?, last_voted=now() WHERE user_id=?", restaurantId, userId) == 0) {
-            getJdbcTemplate().update("INSERT INTO votes (user_id, restaurant_id) VALUES (?, ?)", userId, restaurantId);
-        }
-        getJdbcTemplate().update("UPDATE voting_statistics SET votes = votes + 1 WHERE restaurant_id=?", restaurantId);
-    }
-
-    @Transactional
-    public boolean deleteVote(int userId) {
-        Integer restaurantId;
-        try {
-            restaurantId = getJdbcTemplate().queryForObject("SELECT restaurant_id FROM votes WHERE user_id=?", Integer.class, userId);
-        } catch (DataAccessException e) {
-            return false;
-        }
-        getJdbcTemplate().update("DELETE FROM votes WHERE user_id=?", userId);
-
-        return getJdbcTemplate().update("UPDATE voting_statistics SET votes = GREATEST(votes - 1, 0) WHERE restaurant_id=?", restaurantId) > 0;
-    }
-
-    @Transactional
-    public void resetVotes() {
-        getJdbcTemplate().update("DELETE FROM votes");
-        getJdbcTemplate().update("UPDATE voting_statistics SET votes = 0");
     }
 
     private boolean isUserVotedToday(int userId) {
@@ -156,6 +126,10 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
         if (u != null && u.getChosenRestaurantId() != null) {
             u.setChosenRestaurant(restaurantRepository.findById(u.getChosenRestaurantId()));
         }
+    }
+
+    private void insertVoteRecord(User u) {
+        getJdbcTemplate().update("INSERT INTO votes (user_id, restaurant_id, last_voted) VALUES (?, NULL, NULL)", u.getId());
     }
 
     private class UsersExtractor implements ResultSetExtractor<List<User>> {

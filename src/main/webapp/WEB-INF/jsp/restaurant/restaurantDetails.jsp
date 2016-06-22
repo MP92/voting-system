@@ -28,10 +28,6 @@
         <td>${restaurant.phoneNumber}</td>
     </tr>
     <tr>
-        <td>Votes</td>
-        <td>${restaurant.votes}</td>
-    </tr>
-    <tr>
         <td>Menu</td>
         <td>
             <table border="1" cellspacing="0">

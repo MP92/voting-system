@@ -17,13 +17,6 @@ public class DishTestData {
     public static final int START_INDEX = 1000;
 
     public static final int R_1_DISH_1_ID = START_INDEX;
-    public static final int R_1_DISH_2_ID = START_INDEX + 1;
-    public static final int R_1_DISH_3_ID = START_INDEX + 2;
-    public static final int R_1_DISH_4_ID = START_INDEX + 3;
-
-    public static final int R_2_DISH_1_ID = START_INDEX + 4;
-    public static final int R_2_DISH_2_ID = START_INDEX + 5;
-    public static final int R_2_DISH_3_ID = START_INDEX + 6;
 
     public static final int NEW_DISH_ID = START_INDEX + 100;
 

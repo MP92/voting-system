@@ -14,4 +14,8 @@
     <bean id="dishRepository" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="ru.pkg.repository.DishRepository" />
     </bean>
+
+    <bean id="votingRepository" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="ru.pkg.repository.VotingRepository" />
+    </bean>
 </beans>

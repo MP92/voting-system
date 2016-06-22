@@ -12,10 +12,4 @@ public interface UserRepository {
     List<User> findAll();
 
     boolean delete(int id);
-
-    void saveVote(int userId, int restaurantId);
-
-    boolean deleteVote(int userId);
-
-    void resetVotes();
 }

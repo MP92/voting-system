@@ -21,7 +21,6 @@
         <th>Description</th>
         <th>Address</th>
         <th>Phone number</th>
-        <th>Votes</th>
         <th></th>
         <th></th>
         <th></th>
@@ -34,7 +33,6 @@
             <td>${restaurant.description}</td>
             <td>${restaurant.address}</td>
             <td>${restaurant.phoneNumber}</td>
-            <td>${restaurant.votes}</td>
             <td><a href="restaurants/vote?restaurantId=${restaurant.id}">Vote</a></td>
             <td><a href="restaurants/edit?id=${restaurant.id}">Update</a></td>
             <td><a href="restaurants/delete?id=${restaurant.id}">Delete</a></td>
@@ -61,7 +59,7 @@
         </tr>
     </c:forEach>
 </table>
-<a href="admin/resetVotes">Reset votes</a>
+<a href="restaurants/resetVotes">Reset votes</a>
 <a href="restaurants/cancelVote">Cancel vote</a>
 </body>
 </html>

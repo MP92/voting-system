@@ -8,11 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Restaurant;
 import ru.pkg.repository.RestaurantRepository;
-import ru.pkg.to.VotingStatistics;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @CacheConfig(cacheNames = "restaurants")
@@ -54,11 +52,5 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (!restaurantRepository.delete(id)) {
             throw new RestaurantNotFoundException(id);
         }
-    }
-
-    public List<VotingStatistics> findStatistics() {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
-        Double sumVotes = restaurants.stream().collect(Collectors.summingDouble(Restaurant::getVotes));
-        return restaurants.stream().map(r -> new VotingStatistics(r, sumVotes)).collect(Collectors.toList());
     }
 }

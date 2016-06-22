@@ -76,10 +76,4 @@ public class JspAdminController extends AbstractUserController {
         model.addAttribute("userList", super.findAll());
         return "user/userList";
     }
-
-    @RequestMapping("/resetVotes")
-    public String resetRestaurantVotes() {
-        super.resetVotes();
-        return "redirect:/restaurants";
-    }
 }

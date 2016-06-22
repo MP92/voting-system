@@ -3,7 +3,6 @@ package ru.pkg.web.restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.pkg.model.Restaurant;
 import ru.pkg.service.RestaurantService;
-import ru.pkg.to.VotingStatistics;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
@@ -33,9 +32,5 @@ public abstract class AbstractRestaurantController {
     public void update(int id, Restaurant restaurant) throws RestaurantNotFoundException {
         restaurant.setId(id);
         service.update(restaurant);
-    }
-
-    public List<VotingStatistics> findStatistics() {
-        return service.findStatistics();
     }
 }

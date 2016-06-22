@@ -43,6 +43,9 @@ public abstract class AbstractControllerTest extends AbstractTest {
     @Autowired
     protected DishService dishService;
 
+    @Autowired
+    protected VotingService votingService;
+
     @PostConstruct
     void initMockMvc() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
