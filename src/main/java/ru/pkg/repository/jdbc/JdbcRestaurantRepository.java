@@ -83,7 +83,28 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
     }
 
     private void loadMenus(List<Restaurant> restaurants) {
-        Map<Integer, List<Dish>> menus = getJdbcTemplate().query("SELECT * FROM dishes WHERE in_menu=TRUE ORDER BY id", JDBC_DISH_MAPPER).stream().collect(Collectors.groupingBy(JdbcDish::getRestaurantId, Collectors.mapping(DishUtil::asDish, Collectors.toList())));
+        Map<Integer, List<Dish>> menus = getJdbcTemplate().query("SELECT * FROM dishes WHERE in_menu=TRUE ORDER BY id", JDBC_DISH_MAPPER).stream().collect(Collectors.groupingBy(JdbcDish::getRestaurantId, Collectors.mapping(JdbcDish::asDish, Collectors.toList())));
         restaurants.forEach(r -> r.setMenu(menus.getOrDefault(r.getId(), Collections.emptyList())));
+    }
+
+    /**
+     * Subclass of Dish that carries temporary restaurant id property which is only relevant for a JDBC implementation
+     * of RestaurantRepository.
+     */
+    public static class JdbcDish extends Dish {
+
+        private int restaurantId;
+
+        public int getRestaurantId() {
+            return restaurantId;
+        }
+
+        public void setRestaurantId(int restaurantId) {
+            this.restaurantId = restaurantId;
+        }
+
+        public static Dish asDish(JdbcDish jdbcDish) {
+            return new Dish(jdbcDish.getId(), jdbcDish.getName(), jdbcDish.getDescription(), jdbcDish.getWeight(), jdbcDish.getCategory(), jdbcDish.getPrice(), jdbcDish.isInMenu());
+        }
     }
 }

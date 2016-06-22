@@ -10,6 +10,7 @@ import ru.pkg.web.AbstractControllerTest;
 import java.util.Collections;
 
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
+import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_2_ID;
 import static ru.pkg.testdata.UserVoteTestData.*;
 import static ru.pkg.TestUtils.*;
 
@@ -32,7 +33,7 @@ public class VotingRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk());
 
         UserVote actual = votingService.findById(LoggedUser.getId());
-        UserVote expected = new UserVote(LoggedUser.getId(), RESTAURANT_1_ID, actual.getLastVoted());
+        UserVote expected = new UserVote(LoggedUser.getId(), RESTAURANT_2_ID, actual.getLastVoted());
         MATCHER.assertEquals(expected, actual);
     }
 
