@@ -7,8 +7,6 @@ import ru.pkg.model.User;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static ru.pkg.testdata.UserVoteTestData.VOTE_DT;
-
 public class UserTestData {
 
     public static final int START_INDEX = 1;
@@ -25,16 +23,16 @@ public class UserTestData {
 
     public static final LocalDateTime TEST_DT = LocalDateTime.of(2016, 1, 1, 0, 0);
 
-    public static final User ADMIN = new User(ADMIN_ID, "Admin", "Adminov", "admin", TEST_DT, VOTE_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
-    public static final User USER_1 = new User(USER_1_ID, "User", "Userov", "user", TEST_DT, VOTE_DT, true, EnumSet.of(Role.ROLE_USER));
-    public static final User USER_2 = new User(USER_2_ID, "User2", "Userov2", "user2", TEST_DT, null, true, EnumSet.of(Role.ROLE_USER));
+    public static final User ADMIN = new User(ADMIN_ID, "Admin", "Adminov", "admin", TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
+    public static final User USER_1 = new User(USER_1_ID, "User", "Userov", "user", TEST_DT, true, EnumSet.of(Role.ROLE_USER));
+    public static final User USER_2 = new User(USER_2_ID, "User2", "Userov2", "user2", TEST_DT, true, EnumSet.of(Role.ROLE_USER));
 
     static {
-        ADMIN.setChosenRestaurant(RestaurantTestData.RESTAURANT_1);
-        USER_1.setChosenRestaurant(RestaurantTestData.RESTAURANT_2);
+        ADMIN.setUserVote(UserVoteTestData.ADMIN_VOTE);
+        USER_1.setUserVote(UserVoteTestData.USER_1_VOTE);
     }
 
-    public static final User NEW_USER = new User(null, "test", "test", "password", TEST_DT, null, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
+    public static final User NEW_USER = new User(null, "test", "test", "password", TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
 
     public static final List<User> ALL_USERS = Arrays.asList(ADMIN, USER_1, USER_2);
 
@@ -47,11 +45,11 @@ public class UserTestData {
         }
 
         public TestUser(Integer id, User user){
-            super(id, user.getName(), user.getSurname(), user.getPassword(), user.getRegistered(), user.getLastVoted(), user.isEnabled(), user.getRoles());
+            super(id, user.getName(), user.getSurname(), user.getPassword(), user.getRegistered(), user.isEnabled(), user.getRoles());
         }
 
         public User asUser() {
-            return new User(getId(), getName(), getSurname(), getPassword(), getRegistered(), getLastVoted(), isEnabled(), getRoles());
+            return new User(getId(), getName(), getSurname(), getPassword(), getRegistered(), isEnabled(), getRoles());
         }
 
         @Override
@@ -80,7 +78,6 @@ public class UserTestData {
                     ", name=" + getName() +
                     ", surname=" + getSurname() +
                     ", registered=" + getRegistered() +
-                    ", lastVoted=" + getLastVoted() +
                     ", enabled=" + isEnabled() +
                     ", password=" + getPassword() +
                     ", authorities=" + getRoles() +

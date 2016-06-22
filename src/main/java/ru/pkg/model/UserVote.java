@@ -1,5 +1,7 @@
 package ru.pkg.model;
 
+import ru.pkg.utils.TimeUtil;
+
 import java.time.LocalDateTime;
 
 public class UserVote extends BaseEntity {
@@ -53,7 +55,7 @@ public class UserVote extends BaseEntity {
     }
 
     public boolean isVotedToday() {
-        return restaurantId != null && lastVoted != null && lastVoted.isAfter(lastVoted.toLocalDate().atStartOfDay());
+        return restaurantId != null && TimeUtil.isToday(lastVoted);
     }
 
     @Override

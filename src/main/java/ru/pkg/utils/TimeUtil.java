@@ -11,4 +11,8 @@ public class TimeUtil {
     public static String toString(LocalDateTime ldt) {
         return ldt.toString();
     }
+
+    public static boolean isToday(LocalDateTime dateTime) {
+        return dateTime != null && dateTime.compareTo(dateTime.toLocalDate().atStartOfDay()) >= 0;
+    }
 }

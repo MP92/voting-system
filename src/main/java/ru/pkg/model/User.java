@@ -11,31 +11,24 @@ public class User extends NamedEntity {
 
     private LocalDateTime registered;
 
-    private LocalDateTime lastVoted;
-
     private boolean enabled;
 
     private Set<Role> roles = Collections.emptySet();
 
-    private Restaurant chosenRestaurant;
+    private UserVote userVote;
 
     public User() {
     }
 
     public User(Integer id, String name, String surname, String password, Role role, Role... roles) {
-        this(id, name, surname, password, LocalDateTime.now(), null, true, EnumSet.of(role, roles));
+        this(id, name, surname, password, LocalDateTime.now(), true, EnumSet.of(role, roles));
     }
 
     public User(Integer id, String name, String surname, String password, LocalDateTime registered, boolean enabled, Set<Role> roles) {
-        this(id, name, surname, password, registered, null, enabled, roles);
-    }
-
-    public User(Integer id, String name, String surname, String password, LocalDateTime registered, LocalDateTime lastVoted, boolean enabled, Set<Role> roles) {
         super(id, name);
         this.surname = surname;
         this.password = password;
         this.registered = registered;
-        this.lastVoted = lastVoted;
         this.enabled = enabled;
         if (roles != null) {
             this.roles = EnumSet.copyOf(roles);
@@ -87,23 +80,19 @@ public class User extends NamedEntity {
     }
 
     public LocalDateTime getLastVoted() {
-        return lastVoted;
-    }
-
-    public void setLastVoted(LocalDateTime lastVoted) {
-        this.lastVoted = lastVoted;
+        return userVote.getLastVoted();
     }
 
     public boolean isVotedToday() {
-        return lastVoted != null && lastVoted.isAfter(lastVoted.toLocalDate().atStartOfDay());
+        return userVote.isVotedToday();
     }
 
-    public Restaurant getChosenRestaurant() {
-        return chosenRestaurant;
+    public UserVote getUserVote() {
+        return userVote;
     }
 
-    public void setChosenRestaurant(Restaurant chosenRestaurant) {
-        this.chosenRestaurant = chosenRestaurant;
+    public void setUserVote(UserVote userVote) {
+        this.userVote = userVote;
     }
 
     @Override
@@ -114,7 +103,7 @@ public class User extends NamedEntity {
                 ", surname=" + getSurname() +
                 ", roles=" + roles +
                 ", registered=" + registered +
-                ", lastVoted=" + lastVoted +
+                ", userVote=" + userVote +
                 ", enabled=" + enabled +
                 '}';
     }

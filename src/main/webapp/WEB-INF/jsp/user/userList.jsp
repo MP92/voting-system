@@ -20,7 +20,6 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Registered</th>
-            <th>Last Voted</th>
             <th>Enabled</th>
             <th>Roles</th>
             <th></th>
@@ -33,7 +32,6 @@
             <td>${user.name}</td>
             <td>${user.surname}</td>
             <td>${user.registered}</td>
-            <td>${user.lastVoted}</td>
             <td>${user.enabled}</td>
             <td>${user.roles}</td>
             <td><a href="users/edit?id=${user.id}">update</a></td>

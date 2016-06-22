@@ -15,8 +15,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Role;
 import ru.pkg.model.User;
-import ru.pkg.repository.RestaurantRepository;
 import ru.pkg.repository.UserRepository;
+import ru.pkg.repository.VotingRepository;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements UserRepository {
 
-    private static final RowMapper<JdbcUser> USER_MAPPER = BeanPropertyRowMapper.newInstance(JdbcUser.class);
+    private static final RowMapper<User> USER_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
     private static final RowMapper<Role> ROLES_MAPPER = (rs, rowNum) -> Role.valueOf(rs.getString("role"));
 
     private SimpleJdbcInsert inserter;
@@ -45,7 +45,7 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     }
 
     @Autowired
-    RestaurantRepository restaurantRepository;
+    VotingRepository votingRepository;
 
     @Override
     @Transactional
@@ -70,10 +70,10 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
 
     @Override
     public User findById(int id) {
-        JdbcUser jdbcUser = DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT u.*, v.restaurant_id AS chosenRestaurantId, v.last_voted FROM users as u LEFT JOIN votes as v ON (u.id=v.user_id) WHERE u.id=?", USER_MAPPER, id));
-        loadRoles(jdbcUser);
-        loadRestaurant(jdbcUser);
-        return jdbcUser;
+        User user = DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT * FROM users WHERE id=?", USER_MAPPER, id));
+        loadRoles(user);
+        loadUserVote(user);
+        return user;
     }
 
     @Override
@@ -86,10 +86,6 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     @Transactional
     public boolean delete(int id) {
         return getJdbcTemplate().update("DELETE FROM users WHERE users.id=?", id) != 0;
-    }
-
-    private boolean isUserVotedToday(int userId) {
-        return getJdbcTemplate().queryForObject("SELECT exists(SELECT 1 FROM votes WHERE user_id=? AND last_voted >= now()::date)", Boolean.class, userId);
     }
 
     private void insertRoles(User u) {
@@ -122,9 +118,9 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
         }
     }
 
-    private void loadRestaurant(JdbcUser u) {
-        if (u != null && u.getChosenRestaurantId() != null) {
-            u.setChosenRestaurant(restaurantRepository.findById(u.getChosenRestaurantId()));
+    private void loadUserVote(User u) {
+        if (u != null) {
+            u.setUserVote(votingRepository.findById(u.getId()));
         }
     }
 
@@ -150,13 +146,8 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
                     String password = rs.getString("password");
                     LocalDateTime registered = rs.getTimestamp("registered").toLocalDateTime();
                     boolean enabled = rs.getBoolean("enabled");
-                    Timestamp ts = rs.getTimestamp("last_voted");
-                    LocalDateTime lastVoted = ts != null ? ts.toLocalDateTime() : null;
-                    User newUser = new User(id, name, surname, password, registered, lastVoted, enabled, EnumSet.of(role));
-                    int restaurantId = rs.getInt("restaurant_id");
-                    if (restaurantId > 0) {
-                        newUser.setChosenRestaurant(restaurantRepository.findById(restaurantId));
-                    }
+                    User newUser = new User(id, name, surname, password, registered, enabled, EnumSet.of(role));
+                    newUser.setUserVote(votingRepository.findById(id));
                     userMap.put(id, newUser);
                 }
             }
