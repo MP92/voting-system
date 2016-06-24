@@ -1,5 +1,6 @@
 package ru.pkg.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import ru.pkg.utils.TimeUtil;
 
 import javax.persistence.*;
@@ -12,13 +13,14 @@ public class UserVote extends BaseEntity {
     @MapsId
     @OneToOne(fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
+    @JsonBackReference
     private User user;
 
     //todo try to delete
     @Column(name = "restaurant_id", nullable = true)
     private Integer restaurantId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", insertable = false, updatable = false)
     private Restaurant restaurant;
 

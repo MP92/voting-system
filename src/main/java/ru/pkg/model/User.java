@@ -1,5 +1,6 @@
 package ru.pkg.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -36,6 +37,7 @@ public class User extends NamedEntity {
     private Set<Role> roles = Collections.emptySet();
 
     @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
     private UserVote userVote;
 
     public User() {
