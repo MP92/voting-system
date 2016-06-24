@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,11 +48,12 @@ public class JspDishController extends AbstractDishController {
     }
 
     @RequestMapping(path = "/save", method = RequestMethod.POST)
-    public String save(@Valid Dish dish, @RequestParam("restaurantId") int restaurantId, BindingResult result, RedirectAttributes attributes) {
+    public String save(@Valid Dish dish, BindingResult result, @ModelAttribute("restaurantId") String sRestaurantId, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             return "dish/dishForm";
         }
 
+        int restaurantId = Integer.valueOf(sRestaurantId);
         boolean isNew = dish.isNew();
         if (isNew) {
             super.create(dish, restaurantId);
