@@ -1,6 +1,6 @@
 package ru.pkg.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import ru.pkg.utils.TimeUtil;
 
 import javax.persistence.*;
@@ -11,17 +11,17 @@ import java.time.LocalDateTime;
 public class UserVote extends BaseEntity {
 
     @MapsId
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
-    @JsonBackReference
+    @JsonIgnore
     private User user;
 
-    //todo try to delete
     @Column(name = "restaurant_id", nullable = true)
     private Integer restaurantId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Restaurant restaurant;
 
     @Column(name = "last_voted", nullable = true)
@@ -87,7 +87,7 @@ public class UserVote extends BaseEntity {
     }
 
     public boolean isVotedToday() {
-        return (restaurant != null || restaurantId != null) && TimeUtil.isToday(lastVoted);
+        return restaurantId != null && TimeUtil.isToday(lastVoted);
     }
 
     @Override

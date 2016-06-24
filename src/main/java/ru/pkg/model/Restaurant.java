@@ -37,6 +37,10 @@ public class Restaurant extends NamedEntity {
     public Restaurant() {
     }
 
+    public Restaurant(Integer id) {
+        super(id, null);
+    }
+
     public Restaurant(Integer id, String name, String description, String address, String phoneNumber) {
         this(id, name, description, address, phoneNumber, null);
     }
