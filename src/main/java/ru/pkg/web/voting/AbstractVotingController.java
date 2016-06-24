@@ -16,7 +16,7 @@ public abstract class AbstractVotingController {
     public void vote(int restaurantId) {
         UserVote userVote = service.findById(LoggedUser.getId());
         if (!userVote.isVotedToday()) {
-            service.save(new UserVote(LoggedUser.getId(), restaurantId));
+            service.save(LoggedUser.getId(), restaurantId);
         }
     }
 

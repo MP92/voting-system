@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface VotingRepository {
 
-    UserVote save(UserVote userVote);
+    UserVote save(int userId, int restaurantId);
 
     UserVote findById(int userId);
 

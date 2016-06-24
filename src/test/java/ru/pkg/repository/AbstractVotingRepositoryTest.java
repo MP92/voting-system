@@ -4,12 +4,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.testdata.UserTestData;
 import ru.pkg.model.UserVote;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static ru.pkg.testdata.UserVoteTestData.*;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
@@ -22,20 +22,19 @@ public abstract class AbstractVotingRepositoryTest extends AbstractRepositoryTes
 
     @Test
     public void testUpdate() throws Exception {
-        UserVote userVoteToUse = new UserVote(USER_1_ID, RESTAURANT_1_ID);
-        repository.save(userVoteToUse);
-        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN_VOTE, userVoteToUse), repository.findAll());
+        UserVote updatedVote = repository.save(USER_1_ID, RESTAURANT_1_ID);
+        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN_VOTE, updatedVote), repository.findAll());
     }
 
     @Test
     public void testUpdateUserNotFound() throws Exception {
-        Assert.assertNull(repository.save(VOTE_USER_NOT_FOUND));
+        Assert.assertNull(repository.save(UserTestData.NOT_FOUND_INDEX, RESTAURANT_1_ID));
         MATCHER.assertCollectionsEquals(ALL_USER_VOTES, repository.findAll());
     }
 
     @Test(expected = DataIntegrityViolationException.class)
     public void testUpdateRestaurantNotFound() throws Exception {
-        repository.save(VOTE_RESTAURANT_NOT_FOUND);
+        repository.save(USER_1_ID, RestaurantTestData.NOT_FOUND_INDEX);
         MATCHER.assertCollectionsEquals(ALL_USER_VOTES, repository.findAll());
     }
 

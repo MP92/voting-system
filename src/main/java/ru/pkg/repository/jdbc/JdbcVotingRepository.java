@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.UserVote;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
-public class JdbcVotingRepository extends JdbcDaoSupport implements VotingRepository {
+public class JdbcVotingRepository extends NamedParameterJdbcDaoSupport implements VotingRepository {
 
     private static final RowMapper<UserVote> USER_VOTE_MAPPER = BeanPropertyRowMapper.newInstance(UserVote.class);
 
@@ -26,8 +27,10 @@ public class JdbcVotingRepository extends JdbcDaoSupport implements VotingReposi
 
     @Transactional
     @Override
-    public UserVote save(UserVote userVote) {
-        if (getJdbcTemplate().update("UPDATE votes SET restaurant_id=?, last_voted=? WHERE user_id=?", userVote.getRestaurantId(), userVote.getLastVoted(), userVote.getUserId()) == 0) {
+    public UserVote save(int userId, int restaurantId) {
+        UserVote userVote = new UserVote(userId, restaurantId);
+        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(userVote);
+        if (getNamedParameterJdbcTemplate().update("UPDATE votes SET restaurant_id=:restaurantId, last_voted=:lastVoted WHERE user_id=:id", params) == 0) {
             return null;
         }
         return userVote;

@@ -32,15 +32,15 @@ public abstract class VotingServiceMockitoTest extends AbstractServiceMockitoTes
     @Test
     public void testSave() throws Exception {
         UserVote userVoteToUse = new UserVote(USER_1_ID, RESTAURANT_1_ID);
-        when(repository.save(userVoteToUse)).thenReturn(userVoteToUse);
-        service.save(userVoteToUse);
-        verify(repository).save(userVoteToUse);
+        when(repository.save(USER_1_ID, RESTAURANT_1_ID)).thenReturn(userVoteToUse);
+        MATCHER.assertEquals(userVoteToUse, service.save(USER_1_ID, RESTAURANT_1_ID));
+        verify(repository).save(USER_1_ID, RESTAURANT_1_ID);
     }
 
     @Test(expected = VotingException.class)
     public void testSaveUserNotFound() throws Exception {
-        doThrow(new DataIntegrityViolationException("")).when(repository).save(VOTE_USER_NOT_FOUND);
-        service.save(VOTE_USER_NOT_FOUND);
+        doThrow(new DataIntegrityViolationException("")).when(repository).save(UserTestData.NOT_FOUND_INDEX, RESTAURANT_1_ID);
+        service.save(UserTestData.NOT_FOUND_INDEX, RESTAURANT_1_ID);
     }
 
     @Test

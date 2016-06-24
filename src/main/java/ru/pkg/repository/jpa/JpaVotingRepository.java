@@ -8,7 +8,6 @@ import ru.pkg.repository.VotingRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -18,11 +17,11 @@ public class JpaVotingRepository implements VotingRepository {
     @PersistenceContext
     private EntityManager em;
 
-    //todo add userId argument
     @Transactional
-    public UserVote save(UserVote userVote) {
-        if (findById(userVote.getUserId()) != null) {
-            userVote.setUser(em.getReference(User.class, userVote.getUserId()));
+    public UserVote save(int userId, int restaurantId) {
+        if (findById(userId) != null) {
+            UserVote userVote = new UserVote(userId, restaurantId);
+            userVote.setUser(em.getReference(User.class, userId));
             return em.merge(userVote);
         }
         return null;

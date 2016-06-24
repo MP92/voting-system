@@ -9,6 +9,7 @@ import ru.pkg.repository.RestaurantRepository;
 import ru.pkg.repository.VotingRepository;
 import ru.pkg.to.VotingStatistics;
 import ru.pkg.utils.VotingUtil;
+import ru.pkg.utils.exception.RestaurantNotFoundException;
 import ru.pkg.utils.exception.VotingException;
 
 import java.util.List;
@@ -23,13 +24,15 @@ public class VotingServiceImpl implements VotingService {
     RestaurantRepository restaurantRepository;
 
     @Override
-    public void save(UserVote userVote) throws VotingException {
+    public UserVote save(int userId, int restaurantId) throws VotingException, RestaurantNotFoundException {
         try {
-            if (votingRepository.save(userVote) == null) {
-                throw new VotingException(userVote.getUserId());
+            UserVote userVote = votingRepository.save(userId, restaurantId);
+            if (userVote == null) {
+                throw new VotingException(userId);
             }
+            return userVote;
         } catch (DataIntegrityViolationException e) {
-            throw new VotingException(e);
+            throw new RestaurantNotFoundException(restaurantId);
         }
     }
 

@@ -36,8 +36,7 @@ public class UserVote extends BaseEntity {
     }
 
     public UserVote(int userId, Integer restaurantId) {
-        this(userId, restaurantId, null);
-        this.lastVoted = LocalDateTime.now();
+        this(userId, restaurantId, LocalDateTime.now());
     }
 
     public UserVote(int userId, Integer restaurantId, LocalDateTime lastVoted) {
@@ -46,12 +45,12 @@ public class UserVote extends BaseEntity {
         this.lastVoted = lastVoted;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return getId();
     }
 
-    public void setUserId(int userId) {
-        setId(userId);
+    public void setUserId(int id) {
+        setId(id);
     }
 
     public Integer getRestaurantId() {
@@ -93,7 +92,7 @@ public class UserVote extends BaseEntity {
     @Override
     public String toString() {
         return "UserVote{" +
-                "userId=" + getUserId() +
+                "userId=" + getId() +
                 ", restaurantId=" + restaurantId +
                 ", lastVoted=" + lastVoted +
                 '}';

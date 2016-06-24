@@ -4,8 +4,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.testdata.UserTestData;
 import ru.pkg.model.UserVote;
+import ru.pkg.utils.exception.RestaurantNotFoundException;
 import ru.pkg.utils.exception.VotingException;
 
 import java.util.Arrays;
@@ -23,21 +25,20 @@ public abstract class AbstractVotingServiceTest extends AbstractServiceTest {
 
     @Test
     public void testUpdate() throws Exception {
-        UserVote userVoteToUse = new UserVote(USER_1_ID, RESTAURANT_1_ID);
-        service.save(userVoteToUse);
-        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN_VOTE, userVoteToUse), service.findAll());
+        UserVote updatedVote = service.save(USER_1_ID, RESTAURANT_1_ID);
+        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN_VOTE, updatedVote), service.findAll());
     }
 
     @Test(expected = VotingException.class)
     public void testUpdateUserNotFound() throws Exception {
-        service.save(VOTE_USER_NOT_FOUND);
+        service.save(UserTestData.NOT_FOUND_INDEX, RESTAURANT_1_ID);
         MATCHER.assertCollectionsEquals(ALL_USER_VOTES, service.findAll());
     }
 
-    @Test(expected = VotingException.class)
+    @Test(expected = RestaurantNotFoundException.class)
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void testUpdateRestaurantNotFound() throws Exception {
-        service.save(VOTE_RESTAURANT_NOT_FOUND);
+        service.save(USER_1_ID, RestaurantTestData.NOT_FOUND_INDEX);
         MATCHER.assertCollectionsEquals(ALL_USER_VOTES, service.findAll());
     }
 
