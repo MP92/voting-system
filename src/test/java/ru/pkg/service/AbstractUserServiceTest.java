@@ -22,7 +22,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Test
     public void testAdd() {
-        User toCreateUser = new TestUser(NEW_USER);
+        User toCreateUser = new TestUser(NEW_USER).asUser();
         User created = service.add(toCreateUser);
         toCreateUser.setId(created.getId());
         MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, toCreateUser, USER_1, USER_2), service.findAll());
@@ -54,6 +54,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Test(expected = UserNotFoundException.class)
     public void testUpdateNotFound() {
         service.update(new TestUser(10000, NEW_USER));
+        MATCHER.assertCollectionsEquals(ALL_USERS, service.findAll());
     }
     
     @Test

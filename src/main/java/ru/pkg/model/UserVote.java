@@ -2,40 +2,54 @@ package ru.pkg.model;
 
 import ru.pkg.utils.TimeUtil;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "votes")
 public class UserVote extends BaseEntity {
 
-    private Integer userId;
+    @MapsId
+    @OneToOne(fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
+    private User user;
 
+    //todo try to delete
+    @Column(name = "restaurant_id", nullable = true)
     private Integer restaurantId;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "restaurant_id", insertable = false, updatable = false)
+    private Restaurant restaurant;
+
+    @Column(name = "last_voted", nullable = true)
     private LocalDateTime lastVoted;
 
     public UserVote() {
+        this.lastVoted = LocalDateTime.now();
     }
 
     public UserVote(int userId) {
-        this.userId = userId;
+        this(userId, null);
     }
 
     public UserVote(int userId, Integer restaurantId) {
-        this.userId = userId;
-        this.restaurantId = restaurantId;
+        this(userId, restaurantId, null);
+        this.lastVoted = LocalDateTime.now();
     }
 
     public UserVote(int userId, Integer restaurantId, LocalDateTime lastVoted) {
-        this.userId = userId;
+        super(userId);
         this.restaurantId = restaurantId;
         this.lastVoted = lastVoted;
     }
 
     public Integer getUserId() {
-        return userId;
+        return getId();
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        setId(userId);
     }
 
     public Integer getRestaurantId() {
@@ -54,14 +68,30 @@ public class UserVote extends BaseEntity {
         this.lastVoted = lastVoted;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
     public boolean isVotedToday() {
-        return restaurantId != null && TimeUtil.isToday(lastVoted);
+        return (restaurant != null || restaurantId != null) && TimeUtil.isToday(lastVoted);
     }
 
     @Override
     public String toString() {
         return "UserVote{" +
-                "userId=" + userId +
+                "userId=" + getUserId() +
                 ", restaurantId=" + restaurantId +
                 ", lastVoted=" + lastVoted +
                 '}';

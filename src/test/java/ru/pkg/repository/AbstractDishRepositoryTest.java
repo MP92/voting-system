@@ -74,7 +74,6 @@ public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest 
         int restaurantId = toUpdateDish.getRestaurant().getId();
         Dish updated = repository.save(toUpdateDish, restaurantId);
         Assert.assertTrue(updated.getId() == R_1_DISH_1_ID);
-        MATCHER.assertEquals(toUpdateDish, updated);
         MATCHER.assertCollectionsEquals(Arrays.asList(TestDishFactory.newInstanceForUpdate(), R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), repository.findAll(restaurantId));
     }
 
@@ -91,6 +90,7 @@ public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest 
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdateForNonexistentRestaurant();
         int restaurantId = toUpdateDish.getRestaurant().getId();
         Assert.assertNull(repository.save(toUpdateDish, restaurantId));
+        MATCHER.assertCollectionsEquals(R_1_ALL_DISHES, repository.findAll(RESTAURANT_1_ID));
     }
 
     @Test

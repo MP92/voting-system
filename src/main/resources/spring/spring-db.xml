@@ -25,14 +25,45 @@
               p:password="${jdbc.password}"
               p:initialSize="2"
               p:maxTotal="5" />
+    </beans>
+
+    <beans profile="jdbc">
+        <context:component-scan base-package="ru.pkg.**.repository.jdbc"/>
 
         <bean id="transactionManager"
               class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
               p:dataSource-ref="dataSource" />
     </beans>
 
-    <beans profile="jdbc">
-        <context:component-scan base-package="ru.pkg.**.repository.jdbc"/>
+    <beans profile="jpa">
+        <context:component-scan base-package="ru.pkg.**.repository.jpa"/>
+
+        <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+              p:dataSource-ref="dataSource"
+              p:packagesToScan="ru.pkg.model">
+
+            <property name="jpaPropertyMap">
+                <map>
+                    <entry key="hibernate.format_sql" value="false"/>
+                    <entry key="hibernate.use_sql_comments" value="true"/>
+
+                    <!--<entry key="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+                    <entry key="javax.persistence.schema-generation.scripts.create-target" value="${VOTING_SYSTEM_ROOT}/config/ddl/create.ddl"/>
+                    <entry key="javax.persistence.schema-generation.scripts.drop-target" value="${VOTING_SYSTEM_ROOT}/config/ddl/drop.ddl"/>-->
+                </map>
+            </property>
+
+            <property name="jpaVendorAdapter">
+                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+                    p:showSql="true"/>
+            </property>
+        </bean>
+
+        <bean id="transactionManager"
+              class="org.springframework.orm.jpa.JpaTransactionManager"
+              p:entityManagerFactory-ref="entityManagerFactory" />
+
+        <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
     </beans>
 
 </beans>

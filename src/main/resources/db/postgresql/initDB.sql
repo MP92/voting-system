@@ -8,7 +8,6 @@ DROP TABLE IF EXISTS votes;
 DROP SEQUENCE IF EXISTS users_id_seq;
 DROP SEQUENCE IF EXISTS restaurants_id_seq;
 DROP SEQUENCE IF EXISTS dishes_id_seq;
-DROP SEQUENCE IF EXISTS votes_id_seq;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -48,9 +47,7 @@ CREATE TABLE dishes (
 CREATE UNIQUE INDEX dishes_unique_name_idx ON dishes(restaurant_id, name);
 
 CREATE TABLE votes (
-  id SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  user_id INTEGER NOT NULL PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
   restaurant_id INTEGER REFERENCES restaurants(id) ON DELETE SET NULL,
-  last_voted TIMESTAMP DEFAULT now(),
-  UNIQUE(user_id, restaurant_id)
+  last_voted TIMESTAMP DEFAULT now()
 );

@@ -1,25 +1,38 @@
 package ru.pkg.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Entity
+@Table(name = "restaurants", uniqueConstraints = @UniqueConstraint(name = "restaurant_unique_name_idx", columnNames = "name"))
 public class Restaurant extends NamedEntity {
 
+    @Column(name = "description", nullable = false)
     @NotEmpty
     private String description;
 
+    @Column(name = "address", nullable = false)
     @NotEmpty
     private String address;
 
+    @Column(name = "phone_number", nullable = false)
     @NotEmpty
     private String phoneNumber;
 
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "restaurant")
+    @Where(clause = "in_menu = true")
+    @OrderBy("id")
     @JsonManagedReference
     private List<Dish> menu = Collections.emptyList();
+
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "restaurant")
+    private List<UserVote> userVotes;
 
     public Restaurant() {
     }
@@ -28,7 +41,7 @@ public class Restaurant extends NamedEntity {
         this(id, name, description, address, phoneNumber, null);
     }
 
-    public Restaurant(Integer id, String name, String description, String address, String phoneNumber/*, Integer voting*/, List<Dish> menu) {
+    public Restaurant(Integer id, String name, String description, String address, String phoneNumber, List<Dish> menu) {
         super(id, name);
         this.description = description;
         this.address = address;
@@ -82,7 +95,6 @@ public class Restaurant extends NamedEntity {
                 ", description='" + description + '\'' +
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", menu=" + menu +
                 '}';
     }
 }

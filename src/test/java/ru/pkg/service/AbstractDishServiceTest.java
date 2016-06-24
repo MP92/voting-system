@@ -90,6 +90,7 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdateNonexistentDish();
         Integer restaurantId = toUpdateDish.getRestaurant().getId();
         service.update(toUpdateDish, restaurantId);
+        MATCHER.assertCollectionsEquals(R_1_ALL_DISHES, service.findAll(restaurantId));
     }
 
     @Test(expected = DishNotFoundException.class)
@@ -97,6 +98,7 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdateForNonexistentRestaurant();
         Integer restaurantId = toUpdateDish.getRestaurant().getId();
         service.update(toUpdateDish, restaurantId);
+        MATCHER.assertCollectionsEquals(R_1_ALL_DISHES, service.findAll(RESTAURANT_1_ID));
     }
 
     @Test(expected = DishNotFoundException.class)
@@ -104,6 +106,8 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
         Dish toUpdateDish = TestDishFactory.newInstanceForUpdateForeignDish();
         Integer restaurantId = toUpdateDish.getRestaurant().getId();
         service.update(toUpdateDish, restaurantId);
+        MATCHER.assertCollectionsEquals(R_1_ALL_DISHES, service.findAll(RESTAURANT_1_ID));
+        MATCHER.assertCollectionsEquals(R_2_ALL_DISHES, service.findAll(RESTAURANT_2_ID));
     }
 
     @Test

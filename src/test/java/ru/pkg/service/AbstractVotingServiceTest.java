@@ -6,6 +6,7 @@ import ru.pkg.testdata.UserTestData;
 import ru.pkg.model.UserVote;
 import ru.pkg.utils.exception.VotingException;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,28 +21,27 @@ public abstract class AbstractVotingServiceTest extends AbstractServiceTest {
     VotingService service;
 
     @Test
-    public void testSave() throws Exception {
+    public void testUpdate() throws Exception {
         UserVote userVoteToUse = new UserVote(USER_1_ID, RESTAURANT_1_ID);
         service.save(userVoteToUse);
-        UserVote userVote = service.findById(USER_1_ID);
-        userVoteToUse.setLastVoted(userVote.getLastVoted());
-        MATCHER.assertEquals(userVoteToUse, userVote);
+        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN_VOTE, userVoteToUse), service.findAll());
     }
 
     @Test(expected = VotingException.class)
-    public void testSaveUserNotFound() throws Exception {
+    public void testUpdateUserNotFound() throws Exception {
         service.save(VOTE_USER_NOT_FOUND);
+        MATCHER.assertCollectionsEquals(ALL_USER_VOTES, service.findAll());
     }
 
     @Test(expected = VotingException.class)
-    public void testSaveRestaurantNotFound() throws Exception {
+    public void testUpdateRestaurantNotFound() throws Exception {
         service.save(VOTE_RESTAURANT_NOT_FOUND);
+        MATCHER.assertCollectionsEquals(ALL_USER_VOTES, service.findAll());
     }
 
     @Test
     public void testFindById() throws Exception {
-        UserVote userVote = service.findById(USER_1_ID);
-        MATCHER.assertEquals(USER_1_VOTE, userVote);
+        MATCHER.assertEquals(USER_1_VOTE, service.findById(USER_1_ID));
     }
 
     @Test(expected = VotingException.class)
@@ -51,8 +51,7 @@ public abstract class AbstractVotingServiceTest extends AbstractServiceTest {
 
     @Test
     public void testFindAll() throws Exception {
-        List<UserVote> userVotes = service.findAll();
-        MATCHER.assertCollectionsEquals(ALL_USER_VOTES, userVotes);
+        MATCHER.assertCollectionsEquals(ALL_USER_VOTES, service.findAll());
     }
 
     @Test
@@ -64,6 +63,7 @@ public abstract class AbstractVotingServiceTest extends AbstractServiceTest {
     @Test(expected = VotingException.class)
     public void testDeleteUserNotFound() throws Exception {
         service.delete(UserTestData.NOT_FOUND_INDEX);
+        MATCHER.assertCollectionsEquals(ALL_USER_VOTES, service.findAll());
     }
 
     @Test

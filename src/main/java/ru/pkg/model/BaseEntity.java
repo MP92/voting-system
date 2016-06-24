@@ -1,7 +1,16 @@
 package ru.pkg.model;
 
+import javax.persistence.*;
+
+@MappedSuperclass
+@Access(AccessType.FIELD)
 public class BaseEntity {
 
+    //todo correct strategy for id generation?
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+/*    @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")*/
     private Integer id;
 
     protected BaseEntity() {

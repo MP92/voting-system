@@ -57,6 +57,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
     public void testUpdateNotFound() throws Exception {
         Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdateNonexistent();
         service.update(toUpdateRestaurant);
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS, service.findAll());
     }
 
     @Test

@@ -26,8 +26,7 @@ public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositor
 
     @Test
     public void testFindById() throws Exception {
-        Restaurant restaurant = repository.findById(RESTAURANT_1_ID);
-        MATCHER.assertEquals(RESTAURANT_1, restaurant);
+        MATCHER.assertEquals(RESTAURANT_1, repository.findById(RESTAURANT_1_ID));
     }
 
     @Test

@@ -27,7 +27,7 @@ public class JdbcVotingRepository extends JdbcDaoSupport implements VotingReposi
     @Transactional
     @Override
     public UserVote save(UserVote userVote) {
-        if (getJdbcTemplate().update("UPDATE votes SET restaurant_id=?, last_voted=now() WHERE user_id=?", userVote.getRestaurantId(), userVote.getUserId()) == 0) {
+        if (getJdbcTemplate().update("UPDATE votes SET restaurant_id=?, last_voted=? WHERE user_id=?", userVote.getRestaurantId(), userVote.getLastVoted(), userVote.getUserId()) == 0) {
             return null;
         }
         return userVote;

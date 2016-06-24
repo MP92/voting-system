@@ -1,0 +1,11 @@
+package ru.pkg.repository.jpa;
+
+import org.springframework.test.context.ActiveProfiles;
+import ru.pkg.repository.AbstractVotingRepositoryTest;
+
+import static ru.pkg.Profiles.JPA;
+import static ru.pkg.Profiles.POSTGRESQL;
+
+@ActiveProfiles({POSTGRESQL, JPA})
+public class JpaVotingRepositoryTest extends AbstractVotingRepositoryTest {
+}

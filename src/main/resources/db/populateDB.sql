@@ -7,7 +7,6 @@ DELETE FROM votes;
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 ALTER SEQUENCE restaurants_id_seq RESTART WITH 100;
 ALTER SEQUENCE dishes_id_seq RESTART WITH 1000;
-ALTER SEQUENCE votes_id_seq RESTART WITH 10000;
 
 INSERT INTO users(name, surname, password, registered) VALUES ('Admin', 'Adminov', 'admin', '2016-01-01');
 INSERT INTO users(name, surname, password, registered) VALUES ('User', 'Userov', 'user', '2016-01-01');

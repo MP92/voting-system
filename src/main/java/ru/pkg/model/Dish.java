@@ -3,26 +3,37 @@ package ru.pkg.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
+@Entity
+@Table(name = "dishes", uniqueConstraints = @UniqueConstraint(name = "dishes_unique_name_idx", columnNames = {"restaurant_id", "name"}))
 public class Dish extends NamedEntity {
 
+    @Column(name = "description", nullable = false)
     @NotEmpty
     private String description;
 
+    @Column(name = "weight", nullable = false)
     @Min(50)
     @Max(500)
     private int weight;
 
+    @Column(name = "category", nullable = false)
+    @Enumerated(EnumType.STRING)
     @NotNull
     private DishCategory category;
 
+    @Column(name = "price", nullable = false, columnDefinition = "NUMERIC(7, 2) NOT NULL")
     @Min(1)
     private double price;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
     @JsonBackReference
     private Restaurant restaurant;
 
+    @Column(name = "in_menu", nullable = false)
     private boolean inMenu;
 
     public Dish() {

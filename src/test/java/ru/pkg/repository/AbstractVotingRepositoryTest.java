@@ -7,13 +7,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import ru.pkg.testdata.UserTestData;
 import ru.pkg.model.UserVote;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static ru.pkg.testdata.UserVoteTestData.*;
-
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
-
 import static ru.pkg.testdata.UserTestData.USER_1_ID;
 
 public abstract class AbstractVotingRepositoryTest extends AbstractRepositoryTest {
@@ -22,28 +21,27 @@ public abstract class AbstractVotingRepositoryTest extends AbstractRepositoryTes
     VotingRepository repository;
 
     @Test
-    public void testSave() throws Exception {
+    public void testUpdate() throws Exception {
         UserVote userVoteToUse = new UserVote(USER_1_ID, RESTAURANT_1_ID);
         repository.save(userVoteToUse);
-        UserVote userVote = repository.findById(USER_1_ID);
-        userVoteToUse.setLastVoted(userVote.getLastVoted());
-        MATCHER.assertEquals(userVoteToUse, userVote);
+        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN_VOTE, userVoteToUse), repository.findAll());
     }
 
     @Test
-    public void testSaveUserNotFound() throws Exception {
+    public void testUpdateUserNotFound() throws Exception {
         Assert.assertNull(repository.save(VOTE_USER_NOT_FOUND));
+        MATCHER.assertCollectionsEquals(ALL_USER_VOTES, repository.findAll());
     }
 
     @Test(expected = DataIntegrityViolationException.class)
-    public void testSaveRestaurantNotFound() throws Exception {
+    public void testUpdateRestaurantNotFound() throws Exception {
         repository.save(VOTE_RESTAURANT_NOT_FOUND);
+        MATCHER.assertCollectionsEquals(ALL_USER_VOTES, repository.findAll());
     }
 
     @Test
     public void testFindById() throws Exception {
-        UserVote userVote = repository.findById(USER_1_ID);
-        MATCHER.assertEquals(USER_1_VOTE, userVote);
+        MATCHER.assertEquals(USER_1_VOTE, repository.findById(USER_1_ID));
     }
 
     @Test
@@ -53,8 +51,7 @@ public abstract class AbstractVotingRepositoryTest extends AbstractRepositoryTes
 
     @Test
     public void testFindAll() throws Exception {
-        List<UserVote> userVotes = repository.findAll();
-        MATCHER.assertCollectionsEquals(ALL_USER_VOTES, userVotes);
+        MATCHER.assertCollectionsEquals(ALL_USER_VOTES, repository.findAll());
     }
 
     @Test
@@ -66,6 +63,7 @@ public abstract class AbstractVotingRepositoryTest extends AbstractRepositoryTes
     @Test
     public void testDeleteUserNotFound() throws Exception {
         Assert.assertFalse(repository.delete(UserTestData.NOT_FOUND_INDEX));
+        MATCHER.assertCollectionsEquals(ALL_USER_VOTES, repository.findAll());
     }
 
     @Test

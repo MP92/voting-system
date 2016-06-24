@@ -19,7 +19,6 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
         User toCreateUser = new TestUser(NEW_USER).asUser();
         User created = repository.save(toCreateUser);
         toCreateUser.setId(created.getId());
-        MATCHER.assertEquals(toCreateUser, created);
         MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, toCreateUser, USER_1, USER_2), repository.findAll());
     }
 
@@ -58,7 +57,6 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
     @Test
     public void testDelete() {
         Assert.assertTrue(repository.delete(ADMIN_ID));
-
         MATCHER.assertCollectionsEquals(Arrays.asList(USER_1, USER_2), repository.findAll());
     }
 
