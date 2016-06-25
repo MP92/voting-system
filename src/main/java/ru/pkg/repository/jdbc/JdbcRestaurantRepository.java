@@ -8,18 +8,15 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Dish;
 import ru.pkg.model.Restaurant;
 import ru.pkg.repository.RestaurantRepository;
-import ru.pkg.utils.DishUtil;
 
 import javax.sql.DataSource;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-@Transactional(readOnly = true)
 public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport implements RestaurantRepository {
 
     private static final RowMapper<Restaurant> RESTAURANT_MAPPER = BeanPropertyRowMapper.newInstance(Restaurant.class);
@@ -37,7 +34,6 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
                 .usingGeneratedKeyColumns("id");
     }
 
-    @Transactional
     @Override
     public Restaurant save(Restaurant restaurant) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(restaurant);
@@ -68,7 +64,6 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
         return restaurants;
     }
 
-    @Transactional
     @Override
     public boolean delete(int id) {
         return getJdbcTemplate().update("DELETE FROM restaurants WHERE id=?", id) > 0;

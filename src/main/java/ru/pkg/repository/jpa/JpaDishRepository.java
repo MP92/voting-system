@@ -2,7 +2,6 @@ package ru.pkg.repository.jpa;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Dish;
 import ru.pkg.model.Restaurant;
 import ru.pkg.repository.DishRepository;
@@ -13,17 +12,16 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
 public class JpaDishRepository implements DishRepository {
 
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
     public Dish save(Dish dish, int restaurantId) throws DataIntegrityViolationException {
         dish.setRestaurant(em.getReference(Restaurant.class, restaurantId));
         if (dish.isNew()) {
             em.persist(dish);
+            em.flush();
             return dish;
         } else {
             boolean isPresent = findById(dish.getId(), restaurantId) != null;
@@ -44,7 +42,6 @@ public class JpaDishRepository implements DishRepository {
         return query.setParameter("restaurantId", restaurantId).getResultList();
     }
 
-    @Transactional
     public boolean delete(int id, int restaurantId) {
         Query query = em.createQuery("DELETE FROM Dish d WHERE d.id=:id AND d.restaurant.id=:restaurantId");
         return query.setParameter("id", id).setParameter("restaurantId", restaurantId).executeUpdate() > 0;

@@ -29,7 +29,7 @@ public class JspAdminControllerTest extends AbstractControllerTest {
     private static final String NOT_FOUND_INDEX = String.valueOf(UserTestData.NOT_FOUND_INDEX);
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)   //to reset id sequence
     public void testCreate() throws Exception {
         mockMvc.perform(post("/admin/users/save")
                             .param("name", NEW_USER.getName())

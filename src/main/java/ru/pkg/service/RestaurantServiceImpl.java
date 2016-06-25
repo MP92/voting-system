@@ -14,18 +14,19 @@ import java.util.List;
 
 @Service
 @CacheConfig(cacheNames = "restaurants")
+@Transactional(readOnly = true)
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
 
     @CacheEvict(allEntries = true)
+    @Transactional
     public Restaurant add(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
     }
 
     @Cacheable
-    @Transactional(readOnly = true)
     public Restaurant findById(int id) throws RestaurantNotFoundException {
         Restaurant restaurant = restaurantRepository.findById(id);
         if (restaurant == null) {
@@ -41,6 +42,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @CacheEvict(allEntries = true)
+    @Transactional
     public void update(Restaurant restaurant) throws RestaurantNotFoundException {
         if (restaurantRepository.save(restaurant) == null) {
             throw new RestaurantNotFoundException(restaurant);
@@ -48,6 +50,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @CacheEvict(allEntries = true)
+    @Transactional
     public void delete(int id) throws RestaurantNotFoundException {
         if (!restaurantRepository.delete(id)) {
             throw new RestaurantNotFoundException(id);

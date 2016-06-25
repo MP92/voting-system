@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Role;
 import ru.pkg.model.User;
 import ru.pkg.repository.UserRepository;
@@ -22,13 +21,11 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-@Transactional(readOnly = true)
 public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements UserRepository {
 
     private static final RowMapper<User> USER_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
@@ -48,7 +45,6 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     VotingRepository votingRepository;
 
     @Override
-    @Transactional
     public User save(User user) {
         SqlParameterSource parameters = new BeanPropertySqlParameterSource(user);
 
@@ -83,7 +79,6 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     }
 
     @Override
-    @Transactional
     public boolean delete(int id) {
         return getJdbcTemplate().update("DELETE FROM users WHERE users.id=?", id) != 0;
     }

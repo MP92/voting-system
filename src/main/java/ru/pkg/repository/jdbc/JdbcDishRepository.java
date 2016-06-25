@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Dish;
 import ru.pkg.model.Restaurant;
 import ru.pkg.repository.DishRepository;
@@ -21,7 +20,6 @@ import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
 public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements DishRepository {
 
     private static final RowMapper<Dish> DISH_MAPPER = BeanPropertyRowMapper.newInstance(Dish.class);
@@ -39,7 +37,6 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
     @Autowired
     RestaurantRepository restaurantRepository;
 
-    @Transactional
     @Override
     public Dish save(Dish dish, int restaurantId) throws DishNotFoundException, DataIntegrityViolationException {
         SqlParameterSource parameters = new MapSqlParameterSource()
@@ -78,7 +75,6 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
         return dishes;
     }
 
-    @Transactional
     @Override
     public boolean delete(int id, int restaurantId) throws DishNotFoundException {
         return getJdbcTemplate().update("DELETE FROM dishes WHERE id=? AND restaurant_id=?", id, restaurantId) > 0;

@@ -16,6 +16,7 @@ import ru.pkg.utils.exception.VotingException;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class VotingServiceImpl implements VotingService {
 
     @Autowired
@@ -25,6 +26,7 @@ public class VotingServiceImpl implements VotingService {
     RestaurantRepository restaurantRepository;
 
     @CacheEvict(cacheNames = "users", allEntries = true)
+    @Transactional
     public UserVote save(int userId, int restaurantId) throws VotingException, RestaurantNotFoundException {
         try {
             UserVote userVote = votingRepository.save(userId, restaurantId);
@@ -50,6 +52,7 @@ public class VotingServiceImpl implements VotingService {
     }
 
     @CacheEvict(cacheNames = "users", allEntries = true)
+    @Transactional
     public void delete(int userId) throws VotingException {
         if (!votingRepository.delete(userId)) {
             throw new VotingException(userId);
@@ -57,11 +60,11 @@ public class VotingServiceImpl implements VotingService {
     }
 
     @CacheEvict(cacheNames = "users", allEntries = true)
+    @Transactional
     public void reset() {
         votingRepository.reset();
     }
 
-    @Transactional(readOnly = true)
     public List<VotingStatistics> findVotingStatistics() {
         return VotingUtil.getVotingStatistics(restaurantRepository.findAll(), votingRepository.findAll());
     }

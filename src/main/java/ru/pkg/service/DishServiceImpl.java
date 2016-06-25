@@ -16,12 +16,14 @@ import java.util.List;
 
 @Service
 @CacheConfig(cacheNames = "dishes")
+@Transactional(readOnly = true)
 public class DishServiceImpl implements DishService {
 
     @Autowired
     DishRepository repository;
 
     @CacheEvict(allEntries = true)
+    @Transactional
     public Dish add(Dish dish, int restaurantId) throws RestaurantNotFoundException {
         try {
             return repository.save(dish, restaurantId);
@@ -45,6 +47,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @CacheEvict(cacheNames = {"dishes", "restaurants"}, allEntries = true)
+    @Transactional
     public void update(Dish dish, int restaurantId) throws DishNotFoundException {
         if (repository.save(dish, restaurantId) == null) {
             throw new DishNotFoundException(dish, restaurantId);
@@ -60,6 +63,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @CacheEvict(cacheNames = {"dishes", "restaurants"}, allEntries = true)
+    @Transactional
     public void delete(int id, int restaurantId) throws DishNotFoundException {
         if (!repository.delete(id, restaurantId)) {
             throw new DishNotFoundException(id, restaurantId);
