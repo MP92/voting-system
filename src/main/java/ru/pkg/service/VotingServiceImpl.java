@@ -1,6 +1,7 @@
 package ru.pkg.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,7 @@ public class VotingServiceImpl implements VotingService {
     @Autowired
     RestaurantRepository restaurantRepository;
 
-    @Override
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public UserVote save(int userId, int restaurantId) throws VotingException, RestaurantNotFoundException {
         try {
             UserVote userVote = votingRepository.save(userId, restaurantId);
@@ -36,7 +37,6 @@ public class VotingServiceImpl implements VotingService {
         }
     }
 
-    @Override
     public UserVote findById(int userId) {
         UserVote userVote = votingRepository.findById(userId);
         if (userVote == null) {
@@ -45,19 +45,18 @@ public class VotingServiceImpl implements VotingService {
         return userVote;
     }
 
-    @Override
     public List<UserVote> findAll() {
         return votingRepository.findAll();
     }
 
-    @Override
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public void delete(int userId) throws VotingException {
         if (!votingRepository.delete(userId)) {
             throw new VotingException(userId);
         }
     }
 
-    @Override
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public void reset() {
         votingRepository.reset();
     }
