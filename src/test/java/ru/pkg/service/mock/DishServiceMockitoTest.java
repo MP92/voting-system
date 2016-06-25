@@ -38,7 +38,7 @@ public class DishServiceMockitoTest extends AbstractServiceMockitoTest {
         Integer restaurantId = toCreateDish.getRestaurant().getId();
 
         when(repository.save(toCreateDish, restaurantId)).thenAnswer(invocation -> {
-            toCreateDish.setId(NEW_DISH_ID);
+            toCreateDish.setId(11111);
             return toCreateDish;
         });
         Dish created = service.add(toCreateDish, restaurantId);

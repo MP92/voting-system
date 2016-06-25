@@ -24,7 +24,7 @@ public class UserVote extends BaseEntity {
     @JsonIgnore
     private Restaurant restaurant;
 
-    @Column(name = "last_voted", nullable = true)
+    @Column(name = "last_voted", columnDefinition = "TIMESTAMP DEFAULT now()")
     private LocalDateTime lastVoted;
 
     public UserVote() {

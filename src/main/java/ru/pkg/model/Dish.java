@@ -24,16 +24,16 @@ public class Dish extends NamedEntity {
     @NotNull
     private DishCategory category;
 
-    @Column(name = "price", nullable = false, columnDefinition = "NUMERIC(7, 2) NOT NULL")
+    @Column(name = "price", columnDefinition = "NUMERIC(7, 2) NOT NULL")
     @Min(1)
     private double price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id")
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonBackReference
     private Restaurant restaurant;
 
-    @Column(name = "in_menu", nullable = false)
+    @Column(name = "in_menu", columnDefinition = "BOOLEAN DEFAULT FALSE NOT NULL")
     private boolean inMenu;
 
     public Dish() {

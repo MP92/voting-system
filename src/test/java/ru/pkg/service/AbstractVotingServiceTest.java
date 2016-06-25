@@ -2,8 +2,6 @@ package ru.pkg.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.testdata.UserTestData;
 import ru.pkg.model.UserVote;
@@ -36,7 +34,6 @@ public abstract class AbstractVotingServiceTest extends AbstractServiceTest {
     }
 
     @Test(expected = RestaurantNotFoundException.class)
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void testUpdateRestaurantNotFound() throws Exception {
         service.save(USER_1_ID, RestaurantTestData.NOT_FOUND_INDEX);
         MATCHER.assertCollectionsEquals(ALL_USER_VOTES, service.findAll());

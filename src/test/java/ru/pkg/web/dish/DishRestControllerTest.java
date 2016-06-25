@@ -1,6 +1,5 @@
 package ru.pkg.web.dish;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -20,14 +19,9 @@ import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class DishRestControllerTest extends AbstractControllerTest {
+public abstract class DishRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = String.format(RestaurantRestController.REST_URL + "/%d/dishes/", RESTAURANT_1_ID);
-
-    @After
-    public void tearDown() throws Exception {
-        cacheManager.getCache("dishes").clear();
-    }
 
     @Test
     public void testCreate() throws Exception {

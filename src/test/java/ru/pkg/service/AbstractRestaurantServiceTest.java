@@ -33,7 +33,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
 
     @Test
     public void testFindById() throws Exception {
-        MATCHER.assertEquals(RESTAURANT_1, service.findById(START_INDEX));
+        MATCHER.assertEquals(RESTAURANT_1, service.findById(RESTAURANT_1_ID));
     }
 
     @Test(expected = RestaurantNotFoundException.class)
@@ -62,7 +62,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
 
     @Test
     public void testDelete() throws Exception {
-        service.delete(START_INDEX);
+        service.delete(RESTAURANT_1_ID);
         MATCHER.assertCollectionsEquals(Collections.singletonList(RESTAURANT_2), service.findAll());
     }
 

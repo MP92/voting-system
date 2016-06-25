@@ -128,13 +128,4 @@ public class User extends NamedEntity {
                 ", enabled=" + enabled +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || !(o instanceof User)) return false;
-
-        BaseEntity that = (BaseEntity) o;
-        return Objects.equals(this.getId(), that.getId());
-    }
 }

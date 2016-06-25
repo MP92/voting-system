@@ -7,15 +7,15 @@ import ru.pkg.model.User;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static ru.pkg.model.BaseEntity.START_SEQ;
+
 public class UserTestData {
 
-    public static final int START_INDEX = 1;
+    public static final int ADMIN_ID = START_SEQ;
+    public static final int USER_1_ID = START_SEQ + 1;
+    public static final int USER_2_ID = START_SEQ + 2;
 
-    public static final int ADMIN_ID = START_INDEX;
-    public static final int USER_1_ID = START_INDEX + 1;
-    public static final int USER_2_ID = START_INDEX + 2;
-
-    public static final int CREATED_USER_ID = START_INDEX + 3;
+    public static final int CREATED_USER_ID = START_SEQ + 13;
 
     public static final int NOT_FOUND_INDEX = 100000;
 

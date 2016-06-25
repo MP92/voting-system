@@ -6,11 +6,11 @@ import javax.persistence.*;
 @Access(AccessType.FIELD)
 public class BaseEntity {
 
-    //todo correct strategy for id generation?
+    public static final int START_SEQ = 10000;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-/*    @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")*/
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 50)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     private Integer id;
 
     protected BaseEntity() {

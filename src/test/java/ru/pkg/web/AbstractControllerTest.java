@@ -1,13 +1,14 @@
 package ru.pkg.web;
 
+import org.junit.After;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import ru.pkg.AbstractTest;
 import ru.pkg.service.*;
@@ -22,8 +23,8 @@ import static ru.pkg.Profiles.*;
         "classpath:spring/spring-web.xml",
 })
 @WebAppConfiguration
-@Transactional
-@ActiveProfiles({POSTGRESQL, JDBC})
+@Sql(value = "classpath:db/populateDB.sql")
+@ActiveProfiles({POSTGRESQL, JPA})
 public abstract class AbstractControllerTest extends AbstractTest {
 
     @Autowired
@@ -49,5 +50,12 @@ public abstract class AbstractControllerTest extends AbstractTest {
     @PostConstruct
     void initMockMvc() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        cacheManager.getCache("users").clear();
+        cacheManager.getCache("restaurants").clear();
+        cacheManager.getCache("dishes").clear();
     }
 }

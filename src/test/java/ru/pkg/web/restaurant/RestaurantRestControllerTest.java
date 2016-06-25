@@ -1,6 +1,5 @@
 package ru.pkg.web.restaurant;
 
-import org.junit.After;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -21,11 +20,6 @@ import static ru.pkg.testdata.RestaurantTestData.TestRestaurantFactory.*;
 public class RestaurantRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = RestaurantRestController.REST_URL + "/";
-
-    @After
-    public void tearDown() throws Exception {
-        cacheManager.getCache("restaurants").clear();
-    }
 
     @Test
     public void testCreate() throws Exception {

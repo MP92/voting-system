@@ -22,9 +22,9 @@ public class RootController {
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public String login(@RequestParam("userName") String userName) {
         if ("admin".equals(userName)) {
-            LoggedUser.setId(1);
+            LoggedUser.setId(10000);
         } else if ("user".equals(userName)) {
-            LoggedUser.setId(2);
+            LoggedUser.setId(10001);
         }
         return "redirect:/restaurants";
     }

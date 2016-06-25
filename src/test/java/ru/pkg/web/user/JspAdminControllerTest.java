@@ -1,10 +1,9 @@
 package ru.pkg.web.user;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.annotation.DirtiesContext;
 import ru.pkg.TestUtils;
 import ru.pkg.model.User;
 import ru.pkg.testdata.UserTestData;
@@ -24,18 +23,13 @@ import static org.hamcrest.Matchers.*;
 
 import static ru.pkg.web.user.JspAdminController.MESSAGE_FORMAT;
 
-@Sql("classpath:db/populateDB.sql")
 public class JspAdminControllerTest extends AbstractControllerTest {
 
     private static final String ADMIN_ID = String.valueOf(UserTestData.ADMIN_ID);
     private static final String NOT_FOUND_INDEX = String.valueOf(UserTestData.NOT_FOUND_INDEX);
 
-    @After
-    public void tearDown() throws Exception {
-        cacheManager.getCache("users").clear();
-    }
-
     @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void testCreate() throws Exception {
         mockMvc.perform(post("/admin/users/save")
                             .param("name", NEW_USER.getName())

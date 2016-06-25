@@ -9,14 +9,12 @@ import java.util.List;
 
 import static ru.pkg.testdata.DishTestData.*;
 
+import static ru.pkg.model.BaseEntity.START_SEQ;
+
 public class RestaurantTestData {
 
-    public static final int START_INDEX = 100;
-
-    public static final int RESTAURANT_1_ID = START_INDEX;
-    public static final int RESTAURANT_2_ID = START_INDEX + 1;
-
-    public static final int NEW_RESTAURANT_ID = START_INDEX + 10;
+    public static final int RESTAURANT_1_ID = START_SEQ + 3;
+    public static final int RESTAURANT_2_ID = START_SEQ + 4;
 
     public static final int NOT_FOUND_INDEX = 100000;
 

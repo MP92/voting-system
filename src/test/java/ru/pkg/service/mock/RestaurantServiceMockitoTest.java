@@ -31,20 +31,20 @@ public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
     public void testAdd() throws Exception {
         Restaurant toCreateRestaurant = TestRestaurantFactory.newInstanceForCreate();
         when(repository.save(toCreateRestaurant)).thenAnswer(invocation -> {
-            toCreateRestaurant.setId(NEW_RESTAURANT_ID);
+            toCreateRestaurant.setId(11111);
             return toCreateRestaurant;
         });
         Restaurant created = service.add(toCreateRestaurant);
         verify(repository).save(toCreateRestaurant);
-        Assert.assertTrue(toCreateRestaurant.getId() == NEW_RESTAURANT_ID);
+        Assert.assertTrue(toCreateRestaurant.getId() == 11111);
         MATCHER.assertEquals(toCreateRestaurant, created);
     }
 
     @Test
     public void testFindById() throws Exception {
-        when(repository.findById(START_INDEX)).thenReturn(copy(RESTAURANT_1));
-        MATCHER.assertEquals(RESTAURANT_1, service.findById(START_INDEX));
-        verify(repository).findById(START_INDEX);
+        when(repository.findById(RESTAURANT_1_ID)).thenReturn(copy(RESTAURANT_1));
+        MATCHER.assertEquals(RESTAURANT_1, service.findById(RESTAURANT_1_ID));
+        verify(repository).findById(RESTAURANT_1_ID);
     }
 
     @Test(expected = RestaurantNotFoundException.class)
@@ -87,9 +87,9 @@ public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Test
     public void testDelete() throws Exception {
-        when(repository.delete(START_INDEX)).thenReturn(true);
-        service.delete(START_INDEX);
-        verify(repository).delete(START_INDEX);
+        when(repository.delete(RESTAURANT_1_ID)).thenReturn(true);
+        service.delete(RESTAURANT_1_ID);
+        verify(repository).delete(RESTAURANT_1_ID);
     }
 
     @Test(expected = RestaurantNotFoundException.class)

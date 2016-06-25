@@ -12,13 +12,11 @@ import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_2;
 import static ru.pkg.testdata.RestaurantTestData.TestRestaurantFactory;
 
+import static ru.pkg.model.BaseEntity.START_SEQ;
+
 public class DishTestData {
 
-    public static final int START_INDEX = 1000;
-
-    public static final int R_1_DISH_1_ID = START_INDEX;
-
-    public static final int NEW_DISH_ID = START_INDEX + 100;
+    public static final int R_1_DISH_1_ID = START_SEQ + 5;
 
     public static final int NOT_FOUND_INDEX = 100000;
 

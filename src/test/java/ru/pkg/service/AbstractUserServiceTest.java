@@ -53,7 +53,8 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     
     @Test(expected = UserNotFoundException.class)
     public void testUpdateNotFound() {
-        service.update(new TestUser(10000, NEW_USER));
+        service.update(new TestUser(NOT_FOUND_INDEX, NEW_USER).asUser());
+        service.update(new TestUser(NOT_FOUND_INDEX, NEW_USER).asUser());
         MATCHER.assertCollectionsEquals(ALL_USERS, service.findAll());
     }
     

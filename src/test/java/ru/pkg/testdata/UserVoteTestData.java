@@ -31,8 +31,5 @@ public class UserVoteTestData {
 
     public static final List<UserVote> ALL_USER_VOTES = Arrays.asList(ADMIN_VOTE, USER_1_VOTE);
 
-    public static final UserVote VOTE_RESTAURANT_NOT_FOUND = new UserVote(USER_1_ID, RestaurantTestData.NOT_FOUND_INDEX);
-    public static final UserVote VOTE_USER_NOT_FOUND = new UserVote(UserTestData.NOT_FOUND_INDEX, RESTAURANT_1_ID);
-
     public static final List<VotingStatistics> VOTING_STATISTICS = VotingUtil.getVotingStatistics(ALL_RESTAURANTS, ALL_USER_VOTES);
 }
