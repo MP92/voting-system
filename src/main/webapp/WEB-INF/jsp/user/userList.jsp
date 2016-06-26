@@ -5,16 +5,18 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
 
-<c:if test="${not empty message}">
-    <div style="background-color:green;">
-        ${message}
+<div class="container">
+    <c:if test="${not empty message}">
+        <div class="alert alert-warning" role="alert">
+            ${message}
+        </div>
+    </c:if>
+    <div class="page-header">
+        <h2>User list</h2>
     </div>
-</c:if>
-
-<h2>User list</h2>
-<a href="users/add">Add</a>
-<table border="1" cellspacing="0">
-    <thead>
+    <a class="btn btn-primary" href="users/add">Add user</a>
+    <table class="table table-striped">
+        <thead>
         <tr>
             <th>Id</th>
             <th>First Name</th>
@@ -25,19 +27,21 @@
             <th></th>
             <th></th>
         </tr>
-    </thead>
-    <c:forEach var="user" items="${userList}">
-        <tr>
-            <td>${user.id}</td>
-            <td>${user.name}</td>
-            <td>${user.surname}</td>
-            <td>${user.registered}</td>
-            <td>${user.enabled}</td>
-            <td>${user.roles}</td>
-            <td><a href="users/edit?id=${user.id}">update</a></td>
-            <td><a href="users/delete?id=${user.id}">delete</a></td>
-        </tr>
-    </c:forEach>
-</table>
+        </thead>
+        <c:forEach var="user" items="${userList}">
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.name}</td>
+                <td>${user.surname}</td>
+                <td>${user.registered}</td>
+                <td>${user.enabled}</td>
+                <td>${user.roles}</td>
+                <td><a class="btn btn-xs btn-warning" href="users/edit?id=${user.id}">update</a></td>
+                <td><a class="btn btn-xs btn-danger" href="users/delete?id=${user.id}">delete</a></td>
+            </tr>
+        </c:forEach>
+    </table>
+</div>
+<jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
 </body>
 </html>

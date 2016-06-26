@@ -6,31 +6,46 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
 
-<h2>User form</h2>
-<form:form modelAttribute="user" action="save">
-    <table>
-        <form:hidden path="id"/>
-        <tr>
-            <th><form:label path="name">First name</form:label></th>
-            <td><form:input path="name"/></td>
-            <td><form:errors path="name"/></td>
-        </tr>
-        <tr>
-            <th><form:label path="surname">Last name</form:label></th>
-            <td><form:input path="surname"/></td>
-            <td><form:errors path="surname"/></td>
-        </tr>
-        <tr>
-            <th><form:label path="password">Password</form:label></th>
-            <td><form:password path="password"/></td>
-            <td><form:errors path="password"/></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Save Changes"/>
-            </td>
-        </tr>
-    </table>
+<div class="container">
+<form:form modelAttribute="user" action="save" cssClass="form-horizontal">
+    <h2 class="form-signin-heading">User form</h2>
+
+    <form:hidden path="id"/>
+    <div class="form-group">
+        <form:label path="name" cssClass="col-xs-2 control-label">First name</form:label>
+        <div class="col-xs-5">
+            <form:input path="name" cssClass="form-control"/>
+        </div>
+        <div class="col-xs-5">
+            <form:errors path="name"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <form:label path="surname" cssClass="col-xs-2 control-label">Last name</form:label>
+        <div class="col-xs-5">
+            <form:input path="surname" cssClass="form-control"/>
+        </div>
+        <div class="col-xs-5">
+            <form:errors path="surname"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <form:label path="password" cssClass="col-xs-2 control-label">Password</form:label>
+        <div class="col-xs-5">
+            <form:password path="password" cssClass="form-control"/>
+        </div>
+        <div class="col-xs-5">
+            <form:errors path="password"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <input type="submit" class="btn btn-default" value="Save Changes"/>
+        </div>
+    </div>
 </form:form>
+</div>
+
+<jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
 </body>
 </html>

@@ -3,6 +3,7 @@ package ru.pkg.web.user;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.pkg.LoggedUser;
@@ -22,12 +23,12 @@ public class JspProfileController extends AbstractUserController {
 
     @RequestMapping(path = "/edit", method = RequestMethod.GET)
     public String initEditForm(Model model) {
-        model.addAttribute("user", super.get(LoggedUser.getId()));
+        model.addAttribute("user", super.getForUpdate(LoggedUser.getId()));
         return "user/userForm";
     }
 
-    @RequestMapping(path = "/edit", method = RequestMethod.POST)
-    public String updateProfile(@Valid UserTO userTO, BindingResult result) {
+    @RequestMapping(path = "/save", method = RequestMethod.POST)
+    public String updateProfile(@ModelAttribute("user") @Valid UserTO userTO, BindingResult result) {
         if (result.hasErrors()) {
             return "user/userForm";
         }

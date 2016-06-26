@@ -7,40 +7,64 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp"/>
 
-<form:form modelAttribute="dish" action="save">
-    <table>
-        <input type="hidden" name="restaurantId" value="${restaurantId}">
-        <form:hidden path="id"/>
-        <form:hidden path="inMenu"/>
-        <tr>
-            <th><form:label path="name">Name</form:label></th>
-            <td><form:input path="name"/></td>
-            <td><form:errors path="name"/></td>
-        </tr>
-        <tr>
-            <th><form:label path="description">Description</form:label></th>
-            <td><form:input path="description"/></td>
-            <td><form:errors path="description"/></td>
-        </tr>
-        <tr>
-            <th><form:label path="weight">Weight</form:label></th>
-            <td><form:input path="weight"/></td>
-            <td><form:errors path="weight"/></td>
-        </tr>
-        <tr>
-            <th><form:label path="category">Category</form:label></th>
-            <td><form:select path="category" items="<%= DishCategory.values() %>"/></td>
-            <td><form:errors path="category"/></td>
-        </tr>
-        <tr>
-            <th><form:label path="price">Price</form:label></th>
-            <td><form:input path="price"/></td>
-            <td><form:errors path="price"/></td>
-        </tr>
-        <tr>
-            <td colspan="2"><input type="submit" value="Save changes"/></td>
-        </tr>
-    </table>
+<div class="container">
+<form:form modelAttribute="dish" action="save" cssClass="form-horizontal">
+    <h2 class="form-signin-heading">Dish form</h2>
+
+    <input type="hidden" name="restaurantId" value="${restaurantId}">
+    <form:hidden path="id"/>
+    <form:hidden path="inMenu"/>
+    <div class="form-group">
+        <form:label path="name" cssClass="col-xs-2 control-label">Name</form:label>
+        <div class="col-sm-5">
+            <form:input path="name" cssClass="form-control"/>
+        </div>
+        <div class="col-sm-5">
+            <form:errors path="name"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <form:label path="description" cssClass="col-xs-2 control-label">Description</form:label>
+        <div class="col-sm-5">
+            <form:input path="description" cssClass="form-control"/>
+        </div>
+        <div class="col-sm-5">
+            <form:errors path="description"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <form:label path="weight" cssClass="col-xs-2 control-label">Weight</form:label>
+        <div class="col-sm-5">
+            <form:input path="weight" cssClass="form-control"/>
+        </div>
+        <div class="col-sm-5">
+            <form:errors path="weight"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <form:label path="category" cssClass="col-xs-2 control-label">Category</form:label>
+        <div class="col-sm-5">
+            <form:select path="category" cssClass="form-control" items="<%= DishCategory.values() %>"/>
+        </div>
+        <div class="col-sm-5">
+            <form:errors path="category"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <form:label path="price" cssClass="col-xs-2 control-label">Price</form:label>
+        <div class="col-sm-5">
+            <form:input path="price" cssClass="form-control"/>
+        </div>
+        <div class="col-sm-5">
+            <form:errors path="price"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <input type="submit" value="Save changes"/>
+        </div>
+    </div>
 </form:form>
+</div>
 </body>
 </html>

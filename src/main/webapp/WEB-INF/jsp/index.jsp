@@ -4,16 +4,19 @@
 <jsp:include page="/WEB-INF/jsp/fragments/head.jsp" />
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
-<h1>Welcome</h1>
-<form method="post" action="login">
-    <label>
-        Select user:
-        <select name="userName">
-            <option>admin</option>
-            <option>user</option>
-        </select>
-    </label>
-    <input type="submit" value="Select"/>
-</form>
+
+<div class="container">
+    <h1>Welcome</h1>
+    <form method="post" action="login">
+        <label>
+            Select user:
+            <select name="userName">
+                <option>admin</option>
+                <option>user</option>
+            </select>
+        </label>
+        <input type="submit" value="Select"/>
+    </form>
+</div>
 </body>
 </html>

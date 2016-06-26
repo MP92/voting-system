@@ -5,34 +5,54 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp"/>
 
-<h2>Restaurant form</h2>
-<form:form modelAttribute="restaurant" action="save">
-    <table>
-        <form:hidden path="id"/>
-        <tr>
-            <th><form:label path="name">Name</form:label></th>
-            <td><form:input path="name"/></td>
-            <td><form:errors path="name"/></td>
-        </tr>
-        <tr>
-            <th><form:label path="description">Description</form:label></th>
-            <td><form:input path="description"/></td>
-            <td><form:errors path="description"/></td>
-        </tr>
-        <tr>
-            <th><form:label path="address">Address</form:label></th>
-            <td><form:input path="address"/></td>
-            <td><form:errors path="address"/></td>
-        </tr>
-        <tr>
-            <th><form:label path="phoneNumber">Phone number</form:label></th>
-            <td><form:input path="phoneNumber"/></td>
-            <td><form:errors path="phoneNumber"/></td>
-        </tr>
-        <tr>
-            <td colspan="2"><input type="submit" value="Save Changes"/></td>
-        </tr>
-    </table>
+<div class="container">
+<form:form modelAttribute="restaurant" action="save" cssClass="form-horizontal">
+    <h2 class="form-signin-heading">Restaurant form</h2>
+
+    <form:hidden path="id"/>
+    <div class="form-group">
+        <form:label path="name" cssClass="col-xs-2 control-label">Name</form:label>
+        <div class="col-xs-5">
+            <form:input path="name" cssClass="form-control"/>
+        </div>
+        <div class="col-xs-5">
+            <form:errors path="name"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <form:label path="description" cssClass="col-xs-2 control-label">Description</form:label>
+        <div class="col-xs-5">
+            <form:input path="description" cssClass="form-control"/>
+        </div>
+        <div class="col-xs-5">
+            <form:errors path="description"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <form:label path="address" cssClass="col-xs-2 control-label">Address</form:label>
+        <div class="col-xs-5">
+            <form:input path="address" cssClass="form-control"/>
+        </div>
+        <div class="col-xs-5">
+            <form:errors path="address"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <form:label path="phoneNumber" cssClass="col-xs-2 control-label">Phone number</form:label>
+        <div class="col-xs-5">
+            <form:input path="phoneNumber" cssClass="form-control"/>
+        </div>
+        <div class="col-xs-5">
+            <form:errors path="phoneNumber"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <input type="submit" class="btn btn-default" value="Save Changes"/>
+        </div>
+    </div>
 </form:form>
+</div>
+<jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
 </body>
 </html>

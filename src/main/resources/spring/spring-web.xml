@@ -29,4 +29,8 @@
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp"/>
 
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+
 </beans>

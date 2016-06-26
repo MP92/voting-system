@@ -5,54 +5,68 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
 
-<h2>Restaurant details</h2>
-<table border="1" cellspacing="0">
-    <tr>
-        <td>ID</td>
-        <td>${restaurant.id}</td>
-    </tr>
-    <tr>
-        <td>Name</td>
-        <td>${restaurant.name}</td>
-    </tr>
-    <tr>
-        <td>Description</td>
-        <td>${restaurant.description}</td>
-    </tr>
-    <tr>
-        <td>Address</td>
-        <td>${restaurant.address}</td>
-    </tr>
-    <tr>
-        <td>Phone number</td>
-        <td>${restaurant.phoneNumber}</td>
-    </tr>
-    <tr>
-        <td>Menu</td>
-        <td>
-            <table border="1" cellspacing="0">
+<div class="container">
+    <div class="page-header">
+        <h2>Restaurant details</h2>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2 class="panel-title"><strong>${restaurant.name}</strong></h2>
+        </div>
+        <div class="panel-body">
+            <table class="table table-user-information">
+                <tbody>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Weight</th>
-                    <th>Category</th>
-                    <th>Price</th>
+                    <td>${restaurant.id}</td>
                 </tr>
-                <c:forEach items="${restaurant.menu}" var="dish">
+                <tr>
+                    <th>Description</th>
+                    <td>${restaurant.description}</td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>${restaurant.address}</td>
+                </tr>
+                <tr>
+                    <th>Phone number</th>
+                    <td>${restaurant.phoneNumber}</td>
+                </tr>
+                <c:if test="${not empty restaurant.menu}">
                     <tr>
-                        <td>${dish.id}</td>
-                        <td>${dish.name}</td>
-                        <td>${dish.description}</td>
-                        <td>${dish.weight}</td>
-                        <td>${dish.category}</td>
-                        <td>${dish.price}</td>
+                        <th>Menu</th>
+                        <td>
+                            <table class="table table-condensed">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Weight</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                </tr>
+                                <c:forEach items="${restaurant.menu}" var="dish">
+                                    <tr>
+                                        <td>${dish.id}</td>
+                                        <td>${dish.name}</td>
+                                        <td>${dish.description}</td>
+                                        <td>${dish.weight}</td>
+                                        <td>${dish.category}</td>
+                                        <td>${dish.price}</td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </td>
                     </tr>
-                </c:forEach>
+                </c:if>
+                </tbody>
             </table>
-        </td>
-    </tr>
-</table>
-<a href="${rootUrl}/dishes?restaurantId=${restaurant.id}">Dish list</a>
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-sm btn-info" href="${rootUrl}/dishes?restaurantId=${restaurant.id}">Dish list</a>
+        </div>
+    </div>
+</div>
+<jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
 </body>
 </html>
