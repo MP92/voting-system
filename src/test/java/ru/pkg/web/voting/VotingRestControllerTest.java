@@ -51,7 +51,7 @@ public class VotingRestControllerTest extends AbstractControllerTest {
     public void testGetVotingStatistics() throws Exception {
         mockMvc.perform(get(REST_BASE_URL))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(VOTING_STATISTICS));
     }
 }

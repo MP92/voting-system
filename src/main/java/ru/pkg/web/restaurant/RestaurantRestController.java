@@ -16,7 +16,7 @@ public class RestaurantRestController extends AbstractRestaurantController {
 
     public static final String REST_URL = "/rest/restaurants";
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
         Restaurant created = super.create(restaurant);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -24,17 +24,17 @@ public class RestaurantRestController extends AbstractRestaurantController {
         return ResponseEntity.created(uri).body(created);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@PathVariable("id") int id, @RequestBody Restaurant restaurant) throws RestaurantNotFoundException {
         super.update(id, restaurant);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Restaurant findById(@PathVariable("id") int id) throws RestaurantNotFoundException {
         return super.findById(id);
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurant> findAll() {
         return super.findAll();
     }

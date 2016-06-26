@@ -14,7 +14,7 @@ public class ProfileRestController extends AbstractUserController {
 
     public static final String REST_URL = "/rest/profile";
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User get() {
         return super.get(LoggedUser.getId());
     }
@@ -24,7 +24,7 @@ public class ProfileRestController extends AbstractUserController {
         super.delete(LoggedUser.getId());
     }
 
-    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@RequestBody User user) {
         super.update(LoggedUser.getId(), user);
     }

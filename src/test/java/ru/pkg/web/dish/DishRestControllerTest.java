@@ -19,7 +19,7 @@ import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public abstract class DishRestControllerTest extends AbstractControllerTest {
+public class DishRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = String.format(RestaurantRestController.REST_URL + "/%d/dishes/", RESTAURANT_1_ID);
 
@@ -27,10 +27,10 @@ public abstract class DishRestControllerTest extends AbstractControllerTest {
     public void testCreate() throws Exception {
         Dish newDish = newInstanceForCreate();
         ResultActions resultActions = mockMvc.perform(post(REST_URL)
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .contentType(MediaType.APPLICATION_JSON)
                     .content(toJson(newDish)))
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(newDish));
 
         newDish.setId(getIntFromJson(resultActions, "id"));
@@ -41,7 +41,7 @@ public abstract class DishRestControllerTest extends AbstractControllerTest {
     public void testUpdate() throws Exception {
         Dish toUpdateDish = newInstanceForUpdate();
         mockMvc.perform(put(REST_URL + R_1_DISH_1_ID)
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .contentType(MediaType.APPLICATION_JSON)
                     .content(toJson(toUpdateDish)))
                 .andExpect(status().isOk());
 
@@ -54,7 +54,7 @@ public abstract class DishRestControllerTest extends AbstractControllerTest {
     public void testFindById() throws Exception {
         mockMvc.perform(get(REST_URL + R_1_DISH_1_ID))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(R_1_DISH_1));
     }
 
@@ -62,7 +62,7 @@ public abstract class DishRestControllerTest extends AbstractControllerTest {
     public void testFindAll() throws Exception {
         mockMvc.perform(get(REST_URL))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(R_1_ALL_DISHES));
     }
 

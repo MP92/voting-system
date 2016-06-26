@@ -25,10 +25,10 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     public void testCreate() throws Exception {
         Restaurant toCreateRestaurant = newInstanceForCreate();
         ResultActions resultActions = mockMvc.perform(post(REST_URL)
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .contentType(MediaType.APPLICATION_JSON)
                     .content(toJson(toCreateRestaurant)))
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(toCreateRestaurant));
 
         toCreateRestaurant.setId(getIntFromJson(resultActions, "id"));
@@ -40,7 +40,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     public void testUpdate() throws Exception {
         Restaurant toUpdateRestaurant = newInstanceForUpdate();
         mockMvc.perform(put(REST_URL + RESTAURANT_1_ID)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(toJson(toUpdateRestaurant)))
                 .andExpect(status().isOk());
 
@@ -51,7 +51,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     public void testFindById() throws Exception {
         mockMvc.perform(get(REST_URL + RESTAURANT_1_ID))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(RESTAURANT_1));
     }
 
@@ -59,7 +59,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     public void testFindAll() throws Exception {
         mockMvc.perform(get(REST_URL))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(ALL_RESTAURANTS));
     }
 

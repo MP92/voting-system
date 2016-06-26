@@ -31,7 +31,7 @@ public class VotingRestController extends AbstractVotingController {
         super.reset();
     }
 
-    @RequestMapping(path = "/voting", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/voting", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VotingStatistics> findVotingStatistics() {
         return super.findVotingStatistics();
     }

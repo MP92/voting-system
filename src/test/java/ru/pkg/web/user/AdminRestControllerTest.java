@@ -23,7 +23,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     public void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + ADMIN_ID))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(ADMIN));
     }
 
@@ -38,10 +38,10 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     @Test
     public void testCreate() throws Exception {
         ResultActions resultActions = mockMvc.perform(post(REST_URL)
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .contentType(MediaType.APPLICATION_JSON)
                     .content(toJson(NEW_USER)))
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(NEW_USER));
 
         TestUser expected = new TestUser(getIntFromJson(resultActions, "id"), NEW_USER);
@@ -52,7 +52,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     public void testUpdate() throws Exception {
         TestUser toUpdateUser = new TestUser(ADMIN_ID, NEW_USER);
         mockMvc.perform(put(REST_URL + ADMIN_ID)
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .contentType(MediaType.APPLICATION_JSON)
                             .content(toJson(toUpdateUser)))
                 .andExpect(status().isOk());
 
@@ -63,7 +63,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     public void testFindAll() throws Exception {
         mockMvc.perform(get(REST_URL))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(ALL_USERS));
     }
 }

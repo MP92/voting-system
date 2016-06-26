@@ -15,7 +15,7 @@ public class AdminRestController extends AbstractUserController {
 
     public static final String REST_URL = "/rest/admin";
 
-    @RequestMapping(path = "/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@PathVariable("id") int id) {
         return super.get(id);
     }
@@ -25,7 +25,7 @@ public class AdminRestController extends AbstractUserController {
         super.delete(id);
     }
 
-    @RequestMapping(path = "/users", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/users", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@RequestBody User user) {
         User created = super.create(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -33,12 +33,12 @@ public class AdminRestController extends AbstractUserController {
         return ResponseEntity.created(uri).body(created);
     }
 
-    @RequestMapping(path = "/users/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/users/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@PathVariable("id") int id, @RequestBody User user) {
         super.update(id, user);
     }
 
-    @RequestMapping(path = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<User> findAll() {
         return super.findAll();
     }

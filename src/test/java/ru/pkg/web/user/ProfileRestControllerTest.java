@@ -32,7 +32,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
     public void testGet() throws Exception {
         mockMvc.perform(get(REST_URL))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(USER_1));
     }
 
@@ -47,7 +47,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
     @Test
     public void testUpdate() throws Exception {
         mockMvc.perform(put(REST_URL)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(toJson(NEW_USER)))
                 .andExpect(status().isOk());
 
