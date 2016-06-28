@@ -21,7 +21,6 @@ public class JpaDishRepository implements DishRepository {
         dish.setRestaurant(em.getReference(Restaurant.class, restaurantId));
         if (dish.isNew()) {
             em.persist(dish);
-            em.flush();
             return dish;
         } else {
             boolean isPresent = findById(dish.getId(), restaurantId) != null;

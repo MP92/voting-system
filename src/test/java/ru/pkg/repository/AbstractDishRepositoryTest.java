@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.transaction.TestTransaction;
 import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.model.Dish;
 
@@ -30,9 +31,23 @@ public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest 
     }
 
     @Test(expected = DataIntegrityViolationException.class)
+    public void testAddDuplicateName() throws Exception {
+        Dish toCreateDish = TestDishFactory.newInstanceForCreate();
+        int restaurantId = toCreateDish.getRestaurant().getId();
+        toCreateDish.setName(R_1_DISH_1.getName());
+        repository.save(toCreateDish, restaurantId);
+
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
     public void testAddRestaurantNotFound() throws Exception {
         Dish toCreateDish = TestDishFactory.newInstanceForCreateForNonexistentRestaurant();
         repository.save(toCreateDish, toCreateDish.getRestaurant().getId());
+
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
     }
 
     @Test
@@ -75,6 +90,17 @@ public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest 
         Dish updated = repository.save(toUpdateDish, restaurantId);
         Assert.assertTrue(updated.getId() == R_1_DISH_1_ID);
         MATCHER.assertCollectionsEquals(Arrays.asList(TestDishFactory.newInstanceForUpdate(), R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), repository.findAll(restaurantId));
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testUpdateDuplicateName() throws Exception {
+        Dish toCreateDish = TestDishFactory.newInstanceForUpdate();
+        int restaurantId = toCreateDish.getRestaurant().getId();
+        toCreateDish.setName(R_1_DISH_2.getName());
+        repository.save(toCreateDish, restaurantId);
+
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
     }
 
     @Test

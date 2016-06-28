@@ -3,6 +3,8 @@ package ru.pkg.repository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.transaction.TestTransaction;
 import ru.pkg.model.Restaurant;
 
 import java.util.Arrays;
@@ -22,6 +24,16 @@ public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositor
         Assert.assertNotNull(toCreateRestaurant.getId());
         MATCHER.assertEquals(toCreateRestaurant, created);
         MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_1, RESTAURANT_2, created), repository.findAll());
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testAddDuplicateName() throws Exception {
+        Restaurant toCreateRestaurant = TestRestaurantFactory.newInstanceForCreate();
+        toCreateRestaurant.setName(RESTAURANT_1.getName());
+        repository.save(toCreateRestaurant);
+
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
     }
 
     @Test
@@ -46,6 +58,16 @@ public abstract class AbstractRestaurantRepositoryTest extends AbstractRepositor
         Assert.assertTrue(updated.getId() == RESTAURANT_1_ID);
         MATCHER.assertEquals(toUpdateRestaurant, updated);
         MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_2, updated), repository.findAll());
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testUpdateDuplicateName() throws Exception {
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdate();
+        toUpdateRestaurant.setName(RESTAURANT_2.getName());
+        repository.save(toUpdateRestaurant);
+
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
     }
 
     @Test

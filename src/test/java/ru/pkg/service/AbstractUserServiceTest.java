@@ -2,6 +2,7 @@ package ru.pkg.service;
 
 import org.junit.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import ru.pkg.model.User;
 import ru.pkg.utils.exception.UserNotFoundException;
 
@@ -27,6 +28,14 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         toCreateUser.setId(created.getId());
         MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, toCreateUser, USER_1, USER_2), service.findAll());
     }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testAddDuplicateFullName() {
+        User toCreateUser = new TestUser(NEW_USER).asUser();
+        toCreateUser.setName(USER_1.getName());
+        toCreateUser.setSurname(USER_1.getSurname());
+        service.add(toCreateUser);
+    }
     
     @Test
     public void testFindById() {
@@ -46,9 +55,17 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     
     @Test
     public void testUpdate() {
-        TestUser toUpdateUser = new TestUser(ADMIN_ID, NEW_USER);
-        service.update(toUpdateUser.asUser());
+        User toUpdateUser = new TestUser(ADMIN_ID, NEW_USER).asUser();
+        service.update(toUpdateUser);
         MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateUser, USER_1, USER_2), service.findAll());
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testUpdateDuplicateFullName() {
+        User toUpdateUser = new TestUser(ADMIN_ID, NEW_USER).asUser();
+        toUpdateUser.setName(USER_2.getName());
+        toUpdateUser.setSurname(USER_2.getSurname());
+        service.update(toUpdateUser);
     }
     
     @Test(expected = UserNotFoundException.class)

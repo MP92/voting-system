@@ -3,6 +3,8 @@ package ru.pkg.repository;
 import org.junit.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.transaction.TestTransaction;
 import ru.pkg.model.User;
 
 import static ru.pkg.testdata.UserTestData.*;
@@ -20,6 +22,17 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
         User created = repository.save(toCreateUser);
         toCreateUser.setId(created.getId());
         MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, toCreateUser, USER_1, USER_2), repository.findAll());
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testAddDuplicateFullName() {
+        User toCreateUser = new TestUser(NEW_USER).asUser();
+        toCreateUser.setName(USER_1.getName());
+        toCreateUser.setSurname(USER_1.getSurname());
+        repository.save(toCreateUser);
+
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
     }
 
     @Test
@@ -45,6 +58,17 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
         Assert.assertTrue(updated.getId() == USER_1_ID);
         MATCHER.assertEquals(toUpdateUser, updated);
         MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, updated, USER_2), repository.findAll());
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testUpdateDuplicateFullName() {
+        User toUpdateUser = new TestUser(USER_1_ID, NEW_USER).asUser();
+        toUpdateUser.setName(USER_2.getName());
+        toUpdateUser.setSurname(USER_2.getSurname());
+        repository.save(toUpdateUser);
+
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
     }
 
     @Test

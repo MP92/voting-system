@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import ru.pkg.model.Restaurant;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 
@@ -31,6 +32,13 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
         MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_1, RESTAURANT_2, added), service.findAll());
     }
 
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testAddDuplicateName() throws Exception {
+        Restaurant toCreateRestaurant = TestRestaurantFactory.newInstanceForCreate();
+        toCreateRestaurant.setName(RESTAURANT_1.getName());
+        service.add(toCreateRestaurant);
+    }
+
     @Test
     public void testFindById() throws Exception {
         MATCHER.assertEquals(RESTAURANT_1, service.findById(RESTAURANT_1_ID));
@@ -51,6 +59,13 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
         Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdate();
         service.update(toUpdateRestaurant);
         MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_2, toUpdateRestaurant), service.findAll());
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testUpdateDuplicateName() throws Exception {
+        Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdate();
+        toUpdateRestaurant.setName(RESTAURANT_2.getName());
+        service.update(toUpdateRestaurant);
     }
 
     @Test(expected = RestaurantNotFoundException.class)

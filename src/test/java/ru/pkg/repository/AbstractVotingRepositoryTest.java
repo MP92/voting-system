@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.transaction.TestTransaction;
 import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.testdata.UserTestData;
 import ru.pkg.model.UserVote;
@@ -36,6 +37,9 @@ public abstract class AbstractVotingRepositoryTest extends AbstractRepositoryTes
     public void testUpdateRestaurantNotFound() throws Exception {
         repository.save(USER_1_ID, RestaurantTestData.NOT_FOUND_INDEX);
         MATCHER.assertCollectionsEquals(ALL_USER_VOTES, repository.findAll());
+
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
     }
 
     @Test

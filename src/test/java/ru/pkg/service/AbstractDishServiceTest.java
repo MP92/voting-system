@@ -8,7 +8,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.model.Dish;
 import ru.pkg.utils.exception.DishNotFoundException;
-import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,6 +35,14 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
         Assert.assertNotNull(toCreateDish.getId());
         MATCHER.assertEquals(toCreateDish, created);
         MATCHER.assertCollectionsEquals(Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4, created), service.findAll(restaurantId));
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testAddDuplicateName() throws Exception {
+        Dish toCreateDish = TestDishFactory.newInstanceForCreate();
+        int restaurantId = toCreateDish.getRestaurant().getId();
+        toCreateDish.setName(R_1_DISH_1.getName());
+        service.add(toCreateDish, restaurantId);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
@@ -84,6 +91,14 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
         Integer restaurantId = toUpdateDish.getRestaurant().getId();
         service.update(toUpdateDish, restaurantId);
         MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateDish, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), service.findAll(restaurantId));
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testUpdateDuplicateName() throws Exception {
+        Dish toUpdateDish = TestDishFactory.newInstanceForUpdate();
+        int restaurantId = toUpdateDish.getRestaurant().getId();
+        toUpdateDish.setName(R_1_DISH_2.getName());
+        service.update(toUpdateDish, restaurantId);
     }
 
     @Test(expected = DishNotFoundException.class)
