@@ -16,7 +16,7 @@ import ru.pkg.utils.RestaurantUtil;
 
 import javax.validation.Valid;
 
-@Controller
+//@Controller
 @RequestMapping(value = "/dishes", method = RequestMethod.GET)
 public class JspDishController extends AbstractDishController {
 

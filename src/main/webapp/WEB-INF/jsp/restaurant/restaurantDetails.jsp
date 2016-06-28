@@ -1,72 +1,52 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<jsp:include page="/WEB-INF/jsp/fragments/head.jsp" />
-<body>
-<jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
-
-<div class="container">
-    <div class="page-header">
-        <h2>Restaurant details</h2>
-    </div>
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h2 class="panel-title"><strong>${restaurant.name}</strong></h2>
-        </div>
-        <div class="panel-body">
-            <table class="table table-user-information">
-                <tbody>
-                <tr>
-                    <th>ID</th>
-                    <td>${restaurant.id}</td>
-                </tr>
-                <tr>
-                    <th>Description</th>
-                    <td>${restaurant.description}</td>
-                </tr>
-                <tr>
-                    <th>Address</th>
-                    <td>${restaurant.address}</td>
-                </tr>
-                <tr>
-                    <th>Phone number</th>
-                    <td>${restaurant.phoneNumber}</td>
-                </tr>
-                <c:if test="${not empty restaurant.menu}">
-                    <tr>
-                        <th>Menu</th>
-                        <td>
-                            <table class="table table-condensed">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Weight</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                </tr>
-                                <c:forEach items="${restaurant.menu}" var="dish">
-                                    <tr>
-                                        <td>${dish.id}</td>
-                                        <td>${dish.name}</td>
-                                        <td>${dish.description}</td>
-                                        <td>${dish.weight}</td>
-                                        <td>${dish.category}</td>
-                                        <td>${dish.price}</td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </td>
-                    </tr>
-                </c:if>
-                </tbody>
-            </table>
-        </div>
-        <div class="panel-footer">
-            <a class="btn btn-sm btn-info" href="${rootUrl}/dishes?restaurantId=${restaurant.id}">Dish list</a>
+<div class="modal fade" id="details">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="modal-title">Restaurant Details</h2>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-info" id="detailsInfo">
+                    <div class="panel-heading">
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-user-information">
+                            <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <td class="details-id"></td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td class="details-description"></td>
+                            </tr>
+                            <tr>
+                                <th>Address</th>
+                                <td class="details-address"></td>
+                            </tr>
+                            <tr>
+                                <th>Phone number</th>
+                                <td class="details-phoneNumber"></td>
+                            </tr>
+                            <tr class="menu">
+                                <th>Menu</th>
+                                <td class="details-menu">
+                                    <table id="menuDatatable" class="table table-condensed">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Weight</th>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
-</body>
-</html>

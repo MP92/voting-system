@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.*;
 
 import static ru.pkg.web.user.JspAdminController.MESSAGE_FORMAT;
 
-public class JspAdminControllerTest extends AbstractControllerTest {
+public abstract class JspAdminControllerTest extends AbstractControllerTest {
 
     private static final String ADMIN_ID = String.valueOf(UserTestData.ADMIN_ID);
     private static final String NOT_FOUND_INDEX = String.valueOf(UserTestData.NOT_FOUND_INDEX);

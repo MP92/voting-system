@@ -5,5 +5,6 @@
     <c:set var="rootUrl" value="${pageContext.request.contextPath}" scope="application"/>
 
     <link rel="stylesheet" href="${rootUrl}/webjars/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${rootUrl}/webjars/datatables/1.10.11/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="${rootUrl}/resources/css/style.css"/>
 </head>

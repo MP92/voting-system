@@ -1,24 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <jsp:include page="/WEB-INF/jsp/fragments/head.jsp" />
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
 
 <div class="container">
-    <c:if test="${not empty message}">
-        <div class="alert alert-warning" role="alert">
-            ${message}
-        </div>
-    </c:if>
     <div class="page-header">
         <h2>User list</h2>
     </div>
-    <a class="btn btn-primary" href="users/add">Add user</a>
-    <table class="table table-striped">
+    <a class="btn btn-primary" onclick="initAddRecord()">Add user</a>
+    <table class="table table-striped" id="datatable">
         <thead>
         <tr>
-            <th>Id</th>
+            <th>ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Registered</th>
@@ -26,22 +22,15 @@
             <th>Roles</th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
         </thead>
-        <c:forEach var="user" items="${userList}">
-            <tr>
-                <td>${user.id}</td>
-                <td>${user.name}</td>
-                <td>${user.surname}</td>
-                <td>${user.registered}</td>
-                <td>${user.enabled}</td>
-                <td>${user.roles}</td>
-                <td><a class="btn btn-xs btn-warning" href="users/edit?id=${user.id}">update</a></td>
-                <td><a class="btn btn-xs btn-danger" href="users/delete?id=${user.id}">delete</a></td>
-            </tr>
-        </c:forEach>
     </table>
+
+    <%@ include file="userForm.jsp" %>
+    <%@ include file="userDetails.jsp" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
+<script type="text/javascript" src="${rootUrl}/resources/js/user.js"></script>
 </body>
 </html>

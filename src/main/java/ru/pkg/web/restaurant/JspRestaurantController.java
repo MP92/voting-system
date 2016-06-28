@@ -15,7 +15,7 @@ import ru.pkg.utils.VotingUtil;
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+//@Controller
 @RequestMapping(path = "/restaurants", method = RequestMethod.GET)
 public class JspRestaurantController extends AbstractRestaurantController {
 
@@ -28,9 +28,11 @@ public class JspRestaurantController extends AbstractRestaurantController {
     public String showList(Model model) {
         List<Restaurant> restaurants = super.findAll();
         model.addAttribute("restaurantList", restaurants).addAttribute("votingStatistics", VotingUtil.getVotingStatistics(restaurants, votingService.findAll()));
+
+        model.addAttribute("votingStatistics", VotingUtil.getVotingStatistics(super.findAll(), votingService.findAll()));
+
         return "restaurant/restaurantList";
     }
-
     @RequestMapping("/details")
     public String showDetails(@RequestParam("id") int id, Model model) {
         model.addAttribute("restaurant", super.findById(id));

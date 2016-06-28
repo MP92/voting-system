@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Dish;
 import ru.pkg.repository.DishRepository;
 import ru.pkg.utils.exception.DishNotFoundException;
-import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
 
@@ -22,14 +21,10 @@ public class DishServiceImpl implements DishService {
     @Autowired
     DishRepository repository;
 
-    @CacheEvict(allEntries = true)
+    @CacheEvict(cacheNames = {"dishes", "restaurants"}, allEntries = true)
     @Transactional
-    public Dish add(Dish dish, int restaurantId) throws RestaurantNotFoundException {
-        try {
-            return repository.save(dish, restaurantId);
-        } catch (DataIntegrityViolationException e) {
-            throw new RestaurantNotFoundException(e);
-        }
+    public Dish add(Dish dish, int restaurantId) throws DataAccessException {
+        return repository.save(dish, restaurantId);
     }
 
     @Cacheable

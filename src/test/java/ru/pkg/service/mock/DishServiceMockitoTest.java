@@ -47,7 +47,7 @@ public class DishServiceMockitoTest extends AbstractServiceMockitoTest {
         MATCHER.assertEquals(toCreateDish, created);
     }
 
-    @Test(expected = RestaurantNotFoundException.class)
+    @Test(expected = DataIntegrityViolationException.class)
     public void testAddRestaurantNotFound() throws Exception {
         Dish toCreateDish = TestDishFactory.newInstanceForCreateForNonexistentRestaurant();
         Integer restaurantId = toCreateDish.getRestaurant().getId();

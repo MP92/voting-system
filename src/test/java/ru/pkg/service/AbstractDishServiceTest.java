@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.model.Dish;
 import ru.pkg.utils.exception.DishNotFoundException;
@@ -37,7 +38,7 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
         MATCHER.assertCollectionsEquals(Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4, created), service.findAll(restaurantId));
     }
 
-    @Test(expected = RestaurantNotFoundException.class)
+    @Test(expected = DataIntegrityViolationException.class)
     public void testAddRestaurantNotFound() throws Exception {
         Dish toCreateDish = TestDishFactory.newInstanceForCreateForNonexistentRestaurant();
         Integer restaurantId = toCreateDish.getRestaurant().getId();

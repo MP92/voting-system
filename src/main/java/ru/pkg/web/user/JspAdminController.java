@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 import static ru.pkg.utils.UserUtil.*;
 
-@Controller
+//@Controller
 @RequestMapping(path = "/admin", method = RequestMethod.GET)
 public class JspAdminController extends AbstractUserController {
 

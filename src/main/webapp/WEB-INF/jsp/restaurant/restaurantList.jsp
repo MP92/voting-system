@@ -1,21 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <jsp:include page="/WEB-INF/jsp/fragments/head.jsp" />
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
 
 <div class="container">
-    <c:if test="${not empty message}">
-        <div class="alert alert-warning" role="alert">
-            ${message}
-        </div>
-    </c:if>
     <div class="page-header">
         <h2>Restaurant list</h2>
     </div>
-    <a class="btn btn-primary" href="restaurants/add">Add restaurant</a>
-    <table class="table table-striped">
+    <a class="btn btn-primary" onclick="initAddRecord()">Add restaurant</a>
+    <table class="table table-striped" id="datatable">
         <thead>
         <tr>
             <th>ID</th>
@@ -26,21 +22,13 @@
             <th></th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
         </thead>
-        <c:forEach items="${restaurantList}" var="restaurant">
-            <tr>
-                <td>${restaurant.id}</td>
-                <td class="text-nowrap"><a href="restaurants/details?id=${restaurant.id}">${restaurant.name}</a></td>
-                <td>${restaurant.description}</td>
-                <td>${restaurant.address}</td>
-                <td>${restaurant.phoneNumber}</td>
-                <td><a class="btn btn-xs btn-success" href="restaurants/vote?restaurantId=${restaurant.id}">Vote</a></td>
-                <td><a class="btn btn-xs btn-warning" href="restaurants/edit?id=${restaurant.id}">Update</a></td>
-                <td><a class="btn btn-xs btn-danger" href="restaurants/delete?id=${restaurant.id}">Delete</a></td>
-            </tr>
-        </c:forEach>
     </table>
+
+    <%@ include file="restaurantForm.jsp" %>
+    <%@ include file="restaurantDetails.jsp" %>
 
     <h2>Votes list</h2>
     <table border="1" cellpadding="0">
@@ -65,5 +53,7 @@
     <a href="restaurants/cancelVote">Cancel vote</a>
 </div>
 <jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
+<script type="text/javascript" src="${rootUrl}/resources/js/restaurant.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/menu.js"></script>
 </body>
 </html>

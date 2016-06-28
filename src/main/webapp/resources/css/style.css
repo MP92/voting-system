@@ -2,6 +2,10 @@ body {
     padding-top: 70px;
 }
 
-.indent-top {
+.margin-top {
     margin-top: 20px;
+}
+
+.margin-bottom {
+    margin-bottom: 20px;
 }

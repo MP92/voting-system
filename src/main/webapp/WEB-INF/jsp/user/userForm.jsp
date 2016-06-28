@@ -1,51 +1,41 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-<jsp:include page="/WEB-INF/jsp/fragments/head.jsp" />
-<body>
-<jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
+<div class="modal fade" id="editRow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title">User form</h2>
+            </div>
+            <div class="modal-body">
+                <form:form class="form-horizontal" method="post" id="detailsForm">
+                    <input type="text" hidden="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="name" class="control-label col-xs-3">Name</label>
 
-<div class="container">
-<form:form modelAttribute="user" action="save" cssClass="form-horizontal">
-    <h2 class="form-signin-heading">User form</h2>
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="surname" class="control-label col-xs-3">Surname</label>
 
-    <form:hidden path="id"/>
-    <div class="form-group">
-        <form:label path="name" cssClass="col-xs-2 control-label">First name</form:label>
-        <div class="col-xs-5">
-            <form:input path="name" cssClass="form-control"/>
-        </div>
-        <div class="col-xs-5">
-            <form:errors path="name"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <form:label path="surname" cssClass="col-xs-2 control-label">Last name</form:label>
-        <div class="col-xs-5">
-            <form:input path="surname" cssClass="form-control"/>
-        </div>
-        <div class="col-xs-5">
-            <form:errors path="surname"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <form:label path="password" cssClass="col-xs-2 control-label">Password</form:label>
-        <div class="col-xs-5">
-            <form:password path="password" cssClass="form-control"/>
-        </div>
-        <div class="col-xs-5">
-            <form:errors path="password"/>
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="control-label col-xs-3">Password</label>
+
+                        <div class="col-xs-9">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form:form>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-xs-offset-2 col-xs-10">
-            <input type="submit" class="btn btn-default" value="Save Changes"/>
-        </div>
-    </div>
-</form:form>
 </div>
-
-<jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
-</body>
-</html>
