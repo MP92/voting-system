@@ -29,16 +29,15 @@ function renderProfileBtn(data, type, row) {
 }
 
 function enable(chkbox, id) {
-    var enabled = chkbox.is(":checked");
-    chkbox.closest('tr').css("text-decoration", enabled ? "none" : "line-through");
-    /*    $.ajax({
-     url: ajaxUrl + id,
-     type: 'POST',
-     data: 'enabled=' + enabled,
-     success: function () {
-     successNoty(enabled ? 'Enabled' : 'Disabled');
-     }
-     });*/
+    $.ajax({
+         url: ajaxUrl + id,
+         type: 'POST',
+         success: function () {
+             var enabled = chkbox.is(":checked");
+             chkbox.closest('tr').css("text-decoration", enabled ? "none" : "line-through");
+             alert(enabled ? 'Enabled' : 'Disabled');
+         }
+    });
 }
 
 $(function () {

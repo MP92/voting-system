@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.model.Dish;
 import ru.pkg.utils.exception.DishNotFoundException;
+import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,7 +46,7 @@ public abstract class AbstractDishServiceTest extends AbstractServiceTest {
         service.add(toCreateDish, restaurantId);
     }
 
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test(expected = RestaurantNotFoundException.class)
     public void testAddRestaurantNotFound() throws Exception {
         Dish toCreateDish = TestDishFactory.newInstanceForCreateForNonexistentRestaurant();
         Integer restaurantId = toCreateDish.getRestaurant().getId();

@@ -7,8 +7,8 @@ DELETE FROM votes;
 ALTER SEQUENCE global_seq RESTART WITH 10000 INCREMENT BY 1;
 
 INSERT INTO users(name, surname, password, registered) VALUES ('Admin', 'Adminov', 'admin', '2016-01-01');
-INSERT INTO users(name, surname, password, registered) VALUES ('User', 'Userov', 'user', '2016-01-01');
-INSERT INTO users(name, surname, password, registered) VALUES ('User2', 'Userov2', 'user2', '2016-01-01');
+INSERT INTO users(name, surname, password, registered) VALUES ('User', 'Userov', 'password', '2016-01-01');
+INSERT INTO users(name, surname, password, registered) VALUES ('User2', 'Userov2', 'password2', '2016-01-01');
 
 INSERT INTO roles(user_id, role) VALUES (10000, 'ROLE_ADMIN');
 INSERT INTO roles(user_id, role) VALUES (10000, 'ROLE_USER');

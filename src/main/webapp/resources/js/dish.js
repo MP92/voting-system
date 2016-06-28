@@ -14,7 +14,13 @@ function changeState(chkbox, id) {
          type: 'POST',
          success: function () {
              alert('state changed');
-             chkbox.closest('tr').css("background-color", enabled ? "lightyellow" : "white");
+             var tr = chkbox.closest('tr');
+             if (enabled) {
+                 tr.addClass('row-highlight');
+             }
+             else {
+                 tr.removeClass('row-highlight');
+             }
          }
     });
 }
@@ -62,6 +68,11 @@ $(function () {
         ],
         "order": [
             [0, "asc"]
-        ]
+        ],
+        "createdRow": function (row, data, dataIndex) {
+            if (data.inMenu) {
+                $(row).addClass('row-highlight')
+            }
+        }
     });
 });

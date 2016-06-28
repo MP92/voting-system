@@ -18,13 +18,16 @@ public class JpaDishRepository implements DishRepository {
     private EntityManager em;
 
     public Dish save(Dish dish, int restaurantId) throws DataIntegrityViolationException {
+        if (dish.isNew() && em.find(Restaurant.class, restaurantId) == null || !dish.isNew() && findById(dish.getId(), restaurantId) == null) {
+            return null;
+        }
+
         dish.setRestaurant(em.getReference(Restaurant.class, restaurantId));
         if (dish.isNew()) {
             em.persist(dish);
             return dish;
         } else {
-            boolean isPresent = findById(dish.getId(), restaurantId) != null;
-            return isPresent ? em.merge(dish) : null;
+            return em.merge(dish);
         }
     }
 

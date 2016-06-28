@@ -39,6 +39,10 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
 
     @Override
     public Dish save(Dish dish, int restaurantId) throws DishNotFoundException, DataIntegrityViolationException {
+        if (dish.isNew() && restaurantRepository.findById(restaurantId) == null) {
+            return null;
+        }
+
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", dish.getId())
                 .addValue("restaurant_id", restaurantId)

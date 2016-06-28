@@ -1,5 +1,6 @@
 package ru.pkg.web.restaurant;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +20,14 @@ public class RestaurantAjaxController extends AbstractRestaurantController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void save(@Valid Restaurant restaurant) {
-        if (restaurant.isNew()) {
-            super.create(restaurant);
-        } else {
-            super.update(restaurant.getId(), restaurant);
+        try {
+            if (restaurant.isNew()) {
+                super.create(restaurant);
+            } else {
+                super.update(restaurant.getId(), restaurant);
+            }
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException("Restaurant with such name already present in application.");
         }
     }
 

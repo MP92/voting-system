@@ -42,4 +42,8 @@ public abstract class AbstractUserController {
     public Collection<User> findAll() {
         return service.findAll();
     }
+
+    public void changeEnabledState(int id) {
+        service.changeEnabledState(id);
+    }
 }

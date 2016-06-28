@@ -3,12 +3,13 @@ package ru.pkg.service;
 import org.springframework.dao.DataAccessException;
 import ru.pkg.model.Dish;
 import ru.pkg.utils.exception.DishNotFoundException;
+import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
 
 public interface DishService {
 
-    Dish add(Dish dish, int restaurantId) throws DataAccessException;
+    Dish add(Dish dish, int restaurantId) throws DataAccessException, RestaurantNotFoundException;
 
     Dish findById(int id, int restaurantId) throws DishNotFoundException;
 

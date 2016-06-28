@@ -63,4 +63,12 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(id);
         }
     }
+
+    @CacheEvict(allEntries = true)
+    @Transactional
+    public void changeEnabledState(int id) {
+        User user = findById(id);
+        user.setEnabled(!user.isEnabled());
+        update(user);
+    }
 }

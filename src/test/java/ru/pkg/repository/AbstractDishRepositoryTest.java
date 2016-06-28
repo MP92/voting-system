@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.transaction.TestTransaction;
 import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.model.Dish;
+import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,13 +42,10 @@ public abstract class AbstractDishRepositoryTest extends AbstractRepositoryTest 
         TestTransaction.end();
     }
 
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test
     public void testAddRestaurantNotFound() throws Exception {
         Dish toCreateDish = TestDishFactory.newInstanceForCreateForNonexistentRestaurant();
-        repository.save(toCreateDish, toCreateDish.getRestaurant().getId());
-
-        TestTransaction.flagForCommit();
-        TestTransaction.end();
+        Assert.assertNull(repository.save(toCreateDish, toCreateDish.getRestaurant().getId()));
     }
 
     @Test

@@ -19,4 +19,6 @@ public interface UserService {
     void update(UserTO to) throws UserNotFoundException;
 
     void delete(int id) throws UserNotFoundException;
+
+    void changeEnabledState(int id);
 }

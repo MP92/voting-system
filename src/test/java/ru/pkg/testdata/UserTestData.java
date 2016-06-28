@@ -24,8 +24,8 @@ public class UserTestData {
     public static final LocalDateTime TEST_DT = LocalDateTime.of(2016, 1, 1, 0, 0);
 
     public static final User ADMIN = new User(ADMIN_ID, "Admin", "Adminov", "admin", TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
-    public static final User USER_1 = new User(USER_1_ID, "User", "Userov", "user", TEST_DT, true, EnumSet.of(Role.ROLE_USER));
-    public static final User USER_2 = new User(USER_2_ID, "User2", "Userov2", "user2", TEST_DT, true, EnumSet.of(Role.ROLE_USER));
+    public static final User USER_1 = new User(USER_1_ID, "User", "Userov", "password", TEST_DT, true, EnumSet.of(Role.ROLE_USER));
+    public static final User USER_2 = new User(USER_2_ID, "User2", "Userov2", "password2", TEST_DT, true, EnumSet.of(Role.ROLE_USER));
 
     static {
         ADMIN.setUserVote(UserVoteTestData.ADMIN_VOTE);

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Dish;
 import ru.pkg.repository.DishRepository;
 import ru.pkg.utils.exception.DishNotFoundException;
+import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
 
@@ -23,11 +24,14 @@ public class DishServiceImpl implements DishService {
 
     @CacheEvict(cacheNames = {"dishes", "restaurants"}, allEntries = true)
     @Transactional
-    public Dish add(Dish dish, int restaurantId) throws DataAccessException {
-        return repository.save(dish, restaurantId);
+    public Dish add(Dish dish, int restaurantId) throws DataAccessException, RestaurantNotFoundException {
+        Dish saved = repository.save(dish, restaurantId);
+        if (saved == null) {
+            throw new RestaurantNotFoundException(restaurantId);
+        }
+        return saved;
     }
 
-    @Cacheable
     public Dish findById(int id, int restaurantId) throws DishNotFoundException {
         Dish dish = repository.findById(id, restaurantId);
         if (dish == null) {
