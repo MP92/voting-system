@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(path = "/restaurants", method = RequestMethod.GET)
+@RequestMapping(path = "admin/restaurants", method = RequestMethod.GET)
 public class VotingJspController extends AbstractVotingController {
 
     @RequestMapping("/vote")

@@ -9,8 +9,9 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="${rootUrl}/admin/users">User list</a></li>
-                <li><a href="${rootUrl}/restaurants">Restaurant list</a></li>
-                <li><a href="${rootUrl}/dishes">Dish list</a></li>
+                <li><a href="${rootUrl}/admin/restaurants">Restaurant table</a></li>
+                <li><a href="${rootUrl}/restaurants">Restaurant catalog</a></li>
+                <li><a href="${rootUrl}/admin/dishes">Dish list</a></li>
             </ul>
         </div>
     </div>

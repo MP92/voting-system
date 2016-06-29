@@ -3,7 +3,6 @@ package ru.pkg.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,7 +10,6 @@ import ru.pkg.LoggedUser;
 import ru.pkg.service.RestaurantService;
 import ru.pkg.service.UserService;
 import ru.pkg.service.VotingService;
-import ru.pkg.utils.RestaurantUtil;
 import ru.pkg.utils.VotingUtil;
 
 @Controller
@@ -41,13 +39,18 @@ public class RootController {
         return "redirect:/restaurants";
     }
 
-    @RequestMapping(path = "/restaurants", method = RequestMethod.GET)
-    public String showRestaurantList(Model model) {
+    @RequestMapping(path = "admin/restaurants", method = RequestMethod.GET)
+    public String showRestaurantTable(Model model) {
         model.addAttribute("votingStatistics", VotingUtil.getVotingStatistics(restaurantService.findAll(), votingService.findAll()));
-        return "restaurant/restaurantList";
+        return "restaurant/restaurantTable";
     }
 
-    @RequestMapping(value = "/dishes", method = RequestMethod.GET)
+    @RequestMapping(path = "/restaurants", method = RequestMethod.GET)
+    public String showRestaurantCatalog() {
+        return "restaurant/restaurantCatalog";
+    }
+
+    @RequestMapping(value = "admin/dishes", method = RequestMethod.GET)
     public String showDishList() {
         return "dish/dishList";
     }

@@ -17,6 +17,10 @@
                                 <td class="details-id"></td>
                             </tr>
                             <tr>
+                                <th>Name</th>
+                                <td class="details-name"></td>
+                            </tr>
+                            <tr>
                                 <th>Description</th>
                                 <td class="details-description"></td>
                             </tr>

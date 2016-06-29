@@ -36,11 +36,11 @@
                                 <th>Roles</th>
                                 <td class="profile-roles"></td>
                             </tr>
-                            <tr>
+                            <tr class="voting-data">
                                 <th>Last voted</th>
                                 <td class="profile-lastVoted"></td>
                             </tr>
-                            <tr>
+                            <tr class="voting-data">
                                 <th>Last chosen restaurant</th>
                                 <td class="profile-restaurant"></td>
                             </tr>

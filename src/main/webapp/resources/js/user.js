@@ -9,14 +9,18 @@ function updateTable() {
 function showProfile(id) {
     profileInfo.find("td").text("");
     $.get(ajaxUrl + id, function (data) {
+        var voteFields = profileInfo.find(".voting-data");
+        var voted = false;
         $.each(data, function (key, value) {
-            if (key === "userVote") {
+            if (key === "userVote" && value.lastVoted) {
+                voted = true;
                 profileInfo.find(".profile-lastVoted").text(value.lastVoted);
                 profileInfo.find(".profile-restaurant").text(value.restaurantId);
             } else {
                 profileInfo.find(".profile-" + key).text(value);
             }
         });
+        voted ? voteFields.show() : voteFields.hide();
         $('#profile').modal();
     });
 }

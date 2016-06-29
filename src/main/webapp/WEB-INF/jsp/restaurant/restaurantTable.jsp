@@ -53,7 +53,7 @@
     <a href="restaurants/cancelVote">Cancel vote</a>
 </div>
 <jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
-<script type="text/javascript" src="${rootUrl}/resources/js/restaurant.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/restaurantTable.js"></script>
 <script type="text/javascript" src="${rootUrl}/resources/js/menu.js"></script>
 </body>
 </html>

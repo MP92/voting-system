@@ -1,0 +1,165 @@
+.sidebar {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .row .sidebar {
+        position: fixed;
+        top: 51px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: block;
+        padding: 20px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: #f5f5f5;
+        border-right: 1px solid #eee;
+    }
+}
+
+.restaurant-catalog .catalog-items {
+    margin-top: 1.5em;
+}
+.restaurant-catalog .catalog-item {
+    float: left;
+    margin-bottom: 5em;
+    border-radius: 5em;
+}
+.restaurant-catalog .catalog-item:not(:nth-child(3n)) {
+    margin-right: 6%;
+}
+.restaurant-catalog .item-header {
+    position: relative;
+    height: 1.875em;
+    background: rgb(121, 121, 121); /* Fallback for older browsers without RGBA-support */
+    background: rgba(121, 121, 121, 0.1);
+    border-radius: 0.75em 0.75em 0 0;
+    -webkit-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+    -webkit-transition-property: background, color;
+    -moz-transition-property: background, color;
+    -ms-transition-property: background, color;
+    -o-transition-property: background, color;
+    transition-property: background, color;
+    color: #5F5F5F;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.875em;
+}
+.restaurant-catalog .item-header:hover {
+    background: rgba(121, 121, 121, 1);
+
+    color: white;
+}
+.restaurant-catalog .item-header-text {
+    opacity: 1;
+}
+.restaurant-catalog .item-header::before,
+.restaurant-catalog .item-header::after {
+    position: absolute;
+    content: "";
+    top: 50%;
+    width: 0.625em;
+    height: 0.625em;
+    background-color: white;
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+.restaurant-catalog .item-header::before {
+    left: 5%;
+}
+.restaurant-catalog .item-header::after {
+    left: 12%;
+}
+.restaurant-catalog .item-img {
+    position: relative;
+    min-height: 15em;
+    max-width: 100%;
+}
+.restaurant-catalog .item-img::before {
+    position: absolute;
+    content: "";
+    width: 0.625em;
+    height: 0.625em;
+    background-color: white;
+    border-radius: 50%;
+    left: 19%;
+    transform: translateY(-200%);
+}
+.restaurant-catalog .item-img img {
+    max-width: 100%;
+    border-radius: 0 0 0.75em 0.75em;
+}
+.restaurant-catalog .item-img:hover .item-card {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 10;
+}
+.restaurant-catalog .item-card {
+    position: absolute;
+    opacity: 0;
+    width: 83%;
+    font-size: 0.875em;
+    line-height: 1.285em;
+    color: #797c7f;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background-color: white;
+    padding: 2.143em 0;
+    text-align: center;
+    box-shadow: 0 0 0.428em -0.214em black;
+    border-radius: 0.5em;
+    -webkit-transition:
+            opacity 0.4s ease 0.3s,
+            transform 0.4s ease 0.3s;
+    -o-transition:
+            opacity 0.4s ease 0.3s,
+            transform 0.4s ease 0.3s;
+    transition:
+            opacity 0.4s ease 0.3s,
+            transform 0.4s ease 0.3s;
+    z-index: -1;
+}
+.restaurant-catalog .item-title {
+    font-size: 1.285em;
+    text-transform: uppercase;
+    margin-bottom: 0.833em;
+    margin-top: 0;
+    color: black;
+    line-height: 1em;
+    min-height: 1em;
+    font-weight: bold;
+}
+.restaurant-catalog .item-text {
+    margin: 1.285em 0;
+    min-height: 2em;
+}
+.restaurant-catalog .item-address {
+    margin-top: 1.6em;
+}
+.restaurant-catalog .item-phoneNumber {
+    margin-bottom: 0.5em;
+}
+.restaurant-catalog .item-btn {
+    width: 70%;
+    background-color: #fb565a;
+    color: white;
+    text-decoration: none;
+    font-size: 0.75em;
+    line-height: 1.5em;
+    border-radius: 2pt;
+    display: inline-block;
+    padding: 1em 0;
+    text-align: center;
+    text-transform: uppercase;
+    -webkit-transition: background-color .3s ease;
+    -o-transition: background-color .3s ease;
+    transition: background-color .3s ease;
+    cursor: pointer;
+}
+.restaurant-catalog .item-btn:hover {
+    background-color: #d6494d;
+}
