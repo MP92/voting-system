@@ -24,7 +24,7 @@ import static ru.pkg.Profiles.*;
 })
 @WebAppConfiguration
 @Sql(value = "classpath:db/populateDB.sql")
-@ActiveProfiles({POSTGRESQL, JPA})
+@ActiveProfiles({ACTIVE_DB, ACTIVE_DAO_IMPL})
 public abstract class AbstractControllerTest extends AbstractTest {
 
     @Autowired

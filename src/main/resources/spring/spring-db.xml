@@ -9,7 +9,7 @@
 
     <tx:annotation-driven/>
 
-    <jdbc:initialize-database data-source="dataSource">
+    <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
         <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
         <jdbc:script location="classpath:db/populateDB.sql" encoding="utf-8"/>
     </jdbc:initialize-database>
@@ -25,6 +25,18 @@
               p:password="${jdbc.password}"
               p:initialSize="2"
               p:maxTotal="5" />
+    </beans>
+
+    <beans profile="h2">
+        <context:property-placeholder location="classpath:db/h2/h2.properties" system-properties-mode="OVERRIDE"/>
+
+        <!--no pooling-->
+        <bean id="dataSource"
+              class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+              p:driverClassName="org.h2.Driver"
+              p:url="${database.url}"
+              p:username="${database.username}"
+              p:password="${database.password}"/>
     </beans>
 
     <beans profile="jdbc">

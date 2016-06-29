@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class TimeUtil {
 
     public static LocalDateTime parse(String ldt) {
-        return LocalDateTime.parse(ldt);
+        return ldt != null ? LocalDateTime.parse(ldt) : null;
     }
 
     public static String toString(LocalDateTime ldt) {

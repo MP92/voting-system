@@ -9,23 +9,23 @@ DROP SEQUENCE IF EXISTS global_seq;
 CREATE SEQUENCE global_seq START WITH 10000;
 
 CREATE TABLE users (
-  id         INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  name       VARCHAR   NOT NULL,
-  surname    VARCHAR   NOT NULL,
-  password   VARCHAR   NOT NULL,
-  registered TIMESTAMP NOT NULL  DEFAULT now(),
-  enabled    BOOLEAN   NOT NULL  DEFAULT TRUE
+  id         INTEGER DEFAULT global_seq.nextval PRIMARY KEY,
+  name       VARCHAR_IGNORECASE      NOT NULL,
+  surname    VARCHAR_IGNORECASE      NOT NULL,
+  password   VARCHAR_IGNORECASE      NOT NULL,
+  registered TIMESTAMP DEFAULT now() NOT NULL,
+  enabled    BOOLEAN DEFAULT TRUE    NOT NULL
 );
 CREATE UNIQUE INDEX users_unique_name_idx ON users (name, surname);
 
 CREATE TABLE roles (
-  user_id INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-  role    VARCHAR NOT NULL,
+  user_id INTEGER            NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+  role    VARCHAR_IGNORECASE NOT NULL,
   UNIQUE (user_id, role)
 );
 
 CREATE TABLE restaurants (
-  id           INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  id           INTEGER DEFAULT global_seq.nextval PRIMARY KEY,
   name         VARCHAR NOT NULL,
   description  VARCHAR NOT NULL,
   address      VARCHAR NOT NULL,
@@ -34,14 +34,14 @@ CREATE TABLE restaurants (
 CREATE UNIQUE INDEX restaurant_unique_name_idx ON restaurants (name);
 
 CREATE TABLE dishes (
-  id            INTEGER PRIMARY KEY    DEFAULT nextval('global_seq'),
-  restaurant_id INTEGER       NOT NULL REFERENCES restaurants (id) ON DELETE CASCADE,
-  name          VARCHAR       NOT NULL,
-  description   VARCHAR       NOT NULL,
-  weight        INTEGER       NOT NULL,
-  category      VARCHAR       NOT NULL,
-  price         NUMERIC(7, 2) NOT NULL,
-  in_menu       BOOLEAN       NOT NULL DEFAULT FALSE
+  id            INTEGER DEFAULT global_seq.nextval PRIMARY KEY,
+  restaurant_id INTEGER               NOT NULL REFERENCES restaurants (id) ON DELETE CASCADE,
+  name          VARCHAR               NOT NULL,
+  description   VARCHAR               NOT NULL,
+  weight        INTEGER               NOT NULL,
+  category      VARCHAR               NOT NULL,
+  price         NUMERIC(7, 2)         NOT NULL,
+  in_menu       BOOLEAN DEFAULT FALSE NOT NULL
 );
 CREATE UNIQUE INDEX dishes_unique_name_idx ON dishes (restaurant_id, name);
 

@@ -9,7 +9,7 @@ public class BaseEntity {
     public static final int START_SEQ = 10000;
 
     @Id
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 50)
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     private Integer id;
 

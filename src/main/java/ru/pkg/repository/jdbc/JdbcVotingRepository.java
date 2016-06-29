@@ -2,21 +2,23 @@ package ru.pkg.repository.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import ru.pkg.model.UserVote;
 import ru.pkg.repository.VotingRepository;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static ru.pkg.repository.jdbc.JdbcRepositoryUtils.*;
 
 @Repository
 public class JdbcVotingRepository extends NamedParameterJdbcDaoSupport implements VotingRepository {
 
-    private static final RowMapper<UserVote> USER_VOTE_MAPPER = BeanPropertyRowMapper.newInstance(UserVote.class);
+    private static final RowMapper<UserVote> USER_VOTE_MAPPER = (rs, rowNum) -> new UserVote(rs.getInt("user_id"), getInt(rs.getString("restaurant_id")), getDateTime(rs.getString("last_voted")));
 
     @Autowired
     public JdbcVotingRepository(DataSource dataSource) {
@@ -25,12 +27,11 @@ public class JdbcVotingRepository extends NamedParameterJdbcDaoSupport implement
 
     @Override
     public UserVote save(int userId, int restaurantId) {
-        UserVote userVote = new UserVote(userId, restaurantId);
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(userVote);
-        if (getNamedParameterJdbcTemplate().update("UPDATE votes SET restaurant_id=:restaurantId, last_voted=:lastVoted WHERE user_id=:id", params) == 0) {
+        LocalDateTime ldt;
+        if (getJdbcTemplate().update("UPDATE votes SET restaurant_id=?, last_voted=? WHERE user_id=?", restaurantId, Timestamp.valueOf(ldt = LocalDateTime.now()), userId) == 0) {
             return null;
         }
-        return userVote;
+        return new UserVote(userId, restaurantId, ldt);
     }
 
     @Override

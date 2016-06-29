@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ru.pkg.model.Dish;
+import ru.pkg.model.DishCategory;
 import ru.pkg.model.Restaurant;
 import ru.pkg.repository.RestaurantRepository;
 
@@ -16,13 +17,15 @@ import javax.sql.DataSource;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static ru.pkg.repository.jdbc.JdbcRepositoryUtils.DISH_MAPPER;
+
 @Repository
 public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport implements RestaurantRepository {
 
     private static final RowMapper<Restaurant> RESTAURANT_MAPPER = BeanPropertyRowMapper.newInstance(Restaurant.class);
 
-    private static final RowMapper<Dish> DISH_MAPPER = BeanPropertyRowMapper.newInstance(Dish.class);
-    private static final RowMapper<JdbcDish> JDBC_DISH_MAPPER = BeanPropertyRowMapper.newInstance(JdbcDish.class);
+    private static final RowMapper<JdbcDish> JDBC_DISH_MAPPER = (rs, rowNum) -> new JdbcDish(rs.getInt("id"), rs.getString("name"), rs.getString("description"),
+            rs.getInt("weight"), DishCategory.valueOf(rs.getString("category")), rs.getDouble("price"), rs.getBoolean("in_menu"), rs.getInt("restaurant_id"));
 
     private SimpleJdbcInsert inserter;
 
@@ -89,6 +92,11 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
     public static class JdbcDish extends Dish {
 
         private int restaurantId;
+
+        public JdbcDish(Integer id, String name, String description, int weight, DishCategory category, double price, boolean inMenu, int restaurantId) {
+            super(id, name, description, weight, category, price, inMenu);
+            this.restaurantId = restaurantId;
+        }
 
         public int getRestaurantId() {
             return restaurantId;

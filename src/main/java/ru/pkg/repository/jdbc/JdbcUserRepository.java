@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -21,6 +20,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,7 +28,8 @@ import java.util.stream.Collectors;
 @Repository
 public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements UserRepository {
 
-    private static final RowMapper<User> USER_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
+    private static final RowMapper<User> USER_MAPPER = (rs, rowNum) -> new User(rs.getInt("id"), rs.getString("name"),
+        rs.getString("surname"), rs.getString("password"), rs.getTimestamp("registered").toLocalDateTime(), rs.getBoolean("enabled"), null);
     private static final RowMapper<Role> ROLES_MAPPER = (rs, rowNum) -> Role.valueOf(rs.getString("role"));
 
     private SimpleJdbcInsert inserter;
@@ -46,7 +47,13 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
 
     @Override
     public User save(User user) {
-        SqlParameterSource parameters = new BeanPropertySqlParameterSource(user);
+        SqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("id", user.getId())
+                .addValue("name", user.getName())
+                .addValue("surname", user.getSurname())
+                .addValue("password", user.getPassword())
+                .addValue("registered", Timestamp.valueOf(user.getRegistered()))
+                .addValue("enabled", user.isEnabled());
 
         if (user.isNew()) {
             Number key = inserter.executeAndReturnKey(parameters);

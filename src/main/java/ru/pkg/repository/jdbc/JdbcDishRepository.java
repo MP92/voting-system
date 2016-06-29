@@ -3,8 +3,6 @@ package ru.pkg.repository.jdbc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.support.DataAccessUtils;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -19,10 +17,10 @@ import ru.pkg.utils.exception.DishNotFoundException;
 import javax.sql.DataSource;
 import java.util.List;
 
+import static ru.pkg.repository.jdbc.JdbcRepositoryUtils.DISH_MAPPER;
+
 @Repository
 public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements DishRepository {
-
-    private static final RowMapper<Dish> DISH_MAPPER = BeanPropertyRowMapper.newInstance(Dish.class);
 
     private SimpleJdbcInsert inserter;
 

@@ -5,6 +5,6 @@ import ru.pkg.repository.AbstractUserRepositoryTest;
 
 import static ru.pkg.Profiles.*;
 
-@ActiveProfiles({POSTGRESQL, JDBC})
+@ActiveProfiles(JDBC)
 public class JdbcUserRepositoryTest extends AbstractUserRepositoryTest {
 }

@@ -5,6 +5,6 @@ import ru.pkg.service.AbstractUserServiceTest;
 
 import static ru.pkg.Profiles.*;
 
-@ActiveProfiles({POSTGRESQL, JDBC})
+@ActiveProfiles(JDBC)
 public class UserServiceJdbcTest extends AbstractUserServiceTest {
 }

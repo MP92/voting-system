@@ -58,8 +58,8 @@ INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in
   'Долго смотреть на этот десерт невозможно - он нереально, ну просто фантастически летний. Тончайшие ломтики ананасовой мякоти выполняют роль теста в классических равиоли. Внутри – нарезанное мелкими кубиками манго с соусом из лайма.',
   125, 'DESSERT', 245.5, FALSE);
 
-INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10000, 10003, now()::date);
-INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10001, 10004, now()::date);
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10000, 10003, current_date);
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10001, 10004, current_date);
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10002, NULL, NULL);
 
-ALTER SEQUENCE global_seq INCREMENT BY 50;
+ALTER SEQUENCE global_seq RESTART WITH 10063 INCREMENT BY 50;
