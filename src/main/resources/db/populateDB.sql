@@ -17,6 +17,14 @@ INSERT INTO roles(user_id, role) VALUES (10002, 'ROLE_USER');
 
 INSERT INTO restaurants(name, description, address, phone_number) VALUES ('E Pellicci', 'E Pellicci description', '332 Bethnal Green Rd, London E2 0AG, England', '+44 20 7739 4873');
 INSERT INTO restaurants(name, description, address, phone_number) VALUES ('taNgia', 'taNgia description', '108 Mitcham Road | Tooting Broadway, London SW17 9NG, England', '+44 20 3774 0779');
+INSERT INTO restaurants(name, description, address, phone_number) VALUES ('E Pellicci2', 'E Pellicci description', '332 Bethnal Green Rd, London E2 0AG, England', '+44 20 7739 4873');
+INSERT INTO restaurants(name, description, address, phone_number) VALUES ('E Pellicci3', 'E Pellicci description', '332 Bethnal Green Rd, London E2 0AG, England', '+44 20 7739 4873');
+INSERT INTO restaurants(name, description, address, phone_number) VALUES ('E Pellicci4', 'E Pellicci description', '332 Bethnal Green Rd, London E2 0AG, England', '+44 20 7739 4873');
+INSERT INTO restaurants(name, description, address, phone_number) VALUES ('E Pellicci5', 'E Pellicci description', '332 Bethnal Green Rd, London E2 0AG, England', '+44 20 7739 4873');
+INSERT INTO restaurants(name, description, address, phone_number) VALUES ('taNgia2', 'taNgia description', '108 Mitcham Road | Tooting Broadway, London SW17 9NG, England', '+44 20 3774 0779');
+INSERT INTO restaurants(name, description, address, phone_number) VALUES ('taNgia3', 'taNgia description', '108 Mitcham Road | Tooting Broadway, London SW17 9NG, England', '+44 20 3774 0779');
+INSERT INTO restaurants(name, description, address, phone_number) VALUES ('taNgia4', 'taNgia description', '108 Mitcham Road | Tooting Broadway, London SW17 9NG, England', '+44 20 3774 0779');
+INSERT INTO restaurants(name, description, address, phone_number) VALUES ('taNgia5', 'taNgia description', '108 Mitcham Road | Tooting Broadway, London SW17 9NG, England', '+44 20 3774 0779');
 
 INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in_menu) VALUES (
   10003, 'Beer-and-Cheddar SoupBeer-and-Cheddar Soup',
@@ -58,8 +66,48 @@ INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in
   'Долго смотреть на этот десерт невозможно - он нереально, ну просто фантастически летний. Тончайшие ломтики ананасовой мякоти выполняют роль теста в классических равиоли. Внутри – нарезанное мелкими кубиками манго с соусом из лайма.',
   125, 'DESSERT', 245.5, FALSE);
 
+INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in_menu) VALUES (
+  10005, 'Beer-and-Cheddar SoupBeer-and-Cheddar Soup2',
+  'When Jonathon Erdeljac opened his new restaurant, Jonathon''s Oak Cliff, in Dallas, he knew he wanted to serve this rich soup. It''s a favorite of his, especially with jalapenos and smoky bacon stirred in.',
+  260, 'SOUP', 84.6, TRUE);
+
+INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in_menu) VALUES (
+  10005, 'Bucatini with Pancetta, Pecorino and Pepper2',
+  '"I love knowing that I have leftovers in the refrigerator," says chef Shelley Lindgren. She''ll often make pasta during the day like this rich, pancetta-studded bucatini that''s tossed with plenty of freshly ground black pepper and Pecorino and then reheat a big bowl of it when she comes home from work late at night.',
+  250, 'GARNISH', 75.4, TRUE);
+
+INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in_menu) VALUES (
+  10006, 'Beer-and-Cheddar SoupBeer-and-Cheddar Soup3',
+  'When Jonathon Erdeljac opened his new restaurant, Jonathon''s Oak Cliff, in Dallas, he knew he wanted to serve this rich soup. It''s a favorite of his, especially with jalapenos and smoky bacon stirred in.',
+  260, 'SOUP', 84.6, TRUE);
+
+INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in_menu) VALUES (
+  10006, 'Bucatini with Pancetta, Pecorino and Pepper3',
+  '"I love knowing that I have leftovers in the refrigerator," says chef Shelley Lindgren. She''ll often make pasta during the day like this rich, pancetta-studded bucatini that''s tossed with plenty of freshly ground black pepper and Pecorino and then reheat a big bowl of it when she comes home from work late at night.',
+  250, 'GARNISH', 75.4, TRUE);
+
+INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in_menu) VALUES (
+  10007, 'Beer-and-Cheddar SoupBeer-and-Cheddar Soup4',
+  'When Jonathon Erdeljac opened his new restaurant, Jonathon''s Oak Cliff, in Dallas, he knew he wanted to serve this rich soup. It''s a favorite of his, especially with jalapenos and smoky bacon stirred in.',
+  260, 'SOUP', 84.6, TRUE);
+
+INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in_menu) VALUES (
+  10007, 'Bucatini with Pancetta, Pecorino and Pepper4',
+  '"I love knowing that I have leftovers in the refrigerator," says chef Shelley Lindgren. She''ll often make pasta during the day like this rich, pancetta-studded bucatini that''s tossed with plenty of freshly ground black pepper and Pecorino and then reheat a big bowl of it when she comes home from work late at night.',
+  250, 'GARNISH', 75.4, TRUE);
+
+INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in_menu) VALUES (
+  10008, 'Beer-and-Cheddar SoupBeer-and-Cheddar Soup5',
+  'When Jonathon Erdeljac opened his new restaurant, Jonathon''s Oak Cliff, in Dallas, he knew he wanted to serve this rich soup. It''s a favorite of his, especially with jalapenos and smoky bacon stirred in.',
+  260, 'SOUP', 84.6, TRUE);
+
+INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in_menu) VALUES (
+  10008, 'Bucatini with Pancetta, Pecorino and Pepper5',
+  '"I love knowing that I have leftovers in the refrigerator," says chef Shelley Lindgren. She''ll often make pasta during the day like this rich, pancetta-studded bucatini that''s tossed with plenty of freshly ground black pepper and Pecorino and then reheat a big bowl of it when she comes home from work late at night.',
+  250, 'GARNISH', 75.4, TRUE);
+
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10000, 10003, current_date);
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10001, 10004, current_date);
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10002, NULL, NULL);
 
-ALTER SEQUENCE global_seq RESTART WITH 10063 INCREMENT BY 50;
+ALTER SEQUENCE global_seq INCREMENT BY 50;

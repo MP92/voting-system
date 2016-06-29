@@ -23,7 +23,7 @@ import static ru.pkg.Profiles.*;
         "classpath:spring/spring-web.xml",
 })
 @WebAppConfiguration
-@Sql(value = "classpath:db/populateDB.sql")
+@Sql(value = "classpath:db/populateDB-test.sql")
 @ActiveProfiles({ACTIVE_DB, ACTIVE_DAO_IMPL})
 public abstract class AbstractControllerTest extends AbstractTest {
 

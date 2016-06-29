@@ -12,7 +12,7 @@ import static ru.pkg.Profiles.ACTIVE_DB;
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
 })
-@Sql(value = "classpath:db/populateDB.sql")
+@Sql(value = "classpath:db/populateDB-test.sql")
 @ActiveProfiles(ACTIVE_DB)
 public abstract class AbstractServiceTest extends AbstractTest {
 
