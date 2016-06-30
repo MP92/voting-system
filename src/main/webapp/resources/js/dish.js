@@ -1,7 +1,6 @@
 var restaurantId = getQueryVariable("restaurantId");
 var ajaxUrl = getContextPath() + '/ajax/restaurants/' + restaurantId + '/dishes/';
 var datatableApi;
-var detailsInfo;
 
 function updateTable() {
     $.get(ajaxUrl, updateTableByData);
@@ -29,8 +28,6 @@ $(function () {
     if (!restaurantId) {
         return;
     }
-
-    detailsInfo = $('#detailsInfo');
 
     datatableApi = $('#datatable').DataTable({
         "ajax": {

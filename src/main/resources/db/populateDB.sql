@@ -106,8 +106,24 @@ INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in
   '"I love knowing that I have leftovers in the refrigerator," says chef Shelley Lindgren. She''ll often make pasta during the day like this rich, pancetta-studded bucatini that''s tossed with plenty of freshly ground black pepper and Pecorino and then reheat a big bowl of it when she comes home from work late at night.',
   250, 'GARNISH', 75.4, TRUE);
 
+INSERT INTO users(name, surname, password, registered) VALUES ('User3', 'Userov3', 'password2', '2016-01-01'); -- id=10029
+INSERT INTO users(name, surname, password, registered) VALUES ('User4', 'Userov4', 'password2', '2016-01-01'); -- id=10030
+INSERT INTO users(name, surname, password, registered) VALUES ('User5', 'Userov5', 'password2', '2016-01-01'); -- id=10031
+INSERT INTO users(name, surname, password, registered) VALUES ('User6', 'Userov6', 'password2', '2016-01-01'); -- id=10032
+INSERT INTO users(name, surname, password, registered) VALUES ('User7', 'Userov7', 'password2', '2016-01-01'); -- id=10033
+INSERT INTO users(name, surname, password, registered) VALUES ('User8', 'Userov8', 'password2', '2016-01-01'); -- id=10034
+INSERT INTO users(name, surname, password, registered) VALUES ('User9', 'Userov9', 'password2', '2016-01-01'); -- id=10035
+
+
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10000, 10003, current_date);
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10001, 10004, current_date);
-INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10002, NULL, NULL);
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10002, 10004, current_date);
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10029, 10004, current_date);
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10030, 10004, current_date);
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10031, 10005, current_date);
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10032, 10005, current_date);
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10033, 10005, current_date);
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10034, 10006, current_date);
+INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10035, 10008, current_date);
 
 ALTER SEQUENCE global_seq INCREMENT BY 50;

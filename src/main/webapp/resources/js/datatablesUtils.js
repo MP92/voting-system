@@ -68,26 +68,3 @@ function renderDeleteBtn(data, type, row) {
     }
     return data;
 }
-
-function showRestaurantDetails(id, url) {
-    if (typeof url === 'undefined') {
-        url = ajaxUrl;
-    }
-    $.get(url + id, function (data) {
-        detailsInfo.find("td:not(.details-menu)").text("");
-        $.each(data, function (key, value) {
-            if (key === 'menu') {
-                var tr = detailsInfo.find(".menu");
-                if (value && value.length > 0) {
-                    tr.show();
-                    updateMenuTableByData(value, menuTableApi);
-                } else {
-                    tr.hide();
-                }
-            } else {
-                detailsInfo.find(".details-" + key).text(value);
-            }
-        });
-        $('#details').modal();
-    });
-}

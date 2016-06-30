@@ -1,14 +1,11 @@
 var ajaxUrl = getContextPath() + '/ajax/restaurants/';
 var datatableApi;
-var detailsInfo;
 
 function updateTable() {
     $.get(ajaxUrl, updateTableByData);
 }
 
 $(function () {
-    detailsInfo = $('#detailsInfo');
-
     datatableApi = $('#datatable').DataTable({
         "ajax": {
             "url": ajaxUrl,
@@ -22,7 +19,7 @@ $(function () {
                 "data": "name",
                 "render": function (data, type, row) {
                     if (type == 'display') {
-                        return '<a onclick="showRestaurantDetails(' + row.id + ');">' + data + '</a>';
+                        return '<a style="cursor: pointer" onclick="showRestaurantDetails(' + row.id + ');">' + data + '</a>';
                     }
                     return data;
                 }
