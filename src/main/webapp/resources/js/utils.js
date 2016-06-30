@@ -1,5 +1,9 @@
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
+
+    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
+        alert(jqXHR.statusText);
+    });
 });
 
 function getContextPath() {
@@ -16,3 +20,8 @@ function getQueryVariable(variable)
     }
     return(false);
 }
+
+String.prototype.format = function () {
+    var args = arguments;
+    return this.replace(/\{(\d+)\}/g, function (m, n) { return args[n]; });
+};

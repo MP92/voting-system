@@ -7,10 +7,6 @@ $(function () {
         save();
         return false;
     });
-
-    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
-        alert(jqXHR.responseText);
-    });
 });
 
 function initAddRecord() {

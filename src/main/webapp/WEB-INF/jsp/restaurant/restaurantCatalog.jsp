@@ -3,7 +3,7 @@
 <html>
 <jsp:include page="/WEB-INF/jsp/fragments/head.jsp" />
 <link rel="stylesheet" href="${rootUrl}/resources/css/restaurantCatalog.css"/>
-<link rel="stylesheet" href="${rootUrl}/resources/css/votingChart.css"/>
+<link rel="stylesheet" href="${rootUrl}/resources/css/voting.css"/>
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
 
@@ -18,6 +18,10 @@
             </div>
             <div class="voting-chart">
             </div>
+            <div class="text-center">
+                <a class="voting-button btn-cancel" onclick="cancelVote()">Cancel vote</a>
+                <a class="voting-button btn-reset" onclick="resetVotes()">Reset votes</a>
+            </div>
         </div>
         <div class="restaurant-catalog col-sm-9">
             <div class="catalog-items clearfix">
@@ -31,6 +35,6 @@
 
 <script type="text/javascript" src="${rootUrl}/resources/js/templates.js"></script>
 <script type="text/javascript" src="${rootUrl}/resources/js/restaurantCatalog.js"></script>
-<script type="text/javascript" src="${rootUrl}/resources/js/votingChart.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/voting.js"></script>
 <script type="text/javascript" src="${rootUrl}/resources/js/restaurantDetails.js"></script>
 </html>

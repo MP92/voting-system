@@ -40,8 +40,7 @@ public class RootController {
     }
 
     @RequestMapping(path = "admin/restaurants", method = RequestMethod.GET)
-    public String showRestaurantTable(Model model) {
-        model.addAttribute("votingStatistics", VotingUtil.getVotingStatistics(restaurantService.findAll(), votingService.findAll()));
+    public String showRestaurantTable() {
         return "restaurant/restaurantTable";
     }
 

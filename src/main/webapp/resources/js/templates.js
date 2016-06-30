@@ -1,5 +1,5 @@
 Handlebars.registerHelper('toPercentage', function(rational) {
-    return (rational * 100) + '%';
+    return Math.round(rational * 100) + '%';
 });
 
 Handlebars.registerHelper('contextPath', function() {

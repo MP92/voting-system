@@ -22,35 +22,12 @@
             <th></th>
             <th></th>
             <th></th>
-            <th></th>
         </tr>
         </thead>
     </table>
 
     <%@ include file="restaurantForm.jsp" %>
     <%@ include file="restaurantDetails.jsp" %>
-
-    <h2>Votes list</h2>
-    <table border="1" cellpadding="0">
-        <thead>
-        <tr>
-            <th>Restaurant ID</th>
-            <th>Restaurant name</th>
-            <th>Votes</th>
-            <th>Percentage</th>
-        </tr>
-        </thead>
-        <c:forEach items="${votingStatistics}" var="item">
-            <tr>
-                <td>${item.restaurantId}</td>
-                <td>${item.restaurantName}</td>
-                <td>${item.votes}</td>
-                <td>${item.percentage}</td>
-            </tr>
-        </c:forEach>
-    </table>
-    <a href="restaurants/resetVotes">Reset votes</a>
-    <a href="restaurants/cancelVote">Cancel vote</a>
 </div>
 <jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
 <script type="text/javascript" src="${rootUrl}/resources/js/restaurantTable.js"></script>
