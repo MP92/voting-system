@@ -35,7 +35,7 @@
                         <label for="weight" class="control-label col-xs-3">Weight</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="weight" name="weight" placeholder="Weight">
+                            <input type="number" step="1" class="form-control" id="weight" name="weight" placeholder="Weight">
                         </div>
                     </div>
                     <div class="form-group">
@@ -53,7 +53,7 @@
                         <label for="price" class="control-label col-xs-3">Price</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="price" name="price" placeholder="Price">
+                            <input type="number" step="0.01" class="form-control" id="price" name="price" placeholder="Price">
                         </div>
                     </div>
                     <div class="form-group ">

@@ -4,8 +4,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.pkg.model.Dish;
+import ru.pkg.to.DishTO;
+import ru.pkg.utils.DishUtil;
 import ru.pkg.utils.exception.DishNotFoundException;
-import ru.pkg.utils.exception.RestaurantNotFoundException;
 import ru.pkg.web.restaurant.RestaurantAjaxController;
 
 import javax.validation.Valid;
@@ -16,12 +17,12 @@ import java.util.List;
 public class DishAjaxController extends AbstractDishController {
 
     @RequestMapping(method = RequestMethod.POST)
-    public void save(@Valid Dish dish, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
+    public void save(@Valid DishTO dishTO, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
         try {
-            if (dish.isNew()) {
-                super.create(dish, restaurantId);
+            if (dishTO.isNew()) {
+                super.create(DishUtil.createFromTO(dishTO), restaurantId);
             } else {
-                super.update(dish, restaurantId);
+                super.update(DishUtil.createFromTO(dishTO), restaurantId);
             }
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Dish with such name already present in application.");

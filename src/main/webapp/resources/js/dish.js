@@ -7,19 +7,13 @@ function updateTable() {
 }
 
 function changeState(chkbox, id) {
-    var enabled = chkbox.is(":checked");
     $.ajax({
          url: ajaxUrl + id,
          type: 'POST',
          success: function () {
-             alert('state changed');
-             var tr = chkbox.closest('tr');
-             if (enabled) {
-                 tr.addClass('row-highlight');
-             }
-             else {
-                 tr.removeClass('row-highlight');
-             }
+             var enabled = chkbox.is(":checked");
+             setHighlight(chkbox.closest('tr'), enabled);
+             showSuccessToast('Dish ' + (enabled ? 'added to' : 'removed from') + ' menu');
          }
     });
 }

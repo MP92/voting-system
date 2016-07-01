@@ -8,7 +8,7 @@ function vote(id) {
         url: rootUrl + id + '/vote',
         success: function () {
             updateVotingChart();
-            alert('Request to vote performed');
+            showSuccessToast('Request to vote for restaurant performed');
         }
     });
 }
@@ -19,7 +19,7 @@ function cancelVote() {
         url: rootUrl + 'voting/cancel',
         success: function () {
             updateVotingChart();
-            alert('Request to cancel vote performed');
+            showSuccessToast('Request to cancel vote for restaurant performed');
         }
     });
 }
@@ -30,7 +30,7 @@ function resetVotes() {
         url: rootUrl + 'voting/reset',
         success: function () {
             updateVotingChart();
-            alert('Request to reset votes performed');
+            showSuccessToast('Votes cleared');
         }
     });
 }

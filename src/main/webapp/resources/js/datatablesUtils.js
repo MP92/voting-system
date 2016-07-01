@@ -29,7 +29,7 @@ function deleteRecord(id) {
         type: 'DELETE',
         success: function () {
             updateTable();
-            alert(id + ' deleted');
+            showSuccessToast('Deleted');
         }
     });
 }
@@ -42,7 +42,7 @@ function save() {
         success: function () {
             $('#editRow').modal('hide');
             updateTable();
-            alert('saved');
+            showSuccessToast('Saved');
         }
     });
 }

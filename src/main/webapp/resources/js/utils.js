@@ -1,9 +1,5 @@
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
-
-    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
-        alert(jqXHR.statusText);
-    });
 });
 
 function getContextPath() {
@@ -25,3 +21,12 @@ String.prototype.format = function () {
     var args = arguments;
     return this.replace(/\{(\d+)\}/g, function (m, n) { return args[n]; });
 };
+
+function setHighlight(elem, isHighlight) {
+    if (isHighlight) {
+        elem.addClass('row-highlight');
+    }
+    else {
+        elem.removeClass('row-highlight');
+    }
+}
