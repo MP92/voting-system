@@ -8,10 +8,13 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="${rootUrl}/admin/users">User list</a></li>
+                <li><a href="${rootUrl}/users">User list</a></li>
                 <li><a href="${rootUrl}/admin/restaurants">Restaurant table</a></li>
                 <li><a href="${rootUrl}/restaurants">Restaurant catalog</a></li>
             </ul>
+            <div class="navbar-form navbar-right">
+                <a class="btn btn-primary" href="${rootUrl}/logout">Logout</a>
+            </div>
         </div>
     </div>
 </nav>

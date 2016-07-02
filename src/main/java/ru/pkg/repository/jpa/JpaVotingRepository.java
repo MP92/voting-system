@@ -31,7 +31,7 @@ public class JpaVotingRepository implements VotingRepository {
     }
 
     public List<UserVote> findAll() {
-        return em.createQuery("SELECT uv FROM UserVote uv WHERE uv.restaurantId IS NOT NULL AND uv.lastVoted >= current_date() ORDER BY uv.id").getResultList();
+        return em.createQuery("SELECT uv FROM UserVote uv WHERE uv.restaurantId IS NOT NULL AND uv.lastVoted >= current_date() ORDER BY uv.id", UserVote.class).getResultList();
     }
 
     public boolean delete(int userId) {

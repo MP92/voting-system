@@ -73,7 +73,16 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
 
     @Override
     public User findById(int id) {
-        User user = DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT * FROM users WHERE id=?", USER_MAPPER, id));
+        return findByCriteria("id", id);
+    }
+
+    @Override
+    public User findByName(String name) {
+        return findByCriteria("name", name);
+    }
+
+    private User findByCriteria(String criteriaName, Object criteriaValue) {
+        User user = DataAccessUtils.singleResult(getJdbcTemplate().query("SELECT * FROM users WHERE " + criteriaName + "=?", USER_MAPPER, criteriaValue));
         loadRoles(user);
         loadUserVote(user);
         return user;

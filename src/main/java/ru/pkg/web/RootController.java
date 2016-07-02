@@ -1,16 +1,15 @@
 package ru.pkg.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.pkg.LoggedUser;
 import ru.pkg.service.RestaurantService;
 import ru.pkg.service.UserService;
 import ru.pkg.service.VotingService;
-import ru.pkg.utils.VotingUtil;
 
 @Controller
 public class RootController {
@@ -26,20 +25,18 @@ public class RootController {
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String showHomePage() {
-        return "index";
+        return "redirect:restaurants";
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String login(@RequestParam("userName") String userName) {
-        if ("admin".equals(userName)) {
-            LoggedUser.setId(10000);
-        } else if ("user".equals(userName)) {
-            LoggedUser.setId(10001);
-        }
-        return "redirect:/restaurants";
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(ModelMap model,
+                        @RequestParam(value = "error", required = false) boolean error) {
+
+        model.put("error", error);
+        return "login";
     }
 
-    @RequestMapping(path = "admin/restaurants", method = RequestMethod.GET)
+    @RequestMapping(path = "/admin/restaurants", method = RequestMethod.GET)
     public String showRestaurantTable() {
         return "restaurant/restaurantTable";
     }
@@ -49,12 +46,13 @@ public class RootController {
         return "restaurant/restaurantCatalog";
     }
 
-    @RequestMapping(value = "admin/dishes", method = RequestMethod.GET)
+    @RequestMapping(value = "dishes", method = RequestMethod.GET)
     public String showDishList() {
         return "dish/dishList";
     }
 
-    @RequestMapping(path="admin/users")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(path="/users")
     public String showUserList() {
         return "user/userList";
     }

@@ -17,7 +17,7 @@ import static ru.pkg.TestUtils.*;
 
 public class AdminRestControllerTest extends AbstractControllerTest {
 
-    public static final String REST_URL = AdminRestController.REST_URL + "/users/";
+    public static final String REST_URL = AdminRestController.REST_URL + "/";
 
     @Test
     public void testGet() throws Exception {

@@ -16,7 +16,7 @@ CREATE TABLE users (
   registered TIMESTAMP DEFAULT now() NOT NULL,
   enabled    BOOLEAN DEFAULT TRUE    NOT NULL
 );
-CREATE UNIQUE INDEX users_unique_name_idx ON users (name, surname);
+CREATE UNIQUE INDEX users_unique_name_idx ON users (name);
 
 CREATE TABLE roles (
   user_id INTEGER            NOT NULL REFERENCES users (id) ON DELETE CASCADE,

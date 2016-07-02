@@ -4,13 +4,15 @@ import ru.pkg.model.User;
 
 public class UserNotFoundException extends RuntimeException {
 
-    private static final String MSG_PATTERN = "User with id=%d not found";
-
     public UserNotFoundException(User user) {
         this(user.getId());
     }
 
     public UserNotFoundException(int id) {
-        super(String.format(MSG_PATTERN, id));
+        super("User with id=" + id + " not found");
+    }
+
+    public UserNotFoundException(String name) {
+        super("User with name=" + name + " not found");
     }
 }

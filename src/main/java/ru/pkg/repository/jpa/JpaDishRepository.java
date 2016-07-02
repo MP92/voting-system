@@ -9,6 +9,7 @@ import ru.pkg.repository.DishRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -40,7 +41,7 @@ public class JpaDishRepository implements DishRepository {
     }
 
     public List<Dish> findAll(int restaurantId) {
-        Query query = em.createQuery("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId ORDER BY d.id");
+        TypedQuery<Dish> query = em.createQuery("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId ORDER BY d.id", Dish.class);
         return query.setParameter("restaurantId", restaurantId).getResultList();
     }
 

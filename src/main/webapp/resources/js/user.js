@@ -1,4 +1,4 @@
-var ajaxUrl = getContextPath() + '/ajax/admin/users/';
+var ajaxUrl = getContextPath() + '/ajax/users/';
 var datatableApi;
 var profileInfo;
 
@@ -23,13 +23,6 @@ function showProfile(id) {
         voted ? voteFields.show() : voteFields.hide();
         $('#profile').modal();
     });
-}
-
-function renderProfileBtn(data, type, row) {
-    if (type == 'display') {
-        return '<a class="btn btn-xs btn-info" onclick="showProfile(' + row.id + ');">Profile</a>';
-    }
-    return data;
 }
 
 function enable(chkbox, id) {

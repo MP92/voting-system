@@ -1,4 +1,4 @@
-var rootUrl = getContextPath() + '/rest/restaurants/';
+var rootUrl = getContextPath() + '/ajax/restaurants/';
 var votingItemTemplate = Handlebars.getTemplate('votingItem');
 var chart;
 
@@ -26,7 +26,7 @@ function cancelVote() {
 
 function resetVotes() {
     $.ajax({
-        type: "PUT",
+        type: "POST",
         url: rootUrl + 'voting/reset',
         success: function () {
             updateVotingChart();

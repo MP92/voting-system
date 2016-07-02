@@ -29,7 +29,7 @@ public class JpaRestaurantRepository implements RestaurantRepository {
     }
 
     public List<Restaurant> findAll() {
-        return em.createQuery("SELECT r FROM Restaurant r ORDER BY r.name").getResultList();
+        return em.createQuery("SELECT r FROM Restaurant r ORDER BY r.name", Restaurant.class).getResultList();
     }
 
     public boolean delete(int id) {

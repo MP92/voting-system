@@ -1,5 +1,6 @@
 package ru.pkg.repository.jpa;
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import ru.pkg.model.User;
 import ru.pkg.repository.UserRepository;
@@ -29,8 +30,13 @@ public class JpaUserRepository implements UserRepository {
         return em.find(User.class, id);
     }
 
+    @Override
+    public User findByName(String name) {
+        return DataAccessUtils.singleResult(em.createQuery("SELECT u FROM User u WHERE u.name=:name", User.class).setParameter("name", name).getResultList());
+    }
+
     public List<User> findAll() {
-        return em.createQuery("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles ORDER BY u.name, u.registered").getResultList();
+        return em.createQuery("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles ORDER BY u.name, u.registered", User.class).getResultList();
     }
 
     public boolean delete(int id) {
