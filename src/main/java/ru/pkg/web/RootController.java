@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.pkg.LoggedUser;
 import ru.pkg.service.RestaurantService;
 import ru.pkg.service.UserService;
 import ru.pkg.service.VotingService;
@@ -51,7 +52,8 @@ public class RootController {
     }
 
     @RequestMapping(path = "/restaurants", method = RequestMethod.GET)
-    public String showRestaurantCatalog() {
+    public String showRestaurantCatalog(Model model) {
+        model.addAttribute("user", LoggedUser.getUserTO());
         return "restaurant/restaurantCatalog";
     }
 

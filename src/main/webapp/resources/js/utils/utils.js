@@ -30,3 +30,26 @@ function setHighlight(elem, isHighlight) {
         elem.removeClass('row-highlight');
     }
 }
+
+function isToday(date) {
+    date = new Date(date);
+    return date.toDateString() == new Date().toDateString();
+}
+
+function isUserVotedToday(profileData) {
+    return isToday(profileData['lastVoted']);
+}
+
+function enableBtn(btn, onClickHandler) {
+    btn.removeClass('btn-disabled');
+    btn.off('click');
+    btn.click(onClickHandler);
+}
+
+function disableBtn(btn) {
+    btn.addClass('btn-disabled');
+    btn.off('click');
+    btn.click(function(event) {
+        event.preventDefault();
+    });
+}

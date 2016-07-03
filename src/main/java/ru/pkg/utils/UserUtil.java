@@ -20,7 +20,7 @@ public class UserUtil {
     }
 
     public static UserTO asTO(User user) {
-        return new UserTO(user.getId(), user.getName(), user.getSurname(), user.getPassword());
+        return new UserTO(user.getId(), user.getName(), user.getSurname(), user.getPassword(), user.getLastVoted());
     }
 
     public static boolean isUserVotedJustNow(User user) {

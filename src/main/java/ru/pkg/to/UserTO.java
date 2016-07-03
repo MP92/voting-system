@@ -1,8 +1,10 @@
 package ru.pkg.to;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import ru.pkg.utils.TimeUtil;
 
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class UserTO {
@@ -21,14 +23,17 @@ public class UserTO {
     @Size(min = 5, max = 64)
     private String password;
 
+    private LocalDateTime lastVoted;
+
     public UserTO() {
     }
 
-    public UserTO(Integer id, String name, String surname, String password) {
+    public UserTO(Integer id, String name, String surname, String password, LocalDateTime lastVoted) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.password = password;
+        this.lastVoted = lastVoted;
     }
 
     public Integer getId() {
@@ -61,6 +66,18 @@ public class UserTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public LocalDateTime getLastVoted() {
+        return lastVoted;
+    }
+
+    public void setLastVoted(LocalDateTime lastVoted) {
+        this.lastVoted = lastVoted;
+    }
+
+    public boolean isVotedToday() {
+        return TimeUtil.isToday(lastVoted);
     }
 
     public boolean isNew() {

@@ -164,3 +164,6 @@
 .restaurant-catalog .item-btn:hover {
     background-color: #d6494d;
 }
+.restaurant-catalog .catalog-footer {
+    min-height: 2em;
+}

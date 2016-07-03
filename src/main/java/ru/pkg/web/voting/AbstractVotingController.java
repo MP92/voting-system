@@ -16,16 +16,19 @@ public abstract class AbstractVotingController {
     public void vote(int restaurantId) {
         UserVote userVote = service.findById(LoggedUser.getId());
         if (!userVote.isVotedToday()) {
-            service.save(LoggedUser.getId(), restaurantId);
+            userVote = service.save(LoggedUser.getId(), restaurantId);
+            LoggedUser.getUserTO().setLastVoted(userVote.getLastVoted());
         }
     }
 
     public void cancel() {
         service.delete(LoggedUser.getId());
+        LoggedUser.getUserTO().setLastVoted(null);
     }
 
     public void reset() {
         service.reset();
+        LoggedUser.getUserTO().setLastVoted(null);
     }
 
     public List<VotingStatistics> findVotingStatistics() {

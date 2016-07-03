@@ -7,8 +7,8 @@
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp" />
 
 <div class="container">
-    <form:form modelAttribute="user" action="${user.id ? 'profile' : 'register'}" cssClass="form-horizontal">
-        <h2 class="form-signin-heading">${user.id ? 'Profile' : 'Register'} form</h2>
+    <form:form modelAttribute="user" action="${user.id != null ? 'profile' : 'register'}" cssClass="form-horizontal">
+        <h2 class="form-signin-heading">${user.id != null ? 'Profile' : 'Register'} form</h2>
 
         <div class="form-group">
             <form:label path="name" cssClass="col-xs-2 control-label">First name</form:label>
