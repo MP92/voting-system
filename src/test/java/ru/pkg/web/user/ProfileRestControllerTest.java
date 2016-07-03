@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.pkg.TestUtils.jsonMatcher;
 import static ru.pkg.TestUtils.toJson;
+import static ru.pkg.TestUtils.userHttpBasic;
 import static ru.pkg.testdata.UserTestData.*;
 import static ru.pkg.testdata.UserTestData.USER_1;
 import static ru.pkg.testdata.UserTestData.USER_2;
@@ -30,15 +31,21 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        mockMvc.perform(get(REST_URL))
+        mockMvc.perform(get(REST_URL).with(userHttpBasic(USER_1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(USER_1));
     }
 
     @Test
+    public void testGetUnauth() throws Exception {
+        mockMvc.perform(get(REST_URL))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL))
+        mockMvc.perform(delete(REST_URL).with(userHttpBasic(USER_1)))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, USER_2), userService.findAll());
@@ -47,6 +54,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
     @Test
     public void testUpdate() throws Exception {
         mockMvc.perform(put(REST_URL)
+                        .with(userHttpBasic(USER_1))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(toJson(NEW_USER)))
                 .andExpect(status().isOk());

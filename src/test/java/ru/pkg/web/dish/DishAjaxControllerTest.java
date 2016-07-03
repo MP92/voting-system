@@ -3,92 +3,87 @@ package ru.pkg.web.dish;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import ru.pkg.model.Dish;
+import ru.pkg.utils.DishUtil;
 import ru.pkg.web.AbstractControllerTest;
-import ru.pkg.web.restaurant.RestaurantRestController;
+import ru.pkg.web.restaurant.RestaurantAjaxController;
 
 import java.util.Arrays;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.pkg.TestUtils.*;
 import static ru.pkg.testdata.DishTestData.*;
-import static ru.pkg.testdata.DishTestData.R_1_DISH_4;
-import static ru.pkg.testdata.DishTestData.TestDishFactory.*;
+import static ru.pkg.testdata.DishTestData.TestDishFactory.newInstanceForCreate;
+import static ru.pkg.testdata.DishTestData.TestDishFactory.newInstanceForUpdate;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
-import static ru.pkg.testdata.UserTestData.ADMIN;
-import static ru.pkg.testdata.UserTestData.USER_1;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+public class DishAjaxControllerTest extends AbstractControllerTest {
 
-public class DishRestControllerTest extends AbstractControllerTest {
-
-    private static final String REST_URL = String.format(RestaurantRestController.REST_URL + "/%d/dishes/", RESTAURANT_1_ID);
+    private static final String AJAX_URL = String.format(RestaurantAjaxController.AJAX_URL + "/%d/dishes/", RESTAURANT_1_ID);
 
     @Test
+    @WithMockUser(roles={"ADMIN"})
     public void testCreate() throws Exception {
-        Dish newDish = newInstanceForCreate();
-        ResultActions resultActions = mockMvc.perform(post(REST_URL)
-                    .with(userHttpBasic(ADMIN))
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(toJson(newDish)))
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonMatcher(newDish));
-
-        newDish.setId(getIntFromJson(resultActions, "id"));
-        MATCHER.assertCollectionsEquals(Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4, newDish), dishService.findAll(RESTAURANT_1_ID));
+        mockMvc.perform(withParamsFromBean(post(AJAX_URL), DishUtil.asTO(newInstanceForCreate())))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(roles={"ADMIN"})
     public void testUpdate() throws Exception {
         Dish toUpdateDish = newInstanceForUpdate();
-        mockMvc.perform(put(REST_URL + R_1_DISH_1_ID)
-                    .with(userHttpBasic(ADMIN))
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(toJson(toUpdateDish)))
+        mockMvc.perform(withParamsFromBean(post(AJAX_URL), DishUtil.asTO(toUpdateDish)))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateDish, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), dishService.findAll(RESTAURANT_1_ID));
-
         MATCHER.assertEquals(toUpdateDish, dishService.findById(R_1_DISH_1_ID, RESTAURANT_1_ID));
     }
 
     @Test
+    @WithMockUser(roles={"ADMIN"})
     public void testFindById() throws Exception {
-        mockMvc.perform(get(REST_URL + R_1_DISH_1_ID).with(userHttpBasic(ADMIN)))
+        mockMvc.perform(get(AJAX_URL + R_1_DISH_1_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(R_1_DISH_1));
     }
 
     @Test
+    @WithMockUser(roles={"USER"})
     public void testFindByIdForbidden() throws Exception {
-        mockMvc.perform(get(REST_URL + R_1_DISH_1_ID).with(userHttpBasic(USER_1)))
+        mockMvc.perform(get(AJAX_URL + R_1_DISH_1_ID))
                 .andExpect(status().isForbidden());
     }
 
     @Test
+    @WithMockUser(roles={"ADMIN"})
     public void testFindAll() throws Exception {
-        mockMvc.perform(get(REST_URL).with(userHttpBasic(ADMIN)))
+        mockMvc.perform(get(AJAX_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(R_1_ALL_DISHES));
     }
 
     @Test
+    @WithMockUser(roles={"ADMIN"})
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + R_1_DISH_1_ID).with(userHttpBasic(ADMIN)))
+        mockMvc.perform(delete(AJAX_URL + R_1_DISH_1_ID))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(R_1_AFTER_DELETE_DISHES, dishService.findAll(RESTAURANT_1_ID));
     }
 
     @Test
+    @WithMockUser(roles={"ADMIN"})
     public void testChangeInMenuState() throws Exception {
         boolean initialState = dishService.findById(R_1_DISH_1_ID, RESTAURANT_1_ID).isInMenu();
 
-        mockMvc.perform(put(REST_URL + R_1_DISH_1_ID + "/menuState").with(userHttpBasic(ADMIN)))
+        mockMvc.perform(post(AJAX_URL + R_1_DISH_1_ID))
                 .andExpect(status().isOk());
 
         Assert.assertNotEquals(initialState, dishService.findById(R_1_DISH_1_ID, RESTAURANT_1_ID).isInMenu());

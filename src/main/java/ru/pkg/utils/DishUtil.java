@@ -20,4 +20,8 @@ public class DishUtil {
     public static Dish createFromTO(DishTO dishTO) {
         return new Dish(dishTO.getId(), dishTO.getName(), dishTO.getDescription(), dishTO.getWeight(), dishTO.getCategory(), dishTO.getPrice(), dishTO.isInMenu());
     }
+
+    public static DishTO asTO(Dish dish) {
+        return new DishTO(dish.getId(), dish.getName(), dish.getDescription(), dish.getWeight(), dish.getCategory(), dish.getPrice(), dish.isInMenu());
+    }
 }

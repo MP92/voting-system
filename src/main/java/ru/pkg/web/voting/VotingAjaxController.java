@@ -6,12 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.to.VotingStatistics;
+import ru.pkg.web.restaurant.RestaurantAjaxController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/ajax/restaurants")
+@RequestMapping(VotingAjaxController.AJAX_URL)
 public class VotingAjaxController extends AbstractVotingController {
+
+    public static final String AJAX_URL = RestaurantAjaxController.AJAX_URL;
 
     @RequestMapping(path = "/{restaurantId}/vote", method = RequestMethod.POST)
     public void vote(@PathVariable("restaurantId") int restaurantId) {

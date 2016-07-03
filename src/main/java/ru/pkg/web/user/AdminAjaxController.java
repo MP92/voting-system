@@ -14,8 +14,10 @@ import javax.validation.Valid;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/ajax/users")
+@RequestMapping(AdminAjaxController.AJAX_URL)
 public class AdminAjaxController extends AbstractUserController {
+
+    public static final String AJAX_URL = "/ajax/users";
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@PathVariable("id") int id) {

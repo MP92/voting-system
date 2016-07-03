@@ -13,8 +13,10 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(RestaurantAjaxController.AJAX_URL + "/{restaurantId}/dishes")
+@RequestMapping(DishAjaxController.AJAX_URL)
 public class DishAjaxController extends AbstractDishController {
+
+    public static final String AJAX_URL = RestaurantAjaxController.AJAX_URL + "/{restaurantId}/dishes";
 
     @RequestMapping(method = RequestMethod.POST)
     public void save(@Valid DishTO dishTO, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {

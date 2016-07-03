@@ -16,6 +16,7 @@ import ru.pkg.service.*;
 import javax.annotation.PostConstruct;
 
 import static ru.pkg.Profiles.*;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -49,7 +50,7 @@ public abstract class AbstractControllerTest extends AbstractTest {
 
     @PostConstruct
     void initMockMvc() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
     }
 
     @After

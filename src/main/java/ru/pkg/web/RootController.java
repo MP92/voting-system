@@ -1,7 +1,6 @@
 package ru.pkg.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,12 +45,11 @@ public class RootController {
         return "restaurant/restaurantCatalog";
     }
 
-    @RequestMapping(value = "dishes", method = RequestMethod.GET)
+    @RequestMapping(value = "/dishes", method = RequestMethod.GET)
     public String showDishList() {
         return "dish/dishList";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(path="/users")
     public String showUserList() {
         return "user/userList";
