@@ -1,27 +1,27 @@
 var ajaxUrl = getContextPath() + '/ajax/users/';
 var datatableApi;
-var profileInfo;
+var detailsInfo;
 
 function updateTable() {
     $.get(ajaxUrl, updateTableByData);
 }
 
-function showProfile(id) {
-    profileInfo.find("td").text("");
+function showUserDetails(id) {
+    detailsInfo.find("td").text("");
     $.get(ajaxUrl + id, function (data) {
-        var voteFields = profileInfo.find(".voting-data");
+        var voteFields = detailsInfo.find(".voting-data");
         var voted = false;
         $.each(data, function (key, value) {
             if (key === "userVote" && value.lastVoted) {
                 voted = true;
-                profileInfo.find(".profile-lastVoted").text(value.lastVoted);
-                profileInfo.find(".profile-restaurant").text(value.restaurantId);
+                detailsInfo.find(".details-lastVoted").text(value.lastVoted);
+                detailsInfo.find(".details-restaurant").text(value.restaurantId);
             } else {
-                profileInfo.find(".profile-" + key).text(value);
+                detailsInfo.find(".details-" + key).text(value);
             }
         });
         voted ? voteFields.show() : voteFields.hide();
-        $('#profile').modal();
+        $('#details').modal();
     });
 }
 
@@ -38,7 +38,7 @@ function enable(chkbox, id) {
 }
 
 $(function () {
-    profileInfo = $('#profileInfo');
+    detailsInfo = $('#detailsInfo');
 
     datatableApi = $('#datatable').DataTable({
         "ajax": {
@@ -76,7 +76,7 @@ $(function () {
                 "defaultContent": "",
                 "render": function (data, type, row) {
                     if (type == 'display') {
-                        return '<a class="btn btn-xs btn-info" onclick="showProfile(' + row.id + ');">Profile</a>';
+                        return '<a class="btn btn-xs btn-info" onclick="showUserDetails(' + row.id + ');">Details</a>';
                     }
                     return data;
                 }

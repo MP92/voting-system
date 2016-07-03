@@ -33,8 +33,8 @@
 </body>
 <jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
 
-<script type="text/javascript" src="${rootUrl}/resources/js/templates.js"></script>
-<script type="text/javascript" src="${rootUrl}/resources/js/restaurantCatalog.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/utils/templatesUtils.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/restaurant/restaurantCatalog.js"></script>
 <script type="text/javascript" src="${rootUrl}/resources/js/voting.js"></script>
-<script type="text/javascript" src="${rootUrl}/resources/js/restaurantDetails.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/restaurant/restaurantDetails.js"></script>
 </html>

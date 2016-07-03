@@ -5,6 +5,6 @@
 <script type="text/javascript" src="${rootUrl}/webjars/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${rootUrl}/webjars/handlebars/4.0.5/handlebars.min.js"></script>
 <script type="text/javascript" src="${rootUrl}/webjars/toastr/2.1.2/toastr.js"></script>
-<script type="text/javascript" src="${rootUrl}/resources/js/utils.js"></script>
-<script type="text/javascript" src="${rootUrl}/resources/js/datatablesUtils.js"></script>
-<script type="text/javascript" src="${rootUrl}/resources/js/errorMsg.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/utils/utils.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/utils/datatablesUtils.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/utils/toastrUtils.js"></script>

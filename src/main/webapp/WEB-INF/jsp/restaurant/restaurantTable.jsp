@@ -30,7 +30,7 @@
     <%@ include file="restaurantDetails.jsp" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
-<script type="text/javascript" src="${rootUrl}/resources/js/restaurantTable.js"></script>
-<script type="text/javascript" src="${rootUrl}/resources/js/restaurantDetails.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/restaurant/restaurantTable.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/restaurant/restaurantDetails.js"></script>
 </body>
 </html>

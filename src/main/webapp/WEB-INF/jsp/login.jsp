@@ -29,12 +29,18 @@
             ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
         </div>
     </c:if>
+    <c:if test="${not empty message}">
+        <div class="alert alert-success" role="alert">
+            <strong>Success!</strong>
+            ${message}
+        </div>
+    </c:if>
     <div class="row">
         <div class="col-md-5">
             <div class="page-header">
                 <h2>Welcome</h2>
             </div>
-            <a class="btn btn-primary btn-lg">Register</a>
+            <a class="btn btn-primary btn-lg" href="register">Register &raquo;</a>
         </div>
         <div class="col-md-offset-2 col-md-5">
             <div class="jumbotron">

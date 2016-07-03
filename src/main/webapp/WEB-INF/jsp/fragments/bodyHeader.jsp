@@ -13,6 +13,7 @@
                 <li><a href="${rootUrl}/restaurants">Restaurant catalog</a></li>
             </ul>
             <div class="navbar-form navbar-right">
+                <a class="btn btn-info" href="${rootUrl}/profile">Profile</a>
                 <a class="btn btn-primary" href="${rootUrl}/logout">Logout</a>
             </div>
         </div>

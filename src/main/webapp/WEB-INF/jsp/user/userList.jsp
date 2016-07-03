@@ -31,6 +31,6 @@
     <%@ include file="userDetails.jsp" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
-<script type="text/javascript" src="${rootUrl}/resources/js/user.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/user/user.js"></script>
 </body>
 </html>

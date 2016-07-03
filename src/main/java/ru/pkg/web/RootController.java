@@ -1,14 +1,22 @@
 package ru.pkg.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.pkg.service.RestaurantService;
 import ru.pkg.service.UserService;
 import ru.pkg.service.VotingService;
+import ru.pkg.to.UserTO;
+import ru.pkg.utils.UserUtil;
+
+import javax.validation.Valid;
 
 @Controller
 public class RootController {
@@ -29,9 +37,11 @@ public class RootController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(ModelMap model,
-                        @RequestParam(value = "error", required = false) boolean error) {
+                        @RequestParam(value = "error", required = false) boolean error,
+                        @RequestParam(value = "message", required = false) String message) {
 
         model.put("error", error);
+        model.put("message", message);
         return "login";
     }
 
@@ -53,5 +63,24 @@ public class RootController {
     @RequestMapping(path="/users")
     public String showUserList() {
         return "user/userList";
+    }
+
+    @RequestMapping(path = "/register", method = RequestMethod.GET)
+    public String initUserRegisterForm(Model model) {
+        model.addAttribute("user", new UserTO());
+        return "profile";
+    }
+
+    @RequestMapping(path = "/register", method = RequestMethod.POST)
+    public String createUser(@ModelAttribute("user") @Valid UserTO userTO, BindingResult result) {
+        if (!result.hasErrors()) {
+            try {
+                userService.add(UserUtil.createFromTO(userTO));
+                return "redirect:login?message=You have successfully signed up.";
+            } catch (DataIntegrityViolationException ex) {
+                result.rejectValue("name", null, "User with such name already present in application.");
+            }
+        }
+        return "profile";
     }
 }
