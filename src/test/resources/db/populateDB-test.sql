@@ -6,9 +6,9 @@ DELETE FROM votes;
 
 ALTER SEQUENCE global_seq RESTART WITH 10000 INCREMENT BY 1;
 
-INSERT INTO users(name, surname, password, registered) VALUES ('Admin', 'Adminov', 'admin', '2016-01-01');
-INSERT INTO users(name, surname, password, registered) VALUES ('User', 'Userov', 'password', '2016-01-01');
-INSERT INTO users(name, surname, password, registered) VALUES ('User2', 'Userov2', 'password2', '2016-01-01');
+INSERT INTO users(name, surname, password, registered) VALUES ('Admin', 'Adminov', '$2a$10$K1O0YHPJL4VPKmcikU6UDOI/PoSvVkaBQPBAOs4iQSAqbUcZIRoiW', '2016-01-01');
+INSERT INTO users(name, surname, password, registered) VALUES ('User', 'Userov', '$2a$10$78hzzIImUTjpLYkM9Zr67.rvYxHcsar6btOKRpsSyVmDwND4/HZGC', '2016-01-01');
+INSERT INTO users(name, surname, password, registered) VALUES ('User2', 'Userov2', '$2a$10$q/yxIJzhiIQusyvYPhFlqeW5n/Fk0DxBfnr2vy1.S29RShLHe.K76', '2016-01-01');
 
 INSERT INTO roles(user_id, role) VALUES (10000, 'ROLE_ADMIN');
 INSERT INTO roles(user_id, role) VALUES (10000, 'ROLE_USER');

@@ -6,9 +6,9 @@ DELETE FROM votes;
 
 ALTER SEQUENCE global_seq RESTART WITH 10000 INCREMENT BY 1;
 
-INSERT INTO users(name, surname, password, registered) VALUES ('Admin', 'Adminov', 'admin', '2016-01-01');
-INSERT INTO users(name, surname, password, registered) VALUES ('User', 'Userov', 'password', '2016-01-01');
-INSERT INTO users(name, surname, password, registered) VALUES ('User2', 'Userov2', 'password2', '2016-01-01');
+INSERT INTO users(name, surname, password, registered) VALUES ('Admin', 'Adminov', '$2a$10$K1O0YHPJL4VPKmcikU6UDOI/PoSvVkaBQPBAOs4iQSAqbUcZIRoiW', '2016-01-01');
+INSERT INTO users(name, surname, password, registered) VALUES ('User', 'Userov', '$2a$10$78hzzIImUTjpLYkM9Zr67.rvYxHcsar6btOKRpsSyVmDwND4/HZGC', '2016-01-01');
+INSERT INTO users(name, surname, password, registered) VALUES ('User2', 'Userov2', '$2a$10$q/yxIJzhiIQusyvYPhFlqeW5n/Fk0DxBfnr2vy1.S29RShLHe.K76', '2016-01-01');
 
 INSERT INTO roles(user_id, role) VALUES (10000, 'ROLE_ADMIN');
 INSERT INTO roles(user_id, role) VALUES (10000, 'ROLE_USER');
@@ -106,13 +106,13 @@ INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in
   '"I love knowing that I have leftovers in the refrigerator," says chef Shelley Lindgren. She''ll often make pasta during the day like this rich, pancetta-studded bucatini that''s tossed with plenty of freshly ground black pepper and Pecorino and then reheat a big bowl of it when she comes home from work late at night.',
   250, 'GARNISH', 75.4, TRUE);
 
-INSERT INTO users(name, surname, password, registered) VALUES ('User3', 'Userov3', 'password3', '2016-01-01'); -- id=10029
-INSERT INTO users(name, surname, password, registered) VALUES ('User4', 'Userov4', 'password4', '2016-01-01'); -- id=10030
-INSERT INTO users(name, surname, password, registered) VALUES ('User5', 'Userov5', 'password5', '2016-01-01'); -- id=10031
-INSERT INTO users(name, surname, password, registered) VALUES ('User6', 'Userov6', 'password6', '2016-01-01'); -- id=10032
-INSERT INTO users(name, surname, password, registered) VALUES ('User7', 'Userov7', 'password7', '2016-01-01'); -- id=10033
-INSERT INTO users(name, surname, password, registered) VALUES ('User8', 'Userov8', 'password8', '2016-01-01'); -- id=10034
-INSERT INTO users(name, surname, password, registered) VALUES ('User9', 'Userov9', 'password9', '2016-01-01'); -- id=10035
+INSERT INTO users(name, surname, password, registered) VALUES ('User3', 'Userov3', '$2a$10$uH3APhL2UVXb.t8LpsKWFeNWSS6tbE2dhIJwnoCto1STfkOlkfqhm', '2016-01-01'); -- id=10029
+INSERT INTO users(name, surname, password, registered) VALUES ('User4', 'Userov4', '$2a$10$8AXVXHiVGmE55ZcjdYs9E.wXLXgG6O222997y3omttCaMNB.NGQKm', '2016-01-01'); -- id=10030
+INSERT INTO users(name, surname, password, registered) VALUES ('User5', 'Userov5', '$2a$10$.pW/TGdQ4FZH3h7mimCMbOP96UItqb1eFEjw0pBTy7j81CS3EhVoi', '2016-01-01'); -- id=10031
+INSERT INTO users(name, surname, password, registered) VALUES ('User6', 'Userov6', '$2a$10$a9OFya26MZFkPP9vQDB0te4MJeaXNJ7kCOYJ6ZRokYEUsRnbCkfkS', '2016-01-01'); -- id=10032
+INSERT INTO users(name, surname, password, registered) VALUES ('User7', 'Userov7', '$2a$10$6lk4Gbv01ru/DjzqznbFB.5FmBG0Bb1BNIsIAeqSnfC8uu05niz/m', '2016-01-01'); -- id=10033
+INSERT INTO users(name, surname, password, registered) VALUES ('User8', 'Userov8', '$2a$10$MeuqeqYxq1sRl5o3wme/mu2RgNHUT.Re9O7Z5As5i9qF6XvmiSabC', '2016-01-01'); -- id=10034
+INSERT INTO users(name, surname, password, registered) VALUES ('User9', 'Userov9', '$2a$10$t3PUoJt1FFlTpxd0l5S5ZuovAr9FGj.4xQHoH2.6Uhsc3fcdxIJmG', '2016-01-01'); -- id=10035
 
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10000, 10003, current_date);
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10001, 10004, current_date);

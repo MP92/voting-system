@@ -13,8 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.pkg.TestUtils.*;
 import static ru.pkg.testdata.UserTestData.*;
-import static ru.pkg.testdata.UserTestData.ADMIN;
-import static ru.pkg.testdata.UserTestData.ALL_USERS;
 import static ru.pkg.utils.EntityUtils.*;
 
 @WithMockUser(roles={"ADMIN"})
@@ -27,7 +25,7 @@ public class AdminAjaxControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(AJAX_URL + ADMIN_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonMatcher(ADMIN));
+                .andExpect(MATCHER.contentMatcher(ADMIN));
     }
 
     @Test
@@ -65,6 +63,6 @@ public class AdminAjaxControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(AJAX_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonMatcher(ALL_USERS));
+                .andExpect(MATCHER.contentListMatcher(ALL_USERS));
     }
 }

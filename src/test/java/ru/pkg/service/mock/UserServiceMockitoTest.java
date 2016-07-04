@@ -10,8 +10,12 @@ import ru.pkg.service.UserService;
 import ru.pkg.utils.exception.UserNotFoundException;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.mockito.Mockito.*;
 import static ru.pkg.testdata.UserTestData.*;
+import static ru.pkg.utils.EntityUtils.prepareToSave;
 
 public class UserServiceMockitoTest extends AbstractServiceMockitoTest {
 
@@ -41,7 +45,7 @@ public class UserServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Test
     public void testFindById() {
-        when(repository.findById(ADMIN_ID)).thenReturn(ADMIN);
+        when(repository.findById(ADMIN_ID)).thenReturn(prepareToSave(new TestUser(ADMIN)));
         MATCHER.assertEquals(ADMIN, service.findById(ADMIN_ID));
         verify(repository).findById(ADMIN_ID);
     }
@@ -59,7 +63,8 @@ public class UserServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Test
     public void testFindAll() {
-        when(repository.findAll()).thenReturn(ALL_USERS);
+        List<User> users = ALL_USERS.stream().map(u -> prepareToSave(new TestUser(u))).collect(Collectors.toList());
+        when(repository.findAll()).thenReturn(users);
         MATCHER.assertCollectionsEquals(ALL_USERS, service.findAll());
     }
 

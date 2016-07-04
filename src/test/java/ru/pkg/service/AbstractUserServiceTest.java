@@ -23,8 +23,8 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Test
     public void testAdd() {
-        User toCreateUser = new TestUser(NEW_USER).asUser();
-        User created = service.add(toCreateUser);
+        TestUser toCreateUser = new TestUser(NEW_USER);
+        User created = service.add(toCreateUser.asUser());
         toCreateUser.setId(created.getId());
         MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, toCreateUser, USER_1, USER_2), service.findAll());
     }
@@ -65,8 +65,8 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     
     @Test
     public void testUpdate() {
-        User toUpdateUser = new TestUser(ADMIN_ID, NEW_USER).asUser();
-        service.update(toUpdateUser);
+        TestUser toUpdateUser = new TestUser(ADMIN_ID, NEW_USER);
+        service.update(toUpdateUser.asUser());
         MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateUser, USER_1, USER_2), service.findAll());
     }
 

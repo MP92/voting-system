@@ -20,7 +20,7 @@ public class DishTestData {
 
     public static final int NOT_FOUND_INDEX = 100000;
 
-    public static final ModelMatcher<Dish, String> MATCHER = new ModelMatcher<>(Dish::toString);
+    public static final ModelMatcher<Dish, String> MATCHER = new ModelMatcher<>(Dish::toString, Dish.class);
 
     public static final Dish R_1_DISH_1 = new Dish(
             R_1_DISH_1_ID, "Beer-and-Cheddar SoupBeer-and-Cheddar Soup",

@@ -82,4 +82,10 @@ public class EntityUtils {
         namedEntity.setName(StringUtils.capitalize(namedEntity.getName().toLowerCase()));
         return namedEntity;
     }
+
+    public static User prepareToSave(User user) {
+        user.setName(StringUtils.capitalize(user.getName().toLowerCase()));
+        user.setPassword(PasswordUtil.encode(user.getPassword()));
+        return user;
+    }
 }

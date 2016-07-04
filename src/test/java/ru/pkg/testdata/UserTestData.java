@@ -3,6 +3,7 @@ package ru.pkg.testdata;
 import ru.pkg.matcher.ModelMatcher;
 import ru.pkg.model.Role;
 import ru.pkg.model.User;
+import ru.pkg.utils.PasswordUtil;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -19,7 +20,7 @@ public class UserTestData {
 
     public static final int NOT_FOUND_INDEX = 100000;
 
-    public static final ModelMatcher<User, TestUser> MATCHER = new ModelMatcher<>(u -> (u instanceof TestUser ? (TestUser)u : new TestUser(u)));
+    public static final ModelMatcher<User, TestUser> MATCHER = new ModelMatcher<>(u -> (u instanceof TestUser ? (TestUser)u : new TestUser(u)), User.class);
 
     public static final LocalDateTime TEST_DT = LocalDateTime.of(2016, 1, 1, 0, 0);
 
@@ -36,8 +37,6 @@ public class UserTestData {
 
     public static final List<User> ALL_USERS = Arrays.asList(ADMIN, USER_1, USER_2);
 
-    public static final int USERS_COUNT = 3;
-
     public static class TestUser extends User {
 
         public TestUser(User user){
@@ -49,7 +48,7 @@ public class UserTestData {
         }
 
         public User asUser() {
-            return new User(getId(), getName(), getSurname(), getPassword(), getRegistered(), isEnabled(), getRoles());
+            return new User(getId(), getName(), getSurname(), PasswordUtil.encode(getPassword()), getRegistered(), isEnabled(), getRoles());
         }
 
         @Override
@@ -63,7 +62,7 @@ public class UserTestData {
 
             TestUser that = (TestUser) o;
             return Objects.equals(this.getRoles(), that.getRoles())
-                    && Objects.equals(this.getPassword(), that.getPassword())
+                    && PasswordUtil.isMatch(this.getPassword(), that.getPassword())
                     && Objects.equals(this.getId(), that.getId())
                     && Objects.equals(this.getName(), that.getName())
                     && Objects.equals(this.getSurname(), that.getSurname())

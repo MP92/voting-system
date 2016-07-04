@@ -35,8 +35,12 @@ public class TestUtils {
         return getMapper().writeValueAsString(object);
     }
 
-    public static String getContent(ResultActions resultActions) throws UnsupportedEncodingException {
-        return resultActions.andReturn().getResponse().getContentAsString();
+    public static String getContent(ResultActions resultActions) {
+        try {
+            return resultActions.andReturn().getResponse().getContentAsString();
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static int getIntFromJson(String json, String fieldName) throws IOException {
@@ -46,6 +50,14 @@ public class TestUtils {
 
     public static int getIntFromJson(ResultActions resultActions, String fieldName) throws IOException {
         return getIntFromJson(getContent(resultActions), fieldName);
+    }
+
+    public static <T> T readFromJson(ResultActions resultActions, Class<T> clazz) {
+        try {
+            return getMapper().readValue(getContent(resultActions), clazz);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static RequestPostProcessor userHttpBasic(User user) {

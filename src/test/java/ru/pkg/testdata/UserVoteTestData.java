@@ -19,7 +19,7 @@ import static ru.pkg.utils.EntityUtils.getVotingStatistics;
 
 public class UserVoteTestData {
 
-    public static final ModelMatcher<UserVote, String> MATCHER = new ModelMatcher<>(UserVote::toString);
+    public static final ModelMatcher<UserVote, String> MATCHER = new ModelMatcher<>(UserVote::toString, UserVote.class);
 
     public static final LocalDateTime VOTE_DT = LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT);
 

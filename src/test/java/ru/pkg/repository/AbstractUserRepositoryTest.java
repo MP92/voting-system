@@ -18,8 +18,8 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
 
     @Test
     public void testAdd() {
-        User toCreateUser = new TestUser(NEW_USER).asUser();
-        User created = repository.save(toCreateUser);
+        TestUser toCreateUser = new TestUser(NEW_USER);
+        User created = repository.save(toCreateUser.asUser());
         toCreateUser.setId(created.getId());
         MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, toCreateUser, USER_1, USER_2), repository.findAll());
     }
@@ -63,11 +63,11 @@ public abstract class AbstractUserRepositoryTest extends AbstractRepositoryTest 
 
     @Test
     public void testUpdate() {
-        User toUpdateUser = new TestUser(USER_1_ID, NEW_USER).asUser();
-        User updated = repository.save(toUpdateUser);
+        TestUser toUpdateUser = new TestUser(USER_1_ID, NEW_USER);
+        User updated = repository.save(toUpdateUser.asUser());
         Assert.assertTrue(updated.getId() == USER_1_ID);
         MATCHER.assertEquals(toUpdateUser, updated);
-        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, updated, USER_2), repository.findAll());
+        MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, toUpdateUser, USER_2), repository.findAll());
     }
 
     @Test(expected = DataIntegrityViolationException.class)

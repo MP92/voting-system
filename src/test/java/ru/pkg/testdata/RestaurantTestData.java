@@ -18,7 +18,7 @@ public class RestaurantTestData {
 
     public static final int NOT_FOUND_INDEX = 100000;
 
-    public static final ModelMatcher<Restaurant, String> MATCHER = new ModelMatcher<>(Restaurant::toString);
+    public static final ModelMatcher<Restaurant, String> MATCHER = new ModelMatcher<>(Restaurant::toString, Restaurant.class);
 
     public static final List<Dish> R_1_IN_MENU_DISHES = Arrays.asList(R_1_DISH_1, R_1_DISH_2, R_1_DISH_3);
     public static final List<Dish> R_2_IN_MENU_DISHES = Arrays.asList(R_2_DISH_1, R_2_DISH_2, R_2_DISH_3);

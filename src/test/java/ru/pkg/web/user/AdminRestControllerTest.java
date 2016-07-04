@@ -3,6 +3,7 @@ package ru.pkg.web.user;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import ru.pkg.model.User;
 import ru.pkg.web.AbstractControllerTest;
 
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL + ADMIN_ID).with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonMatcher(ADMIN));
+                .andExpect(MATCHER.contentMatcher(ADMIN));
     }
 
     @Test
@@ -48,10 +49,10 @@ public class AdminRestControllerTest extends AbstractControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(toJson(NEW_USER)))
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonMatcher(NEW_USER));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        TestUser expected = new TestUser(getIntFromJson(resultActions, "id"), NEW_USER);
+        User user = readFromJson(resultActions, User.class);
+        TestUser expected = new TestUser(user.getId(), NEW_USER);
         MATCHER.assertCollectionsEquals(Arrays.asList(ADMIN, expected, USER_1, USER_2), userService.findAll());
     }
 
@@ -72,6 +73,6 @@ public class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL).with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonMatcher(ALL_USERS));
+                .andExpect(MATCHER.contentListMatcher(ALL_USERS));
     }
 }

@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.pkg.TestUtils.jsonMatcher;
 import static ru.pkg.TestUtils.toJson;
 import static ru.pkg.TestUtils.userHttpBasic;
 import static ru.pkg.testdata.UserTestData.*;
@@ -33,7 +32,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL).with(userHttpBasic(USER_1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonMatcher(USER_1));
+                .andExpect(MATCHER.contentMatcher(USER_1));
     }
 
     @Test
