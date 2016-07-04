@@ -11,6 +11,7 @@ import ru.pkg.web.restaurant.RestaurantAjaxController;
 
 import java.util.Arrays;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,7 +30,7 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(newInstanceForCreate())))
+        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(newInstanceForCreate())).with(csrf()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk());
     }
@@ -37,7 +38,7 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
     @Test
     public void testUpdate() throws Exception {
         Dish toUpdateDish = newInstanceForUpdate();
-        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(toUpdateDish)))
+        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(toUpdateDish)).with(csrf()))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateDish, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), dishService.findAll(RESTAURANT_1_ID));
@@ -69,7 +70,7 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(AJAX_URL + R_1_DISH_1_ID))
+        mockMvc.perform(delete(AJAX_URL + R_1_DISH_1_ID).with(csrf()))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(R_1_AFTER_DELETE_DISHES, dishService.findAll(RESTAURANT_1_ID));
@@ -79,7 +80,7 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
     public void testChangeInMenuState() throws Exception {
         boolean initialState = dishService.findById(R_1_DISH_1_ID, RESTAURANT_1_ID).isInMenu();
 
-        mockMvc.perform(post(AJAX_URL + R_1_DISH_1_ID))
+        mockMvc.perform(post(AJAX_URL + R_1_DISH_1_ID).with(csrf()))
                 .andExpect(status().isOk());
 
         Assert.assertNotEquals(initialState, dishService.findById(R_1_DISH_1_ID, RESTAURANT_1_ID).isInMenu());

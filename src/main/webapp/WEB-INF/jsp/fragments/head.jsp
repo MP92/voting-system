@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
     <title>Voting system</title>
@@ -10,4 +11,6 @@
     <link rel="stylesheet" href="${rootUrl}/webjars/toastr/2.1.2/build/toastr.min.css"/>
 
     <link rel="shortcut icon" href="${rootUrl}/resources/img/favicon.ico">
+
+    <sec:csrfMetaTags />
 </head>

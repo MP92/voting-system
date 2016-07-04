@@ -7,6 +7,7 @@ import ru.pkg.web.AbstractControllerTest;
 
 import java.util.Arrays;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -37,7 +38,7 @@ public class AdminAjaxControllerTest extends AbstractControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(AJAX_URL + ADMIN_ID))
+        mockMvc.perform(delete(AJAX_URL + ADMIN_ID).with(csrf()))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Arrays.asList(USER_1, USER_2), userService.findAll());
@@ -45,14 +46,14 @@ public class AdminAjaxControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(NEW_USER)))
+        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(NEW_USER)).with(csrf()))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testUpdate() throws Exception {
         TestUser toUpdateUser = new TestUser(ADMIN_ID, NEW_USER);
-        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(toUpdateUser)))
+        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(toUpdateUser)).with(csrf()))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateUser, USER_1, USER_2), userService.findAll());

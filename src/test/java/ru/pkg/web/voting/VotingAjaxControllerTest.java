@@ -16,6 +16,7 @@ import java.lang.reflect.Modifier;
 import java.time.LocalTime;
 import java.util.Collections;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -54,7 +55,7 @@ public class VotingAjaxControllerTest extends AbstractControllerTest {
 
     @Test
     public void testVote() throws Exception {
-        mockMvc.perform(post(RESTAURANT_1_VOTE_URL))
+        mockMvc.perform(post(RESTAURANT_1_VOTE_URL).with(csrf()))
                 .andExpect(status().isOk());
 
         UserVote actual = votingService.findById(USER_1_ID);
@@ -65,7 +66,7 @@ public class VotingAjaxControllerTest extends AbstractControllerTest {
     @Test
     @WithAnonymousUser
     public void testVoteUnauth() throws Exception {
-        mockMvc.perform(post(RESTAURANT_1_VOTE_URL))
+        mockMvc.perform(post(RESTAURANT_1_VOTE_URL).with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("http://localhost/login"));
     }
@@ -73,7 +74,7 @@ public class VotingAjaxControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = "User", userDetailsServiceBeanName = "userService")
     public void testCancel() throws Exception {
-        mockMvc.perform(post(AJAX_BASE_URL + "/cancel"))
+        mockMvc.perform(post(AJAX_BASE_URL + "/cancel").with(csrf()))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Collections.singletonList(ADMIN_VOTE), votingService.findAll());
@@ -82,7 +83,7 @@ public class VotingAjaxControllerTest extends AbstractControllerTest {
     @Test
     @WithAnonymousUser
     public void testCancelUnauth() throws Exception {
-        mockMvc.perform(post(AJAX_BASE_URL + "/cancel"))
+        mockMvc.perform(post(AJAX_BASE_URL + "/cancel").with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("http://localhost/login"));
     }
@@ -90,7 +91,7 @@ public class VotingAjaxControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = "Admin", userDetailsServiceBeanName = "userService")
     public void testReset() throws Exception {
-        mockMvc.perform(post(AJAX_BASE_URL + "/reset"))
+        mockMvc.perform(post(AJAX_BASE_URL + "/reset").with(csrf()))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Collections.emptyList(), votingService.findAll());
@@ -98,7 +99,7 @@ public class VotingAjaxControllerTest extends AbstractControllerTest {
 
     @Test
     public void testResetForbidden() throws Exception {
-        mockMvc.perform(put(AJAX_BASE_URL + "/reset"))
+        mockMvc.perform(put(AJAX_BASE_URL + "/reset").with(csrf()))
                 .andExpect(status().isForbidden());
     }
 

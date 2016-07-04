@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <nav class="navbar navbar-fixed-top navbar-inverse">
@@ -16,10 +17,10 @@
                     </sec:authorize>
                     <li><a href="${rootUrl}/restaurants">Restaurant catalog</a></li>
                 </ul>
-                <div class="navbar-form navbar-right">
+                <form:form class="navbar-form navbar-right" action="logout" method="post">
                     <a class="btn btn-info" href="${rootUrl}/profile">Profile</a>
-                    <a class="btn btn-primary" href="${rootUrl}/logout">Logout</a>
-                </div>
+                    <input type="submit" class="btn btn-primary" value="Logout">
+                </form:form>
             </sec:authorize>
         </div>
     </div>

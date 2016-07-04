@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <jsp:include page="/WEB-INF/jsp/fragments/head.jsp" />
@@ -9,7 +10,7 @@
             <a href="<c:url value='/'/>" class="navbar-brand">Voting system</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-            <form class="navbar-form navbar-right" role="form" action="spring_security_check" method="post">
+            <form:form class="navbar-form navbar-right" action="spring_security_check" method="post">
                 <div class="form-group">
                     <input type="text" placeholder="Name" class="form-control" name='username'>
                 </div>
@@ -17,7 +18,7 @@
                     <input type="password" placeholder="Password" class="form-control" name='password'>
                 </div>
                 <button type="submit" class="btn btn-success">Login</button>
-            </form>
+            </form:form>
         </div>
     </div>
 </nav>

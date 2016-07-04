@@ -34,7 +34,6 @@
                     authentication-failure-url="/login?error=true"
                     login-processing-url="/spring_security_check"/>
         <logout logout-success-url="/login"/>
-        <csrf disabled="true"/>
     </http>
 
     <beans:bean class="ru.pkg.utils.PasswordUtil" id="passwordEncoder" factory-method="getPasswordEncoder"/>

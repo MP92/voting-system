@@ -9,6 +9,7 @@ import ru.pkg.web.AbstractControllerTest;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -29,14 +30,14 @@ public class RestaurantAjaxControllerTest extends AbstractControllerTest {
     @Test
     @WithMockUser(roles={"ADMIN"})
     public void testCreate() throws Exception {
-         mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(newInstanceForCreate())))
+         mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(newInstanceForCreate())).with(csrf()))
                  .andExpect(status().isOk());
     }
 
     @Test
     @WithMockUser(roles={"USER"})
     public void testCreateForbidden() throws Exception {
-        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(newInstanceForCreate())))
+        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(newInstanceForCreate())).with(csrf()))
                 .andExpect(status().isForbidden());
     }
 
@@ -45,7 +46,7 @@ public class RestaurantAjaxControllerTest extends AbstractControllerTest {
     public void testUpdate() throws Exception {
         Restaurant toUpdateRestaurant = newInstanceForUpdate();
 
-        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(toUpdateRestaurant)))
+        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(toUpdateRestaurant)).with(csrf()))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Arrays.asList(RESTAURANT_2, toUpdateRestaurant), restaurantService.findAll());
@@ -54,7 +55,7 @@ public class RestaurantAjaxControllerTest extends AbstractControllerTest {
     @Test
     @WithMockUser(roles={"USER"})
     public void testUpdateForbidden() throws Exception {
-        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(newInstanceForUpdate())))
+        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(newInstanceForUpdate())).with(csrf()))
                 .andExpect(status().isForbidden());
     }
 
@@ -86,7 +87,7 @@ public class RestaurantAjaxControllerTest extends AbstractControllerTest {
     @Test
     @WithMockUser(roles={"ADMIN"})
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(AJAX_URL + RESTAURANT_1_ID))
+        mockMvc.perform(delete(AJAX_URL + RESTAURANT_1_ID).with(csrf()))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Collections.singletonList(RESTAURANT_2), restaurantService.findAll());
@@ -95,7 +96,7 @@ public class RestaurantAjaxControllerTest extends AbstractControllerTest {
     @Test
     @WithMockUser(roles={"USER"})
     public void testDeleteForbidden() throws Exception {
-        mockMvc.perform(delete(AJAX_URL + RESTAURANT_1_ID))
+        mockMvc.perform(delete(AJAX_URL + RESTAURANT_1_ID).with(csrf()))
                 .andExpect(status().isForbidden());
     }
 }
