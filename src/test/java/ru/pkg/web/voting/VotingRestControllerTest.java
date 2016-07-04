@@ -2,7 +2,6 @@ package ru.pkg.web.voting;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import ru.pkg.LoggedUser;
 import ru.pkg.model.UserVote;
 import ru.pkg.web.AbstractControllerTest;
 
@@ -12,6 +11,7 @@ import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_2_ID;
 import static ru.pkg.testdata.UserTestData.ADMIN;
 import static ru.pkg.testdata.UserTestData.USER_1;
+import static ru.pkg.testdata.UserTestData.USER_1_ID;
 import static ru.pkg.testdata.UserVoteTestData.*;
 import static ru.pkg.TestUtils.*;
 
@@ -28,8 +28,8 @@ public class VotingRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(post(RESTAURANT_1_VOTE_URL).with(userHttpBasic(USER_1)))
                 .andExpect(status().isOk());
 
-        UserVote actual = votingService.findById(LoggedUser.getId());
-        UserVote expected = new UserVote(LoggedUser.getId(), RESTAURANT_2_ID, actual.getLastVoted());
+        UserVote actual = votingService.findById(USER_1_ID);
+        UserVote expected = new UserVote(USER_1_ID, RESTAURANT_2_ID, actual.getLastVoted());
         MATCHER.assertEquals(expected, actual);
     }
 

@@ -19,7 +19,7 @@ import java.util.List;
 
 import static ru.pkg.utils.UserUtil.updateFromTO;
 
-@Service
+@Service("userService")
 @CacheConfig(cacheNames = "users")
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService, UserDetailsService {

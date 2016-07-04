@@ -17,12 +17,12 @@ import static ru.pkg.testdata.UserTestData.ADMIN;
 import static ru.pkg.testdata.UserTestData.ALL_USERS;
 import static ru.pkg.utils.UserUtil.*;
 
+@WithMockUser(roles={"ADMIN"})
 public class AdminAjaxControllerTest extends AbstractControllerTest {
 
     public static final String AJAX_URL = AdminAjaxController.AJAX_URL + "/";
 
     @Test
-    @WithMockUser(roles={"ADMIN"})
     public void testGet() throws Exception {
         mockMvc.perform(get(AJAX_URL + ADMIN_ID))
                 .andExpect(status().isOk())
@@ -38,7 +38,6 @@ public class AdminAjaxControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(roles={"ADMIN"})
     public void testDelete() throws Exception {
         mockMvc.perform(delete(AJAX_URL + ADMIN_ID))
                 .andExpect(status().isOk());
@@ -47,14 +46,12 @@ public class AdminAjaxControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(roles={"ADMIN"})
     public void testCreate() throws Exception {
         mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(NEW_USER)))
                 .andExpect(status().isOk());
     }
 
     @Test
-    @WithMockUser(roles={"ADMIN"})
     public void testUpdate() throws Exception {
         TestUser toUpdateUser = new TestUser(ADMIN_ID, NEW_USER);
         mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(toUpdateUser)))
@@ -64,7 +61,6 @@ public class AdminAjaxControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(roles={"ADMIN"})
     public void testFindAll() throws Exception {
         mockMvc.perform(get(AJAX_URL))
                 .andExpect(status().isOk())

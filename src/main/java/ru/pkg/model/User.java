@@ -101,7 +101,7 @@ public class User extends NamedEntity {
     }
 
     public LocalDateTime getLastVoted() {
-        return userVote.getLastVoted();
+        return userVote != null ? userVote.getLastVoted() : null;
     }
 
     public boolean isVotedToday() {

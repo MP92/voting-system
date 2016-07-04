@@ -21,12 +21,12 @@ import static ru.pkg.testdata.DishTestData.TestDishFactory.newInstanceForCreate;
 import static ru.pkg.testdata.DishTestData.TestDishFactory.newInstanceForUpdate;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 
+@WithMockUser(roles={"ADMIN"})
 public class DishAjaxControllerTest extends AbstractControllerTest {
 
     private static final String AJAX_URL = String.format(RestaurantAjaxController.AJAX_URL + "/%d/dishes/", RESTAURANT_1_ID);
 
     @Test
-    @WithMockUser(roles={"ADMIN"})
     public void testCreate() throws Exception {
         mockMvc.perform(withParamsFromBean(post(AJAX_URL), DishUtil.asTO(newInstanceForCreate())))
                 .andDo(MockMvcResultHandlers.print())
@@ -34,7 +34,6 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(roles={"ADMIN"})
     public void testUpdate() throws Exception {
         Dish toUpdateDish = newInstanceForUpdate();
         mockMvc.perform(withParamsFromBean(post(AJAX_URL), DishUtil.asTO(toUpdateDish)))
@@ -45,7 +44,6 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(roles={"ADMIN"})
     public void testFindById() throws Exception {
         mockMvc.perform(get(AJAX_URL + R_1_DISH_1_ID))
                 .andExpect(status().isOk())
@@ -61,7 +59,6 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(roles={"ADMIN"})
     public void testFindAll() throws Exception {
         mockMvc.perform(get(AJAX_URL))
                 .andExpect(status().isOk())
@@ -70,7 +67,6 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(roles={"ADMIN"})
     public void testDelete() throws Exception {
         mockMvc.perform(delete(AJAX_URL + R_1_DISH_1_ID))
                 .andExpect(status().isOk());
@@ -79,7 +75,6 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(roles={"ADMIN"})
     public void testChangeInMenuState() throws Exception {
         boolean initialState = dishService.findById(R_1_DISH_1_ID, RESTAURANT_1_ID).isInMenu();
 

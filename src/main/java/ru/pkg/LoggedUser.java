@@ -1,5 +1,6 @@
 package ru.pkg;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import ru.pkg.model.User;
@@ -17,7 +18,7 @@ public class LoggedUser extends org.springframework.security.core.userdetails.Us
 
     public static LoggedUser get() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null) {
+        if (auth == null || auth instanceof AnonymousAuthenticationToken) {
             return null;
         }
         return (LoggedUser)auth.getPrincipal();

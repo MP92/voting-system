@@ -41,6 +41,10 @@ public class RootController {
                         @RequestParam(value = "error", required = false) boolean error,
                         @RequestParam(value = "message", required = false) String message) {
 
+        if (LoggedUser.get() != null) {
+            return "restaurant/restaurantCatalog";
+        }
+
         model.put("error", error);
         model.put("message", message);
         return "login";
@@ -52,8 +56,7 @@ public class RootController {
     }
 
     @RequestMapping(path = "/restaurants", method = RequestMethod.GET)
-    public String showRestaurantCatalog(Model model) {
-        model.addAttribute("user", LoggedUser.getUserTO());
+    public String showRestaurantCatalog() {
         return "restaurant/restaurantCatalog";
     }
 

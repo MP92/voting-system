@@ -3,7 +3,6 @@ package ru.pkg.web.user;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import ru.pkg.LoggedUser;
 import ru.pkg.web.AbstractControllerTest;
 
 import java.util.Arrays;
@@ -59,7 +58,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
                         .content(toJson(NEW_USER)))
                 .andExpect(status().isOk());
 
-        TestUser expected = new TestUser(LoggedUser.getId(), NEW_USER);
-        MATCHER.assertEquals(expected, userService.findById(LoggedUser.getId()));
+        TestUser expected = new TestUser(USER_1_ID, NEW_USER);
+        MATCHER.assertEquals(expected, userService.findById(USER_1_ID));
     }
 }

@@ -2,7 +2,7 @@ package ru.pkg.web;
 
 import org.junit.Test;
 
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -41,8 +41,14 @@ public class RootControllerTest extends AbstractControllerTest {
     @Test
     public void testLogin() throws Exception {
         mockMvc.perform(formLogin("/spring_security_check").user(USER_1.getName()).password(USER_1.getPassword()))
-                .andExpect(authenticated())
+                .andExpect(authenticated().withUsername("User"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/restaurants"));
+    }
+
+    @Test
+    public void testLoginUnauthenticated() throws Exception {
+        mockMvc.perform(formLogin("/spring_security_check").password("invalid"))
+                .andExpect(unauthenticated());
     }
 }
