@@ -1,12 +1,19 @@
 package ru.pkg.web.voting;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import ru.pkg.model.UserVote;
+import ru.pkg.utils.TimeUtil;
 import ru.pkg.web.AbstractControllerTest;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.time.LocalTime;
 import java.util.Collections;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -23,11 +30,27 @@ import static ru.pkg.testdata.UserVoteTestData.MATCHER;
 import static ru.pkg.testdata.UserVoteTestData.VOTING_STATISTICS;
 import static ru.pkg.testdata.UserTestData.USER_1_ID;
 
-@WithUserDetails(value = "User", userDetailsServiceBeanName = "userService")
+@WithUserDetails(value = "User2", userDetailsServiceBeanName = "userService")
 public class VotingAjaxControllerTest extends AbstractControllerTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(VotingAjaxControllerTest.class);
 
     private static final String AJAX_BASE_URL = VotingAjaxController.AJAX_URL + "/voting";
     private static final String RESTAURANT_1_VOTE_URL = String.format(VotingAjaxController.AJAX_URL + "/%d/vote", RESTAURANT_1_ID);
+
+    @BeforeClass
+    public static void setFakeVoteTimeBound() {
+        try {
+            Field hourLimit = TimeUtil.class.getDeclaredField("HOUR_LIMIT");
+            hourLimit.setAccessible(true);
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(hourLimit, hourLimit.getModifiers() & ~Modifier.FINAL);
+            hourLimit.set(null, LocalTime.now().plusHours(1));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            LOG.warn("Can't modify TimeUtil.HOUR_LIMIT value");
+        }
+    }
 
     @Test
     public void testVote() throws Exception {
@@ -48,6 +71,7 @@ public class VotingAjaxControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @WithUserDetails(value = "User", userDetailsServiceBeanName = "userService")
     public void testCancel() throws Exception {
         mockMvc.perform(post(AJAX_BASE_URL + "/cancel"))
                 .andExpect(status().isOk());

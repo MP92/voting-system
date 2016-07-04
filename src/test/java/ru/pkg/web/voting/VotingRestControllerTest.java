@@ -1,16 +1,24 @@
 package ru.pkg.web.voting;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import ru.pkg.model.UserVote;
+import ru.pkg.utils.TimeUtil;
 import ru.pkg.web.AbstractControllerTest;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.time.LocalTime;
 import java.util.Collections;
 
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_2_ID;
 import static ru.pkg.testdata.UserTestData.ADMIN;
 import static ru.pkg.testdata.UserTestData.USER_1;
+import static ru.pkg.testdata.UserTestData.USER_2;
 import static ru.pkg.testdata.UserTestData.USER_1_ID;
 import static ru.pkg.testdata.UserVoteTestData.*;
 import static ru.pkg.TestUtils.*;
@@ -20,12 +28,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class VotingRestControllerTest extends AbstractControllerTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger(VotingRestControllerTest.class);
+
     private static final String REST_BASE_URL = VotingRestController.REST_URL + "/voting";
     private static final String RESTAURANT_1_VOTE_URL = String.format(VotingRestController.REST_URL + "/%d/vote", RESTAURANT_1_ID);
 
+    @BeforeClass
+    public static void setFakeVoteTimeBound() {
+        try {
+            Field hourLimit = TimeUtil.class.getDeclaredField("HOUR_LIMIT");
+            hourLimit.setAccessible(true);
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(hourLimit, hourLimit.getModifiers() & ~Modifier.FINAL);
+            hourLimit.set(null, LocalTime.now().plusHours(1));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            LOG.warn("Can't modify TimeUtil.HOUR_LIMIT value");
+        }
+    }
+
     @Test
     public void testVote() throws Exception {
-        mockMvc.perform(post(RESTAURANT_1_VOTE_URL).with(userHttpBasic(USER_1)))
+        mockMvc.perform(post(RESTAURANT_1_VOTE_URL).with(userHttpBasic(USER_2)))
                 .andExpect(status().isOk());
 
         UserVote actual = votingService.findById(USER_1_ID);
