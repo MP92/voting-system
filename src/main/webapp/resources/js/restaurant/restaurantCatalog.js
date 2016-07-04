@@ -4,6 +4,8 @@ var votingItemTemplate = Handlebars.getTemplate('votingItem');
 var chart;
 var cancelBtn;
 
+var HOUR_LIMIT = 11;
+
 var voteBtnPattern = '<a class="voting-button btn-vote" onclick="vote({0})">Vote</a>';
 
 $(function() {
@@ -21,16 +23,17 @@ function getProfileAndThen(action) {
 
 function loadRestaurantCatalog(profileData) {
     var catalogItems = $('.catalog-items');
+    var canVote = new Date().getHours() < HOUR_LIMIT;
     var votedToday = isUserVotedToday(profileData);
     $.get(rootUrl, function(data) {
         $.each(data, function(idx, obj) {
             var catalogItem = $('<div/>').html(catalogItemTemplate(obj)).contents();
-            if (!votedToday) {
+            if (canVote && !votedToday) {
                 catalogItem.find('.catalog-footer').append(voteBtnPattern.format(obj['id']));
             }
             catalogItems.append(catalogItem);
         });
-        votedToday ? enableBtn(cancelBtn, cancelVote) : disableBtn(cancelBtn);
+        canVote && votedToday ? enableBtn(cancelBtn, cancelVote) : disableBtn(cancelBtn);
         updateVotingChart();
     });
 }

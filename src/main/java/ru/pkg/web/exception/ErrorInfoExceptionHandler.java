@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.pkg.utils.exception.ErrorInfo;
+import ru.pkg.utils.exception.VotingException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
@@ -27,14 +28,21 @@ public class ErrorInfoExceptionHandler {
     @ResponseBody
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public ErrorInfo handleBindException(HttpServletRequest req, BindingResult result) throws Exception {
-        LOG.error("BindException at request " + req.getRequestURL());
         StringBuilder sb = new StringBuilder();
         result.getFieldErrors().forEach(fe -> sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage()).append("<br>"));
-        return logAndGetErrorInfo(req, new ValidationException(sb.toString()), false);
+        return logAndGetErrorInfo(req, new ValidationException(sb.toString()), true);
     }
 
-    @ResponseStatus(value = HttpStatus.CONFLICT)
+    @ExceptionHandler(VotingException.class)
+    @ResponseStatus(value = HttpStatus.PRECONDITION_FAILED)
+    @ResponseBody
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public ErrorInfo handleVotingException(HttpServletRequest req, VotingException e) {
+        return logAndGetErrorInfo(req, e, true);
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
     @ResponseBody
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
