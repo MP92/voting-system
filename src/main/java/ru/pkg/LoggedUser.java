@@ -5,7 +5,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import ru.pkg.model.User;
 import ru.pkg.to.UserTO;
-import ru.pkg.utils.UserUtil;
+
+import static ru.pkg.utils.EntityUtils.asTO;
 
 public class LoggedUser extends org.springframework.security.core.userdetails.User {
 
@@ -13,7 +14,7 @@ public class LoggedUser extends org.springframework.security.core.userdetails.Us
 
     public LoggedUser(User u) {
         super(u.getName(), u.getPassword(), u.isEnabled(), true, true, true, u.getRoles());
-        userTO = UserUtil.asTO(u);
+        userTO = asTO(u);
     }
 
     public static LoggedUser get() {

@@ -31,7 +31,7 @@ public class RestaurantTestData {
     public static class TestRestaurantFactory {
 
         private static Restaurant newInstance(Integer id, List<Dish> menu) {
-            return new Restaurant(id, "test", "test", "test", "test", menu);
+            return new Restaurant(id, "Test", "test", "test", "test", menu);
         }
 
         public static Restaurant newInstanceForCreate() {

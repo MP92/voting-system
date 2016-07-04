@@ -8,6 +8,8 @@ import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
 
+import static ru.pkg.utils.EntityUtils.prepareToSave;
+
 public abstract class AbstractDishController {
 
     @Autowired
@@ -15,7 +17,7 @@ public abstract class AbstractDishController {
 
     public Dish create(Dish dish, int restaurantId) throws RestaurantNotFoundException {
         dish.setId(null);
-        return service.add(dish, restaurantId);
+        return service.add(prepareToSave(dish), restaurantId);
     }
 
     public Dish findById(int id, int restaurantId) throws DishNotFoundException {
@@ -32,11 +34,11 @@ public abstract class AbstractDishController {
 
     public void update(int id, Dish dish, int restaurantId) throws DishNotFoundException {
         dish.setId(id);
-        service.update(dish, restaurantId);
+        update(dish, restaurantId);
     }
 
     public void update(Dish dish, int restaurantId) throws DishNotFoundException {
-        service.update(dish, restaurantId);
+        service.update(prepareToSave(dish), restaurantId);
     }
 
     public void changeInMenuState(int id, int restaurantId) {

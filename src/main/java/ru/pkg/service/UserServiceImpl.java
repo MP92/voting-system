@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ru.pkg.LoggedUser;
 import ru.pkg.model.User;
 import ru.pkg.repository.UserRepository;
@@ -17,7 +18,7 @@ import ru.pkg.utils.exception.UserNotFoundException;
 
 import java.util.List;
 
-import static ru.pkg.utils.UserUtil.updateFromTO;
+import static ru.pkg.utils.EntityUtils.updateFromTO;
 
 @Service("userService")
 @CacheConfig(cacheNames = "users")
@@ -87,6 +88,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        return new LoggedUser(findByName(name));
+        return new LoggedUser(findByName(StringUtils.capitalize(name.toLowerCase())));
     }
 }

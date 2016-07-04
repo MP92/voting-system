@@ -9,11 +9,12 @@ import ru.pkg.model.UserVote;
 import ru.pkg.repository.RestaurantRepository;
 import ru.pkg.repository.VotingRepository;
 import ru.pkg.to.VotingStatistics;
-import ru.pkg.utils.VotingUtil;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 import ru.pkg.utils.exception.VotingException;
 
 import java.util.List;
+
+import static ru.pkg.utils.EntityUtils.getVotingStatistics;
 
 @Service
 @Transactional(readOnly = true)
@@ -66,6 +67,6 @@ public class VotingServiceImpl implements VotingService {
     }
 
     public List<VotingStatistics> findVotingStatistics() {
-        return VotingUtil.getVotingStatistics(restaurantRepository.findAll(), votingRepository.findAll());
+        return getVotingStatistics(restaurantRepository.findAll(), votingRepository.findAll());
     }
 }

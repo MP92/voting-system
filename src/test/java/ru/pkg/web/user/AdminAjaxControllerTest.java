@@ -15,7 +15,7 @@ import static ru.pkg.TestUtils.*;
 import static ru.pkg.testdata.UserTestData.*;
 import static ru.pkg.testdata.UserTestData.ADMIN;
 import static ru.pkg.testdata.UserTestData.ALL_USERS;
-import static ru.pkg.utils.UserUtil.*;
+import static ru.pkg.utils.EntityUtils.*;
 
 @WithMockUser(roles={"ADMIN"})
 public class AdminAjaxControllerTest extends AbstractControllerTest {

@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.model.User;
 import ru.pkg.to.UserTO;
-import ru.pkg.utils.UserUtil;
 
 import javax.validation.Valid;
 import java.util.Collection;
+
+import static ru.pkg.utils.EntityUtils.createFromTO;
 
 @RestController
 @RequestMapping(AdminAjaxController.AJAX_URL)
@@ -34,7 +35,7 @@ public class AdminAjaxController extends AbstractUserController {
     public void save(@Valid UserTO user) {
         try {
             if (user.isNew()) {
-                super.create(UserUtil.createFromTO(user));
+                super.create(createFromTO(user));
             } else {
                 super.update(user);
             }

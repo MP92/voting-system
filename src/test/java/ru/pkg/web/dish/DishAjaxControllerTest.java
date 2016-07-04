@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import ru.pkg.model.Dish;
-import ru.pkg.utils.DishUtil;
 import ru.pkg.web.AbstractControllerTest;
 import ru.pkg.web.restaurant.RestaurantAjaxController;
 
@@ -21,6 +20,8 @@ import static ru.pkg.testdata.DishTestData.TestDishFactory.newInstanceForCreate;
 import static ru.pkg.testdata.DishTestData.TestDishFactory.newInstanceForUpdate;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 
+import static ru.pkg.utils.EntityUtils.*;
+
 @WithMockUser(roles={"ADMIN"})
 public class DishAjaxControllerTest extends AbstractControllerTest {
 
@@ -28,7 +29,7 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        mockMvc.perform(withParamsFromBean(post(AJAX_URL), DishUtil.asTO(newInstanceForCreate())))
+        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(newInstanceForCreate())))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk());
     }
@@ -36,7 +37,7 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
     @Test
     public void testUpdate() throws Exception {
         Dish toUpdateDish = newInstanceForUpdate();
-        mockMvc.perform(withParamsFromBean(post(AJAX_URL), DishUtil.asTO(toUpdateDish)))
+        mockMvc.perform(withParamsFromBean(post(AJAX_URL), asTO(toUpdateDish)))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Arrays.asList(toUpdateDish, R_1_DISH_2, R_1_DISH_3, R_1_DISH_4), dishService.findAll(RESTAURANT_1_ID));

@@ -7,6 +7,8 @@ import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.List;
 
+import static ru.pkg.utils.EntityUtils.prepareToSave;
+
 public abstract class AbstractRestaurantController {
 
     @Autowired
@@ -14,7 +16,7 @@ public abstract class AbstractRestaurantController {
 
     public Restaurant create(Restaurant restaurant) {
         restaurant.setId(null);
-        return service.add(restaurant);
+        return service.add(prepareToSave(restaurant));
     }
 
     public Restaurant findById(int id) throws RestaurantNotFoundException {
@@ -31,6 +33,6 @@ public abstract class AbstractRestaurantController {
 
     public void update(int id, Restaurant restaurant) throws RestaurantNotFoundException {
         restaurant.setId(id);
-        service.update(restaurant);
+        service.update(prepareToSave(restaurant));
     }
 }

@@ -32,7 +32,7 @@ public class UserTestData {
         USER_1.setUserVote(UserVoteTestData.USER_1_VOTE);
     }
 
-    public static final User NEW_USER = new User(null, "test", "test", "password", TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
+    public static final User NEW_USER = new User(null, "Test", "test", "password", TEST_DT, true, EnumSet.of(Role.ROLE_ADMIN, Role.ROLE_USER));
 
     public static final List<User> ALL_USERS = Arrays.asList(ADMIN, USER_1, USER_2);
 

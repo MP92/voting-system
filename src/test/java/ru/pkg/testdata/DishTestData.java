@@ -81,7 +81,7 @@ public class DishTestData {
     public static class TestDishFactory {
 
         private static Dish newInstance(Integer id, Restaurant r) {
-            Dish dish = new Dish(id, "test", "test", 100, DishCategory.DESSERT, 123.45, false);
+            Dish dish = new Dish(id, "Test", "test", 100, DishCategory.DESSERT, 123.45, false);
             dish.setRestaurant(r);
             return dish;
         }

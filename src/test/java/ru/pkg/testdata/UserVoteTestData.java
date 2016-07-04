@@ -3,8 +3,6 @@ package ru.pkg.testdata;
 import ru.pkg.matcher.ModelMatcher;
 import ru.pkg.model.UserVote;
 import ru.pkg.to.VotingStatistics;
-import ru.pkg.utils.VotingUtil;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -13,10 +11,11 @@ import java.util.List;
 
 import static ru.pkg.testdata.UserTestData.ADMIN_ID;
 import static ru.pkg.testdata.UserTestData.USER_1_ID;
-
 import static ru.pkg.testdata.RestaurantTestData.ALL_RESTAURANTS;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_2_ID;
+
+import static ru.pkg.utils.EntityUtils.getVotingStatistics;
 
 public class UserVoteTestData {
 
@@ -31,5 +30,5 @@ public class UserVoteTestData {
 
     public static final List<UserVote> ALL_USER_VOTES = Arrays.asList(ADMIN_VOTE, USER_1_VOTE);
 
-    public static final List<VotingStatistics> VOTING_STATISTICS = VotingUtil.getVotingStatistics(ALL_RESTAURANTS, ALL_USER_VOTES);
+    public static final List<VotingStatistics> VOTING_STATISTICS = getVotingStatistics(ALL_RESTAURANTS, ALL_USER_VOTES);
 }

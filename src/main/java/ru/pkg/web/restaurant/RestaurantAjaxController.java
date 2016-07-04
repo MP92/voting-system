@@ -13,7 +13,7 @@ import ru.pkg.utils.exception.RestaurantNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
-import static ru.pkg.utils.RestaurantUtil.*;
+import static ru.pkg.utils.EntityUtils.*;
 
 @RestController
 @RequestMapping(RestaurantAjaxController.AJAX_URL)

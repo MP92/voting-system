@@ -20,7 +20,7 @@ import static ru.pkg.testdata.RestaurantTestData.*;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 import static ru.pkg.testdata.RestaurantTestData.TestRestaurantFactory.newInstanceForCreate;
 import static ru.pkg.testdata.RestaurantTestData.TestRestaurantFactory.newInstanceForUpdate;
-import static ru.pkg.utils.RestaurantUtil.*;
+import static ru.pkg.utils.EntityUtils.*;
 
 public class RestaurantAjaxControllerTest extends AbstractControllerTest {
 

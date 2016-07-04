@@ -15,9 +15,10 @@ import ru.pkg.service.RestaurantService;
 import ru.pkg.service.UserService;
 import ru.pkg.service.VotingService;
 import ru.pkg.to.UserTO;
-import ru.pkg.utils.UserUtil;
 
 import javax.validation.Valid;
+
+import static ru.pkg.utils.EntityUtils.createFromTO;
 
 @Controller
 public class RootController {
@@ -80,7 +81,7 @@ public class RootController {
     public String createUser(@ModelAttribute("user") @Valid UserTO userTO, BindingResult result) {
         if (!result.hasErrors()) {
             try {
-                userService.add(UserUtil.createFromTO(userTO));
+                userService.add(createFromTO(userTO));
                 return "redirect:login?message=You have successfully signed up.";
             } catch (DataIntegrityViolationException ex) {
                 result.rejectValue("name", null, "User with such name already present in application.");

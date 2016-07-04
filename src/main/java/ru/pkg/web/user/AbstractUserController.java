@@ -4,9 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.pkg.model.User;
 import ru.pkg.service.UserService;
 import ru.pkg.to.UserTO;
-import ru.pkg.utils.UserUtil;
 
 import java.util.Collection;
+
+import static ru.pkg.utils.EntityUtils.*;
 
 public abstract class AbstractUserController {
 
@@ -18,7 +19,7 @@ public abstract class AbstractUserController {
     }
 
     public UserTO getForUpdate(int id) {
-        return UserUtil.asTO(service.findById(id));
+        return asTO(service.findById(id));
     }
 
     public void delete(int id) {
@@ -27,12 +28,12 @@ public abstract class AbstractUserController {
 
     public User create(User user) {
         user.setId(null);
-        return service.add(user);
+        return service.add(prepareToSave(user));
     }
 
     public void update(int id, User user) {
         user.setId(id);
-        service.update(user);
+        service.update(prepareToSave(user));
     }
 
     public void update(UserTO user) {

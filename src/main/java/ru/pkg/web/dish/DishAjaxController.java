@@ -5,12 +5,13 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.pkg.model.Dish;
 import ru.pkg.to.DishTO;
-import ru.pkg.utils.DishUtil;
 import ru.pkg.utils.exception.DishNotFoundException;
 import ru.pkg.web.restaurant.RestaurantAjaxController;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static ru.pkg.utils.EntityUtils.*;
 
 @RestController
 @RequestMapping(DishAjaxController.AJAX_URL)
@@ -22,9 +23,9 @@ public class DishAjaxController extends AbstractDishController {
     public void save(@Valid DishTO dishTO, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
         try {
             if (dishTO.isNew()) {
-                super.create(DishUtil.createFromTO(dishTO), restaurantId);
+                super.create(createFromTO(dishTO), restaurantId);
             } else {
-                super.update(DishUtil.createFromTO(dishTO), restaurantId);
+                super.update(createFromTO(dishTO), restaurantId);
             }
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Dish with such name already present in application.");
