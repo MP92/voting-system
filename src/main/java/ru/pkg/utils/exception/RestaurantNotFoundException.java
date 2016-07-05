@@ -2,7 +2,7 @@ package ru.pkg.utils.exception;
 
 import ru.pkg.model.Restaurant;
 
-public class RestaurantNotFoundException extends RuntimeException {
+public class RestaurantNotFoundException extends NotFoundException {
 
     private static final String MSG_PATTERN = "Restaurant with id=%d not found";
 

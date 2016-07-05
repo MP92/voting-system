@@ -5,16 +5,14 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import ru.pkg.LoggedUser;
 import ru.pkg.to.UserTO;
 
 import javax.validation.Valid;
 
 @Controller
+@SessionAttributes("user")
 public class ProfileController extends AbstractUserController {
 
     @RequestMapping(path = "ajax/profile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -38,7 +36,7 @@ public class ProfileController extends AbstractUserController {
                 LoggedUser.update(userTO);
                 return "redirect:restaurants";
             } catch (DataIntegrityViolationException ex) {
-                result.reject("name", null, "User with such name already present in application.");
+                result.rejectValue("name", "exception.user.duplicate_name");
             }
         }
         return "profile";

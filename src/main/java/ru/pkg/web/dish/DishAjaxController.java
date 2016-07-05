@@ -1,5 +1,8 @@
 package ru.pkg.web.dish;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,9 @@ import static ru.pkg.utils.EntityUtils.*;
 @RequestMapping(DishAjaxController.AJAX_URL)
 public class DishAjaxController extends AbstractDishController {
 
+    @Autowired
+    private MessageSource messageSource;
+
     public static final String AJAX_URL = RestaurantAjaxController.AJAX_URL + "/{restaurantId}/dishes";
 
     @RequestMapping(method = RequestMethod.POST)
@@ -28,7 +34,7 @@ public class DishAjaxController extends AbstractDishController {
                 super.update(createFromTO(dishTO), restaurantId);
             }
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Dish with such name already present in application.");
+            throw new DataIntegrityViolationException(messageSource.getMessage("exception.dish.duplicate_name", null, LocaleContextHolder.getLocale()));
         }
     }
 

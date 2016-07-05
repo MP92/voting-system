@@ -1,6 +1,8 @@
 package ru.pkg.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,10 +12,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.pkg.LoggedUser;
-import ru.pkg.service.RestaurantService;
 import ru.pkg.service.UserService;
-import ru.pkg.service.VotingService;
 import ru.pkg.to.UserTO;
 
 import javax.validation.Valid;
@@ -24,13 +25,10 @@ import static ru.pkg.utils.EntityUtils.createFromTO;
 public class RootController {
 
     @Autowired
+    private MessageSource messageSource;
+
+    @Autowired
     UserService userService;
-
-    @Autowired
-    RestaurantService restaurantService;
-
-    @Autowired
-    VotingService votingService;
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String showHomePage() {
@@ -39,15 +37,13 @@ public class RootController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(ModelMap model,
-                        @RequestParam(value = "error", required = false) boolean error,
-                        @RequestParam(value = "message", required = false) String message) {
+                        @RequestParam(value = "error", required = false) boolean error) {
 
         if (LoggedUser.get() != null) {
             return "restaurant/restaurantCatalog";
         }
 
         model.put("error", error);
-        model.put("message", message);
         return "login";
     }
 
@@ -78,13 +74,14 @@ public class RootController {
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public String createUser(@ModelAttribute("user") @Valid UserTO userTO, BindingResult result) {
+    public String createUser(@ModelAttribute("user") @Valid UserTO userTO, BindingResult result, RedirectAttributes redirectAttrs) {
         if (!result.hasErrors()) {
             try {
                 userService.add(createFromTO(userTO));
-                return "redirect:login?message=You have successfully signed up.";
+                redirectAttrs.addFlashAttribute("message", messageSource.getMessage("login.register.success", null, LocaleContextHolder.getLocale()));
+                return "redirect:login";
             } catch (DataIntegrityViolationException ex) {
-                result.rejectValue("name", null, "User with such name already present in application.");
+                result.rejectValue("name", "exception.user.duplicate_name");
             }
         }
         return "profile";

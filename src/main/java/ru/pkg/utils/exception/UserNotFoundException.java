@@ -2,7 +2,7 @@ package ru.pkg.utils.exception;
 
 import ru.pkg.model.User;
 
-public class UserNotFoundException extends RuntimeException {
+public class UserNotFoundException extends NotFoundException {
 
     public UserNotFoundException(User user) {
         this(user.getId());

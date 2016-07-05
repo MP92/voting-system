@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <jsp:include page="/WEB-INF/jsp/fragments/head.jsp" />
 <body>
@@ -8,18 +9,18 @@
 
 <div class="container">
     <div class="page-header">
-        <h2>User list</h2>
+        <h2><spring:message code="user.list"/></h2>
     </div>
-    <a class="btn btn-primary" onclick="initAddRecord()">Add user</a>
+    <a class="btn btn-primary" onclick="initAddRecord()"><spring:message code="user.add"/></a>
     <table class="table table-striped" id="datatable">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Registered</th>
-            <th>Enabled</th>
-            <th>Roles</th>
+            <th><spring:message code="form.id"/></th>
+            <th><spring:message code="form.name"/></th>
+            <th><spring:message code="form.surname"/></th>
+            <th><spring:message code="form.registered"/></th>
+            <th><spring:message code="form.enabled"/></th>
+            <th><spring:message code="form.authorities"/></th>
             <th></th>
             <th></th>
             <th></th>
@@ -27,8 +28,8 @@
         </thead>
     </table>
 
-    <%@ include file="userForm.jsp" %>
-    <%@ include file="userDetails.jsp" %>
+    <jsp:include page="userForm.jsp" />
+    <jsp:include page="userDetails.jsp" />
 </div>
 <jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
 <script type="text/javascript" src="${rootUrl}/resources/js/user/user.js"></script>

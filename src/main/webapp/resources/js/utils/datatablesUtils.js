@@ -17,7 +17,11 @@ function initAddRecord() {
 function initUpdateRecord(id) {
     $.get(ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
-            form.find("input[name='" + key + "']").val(value);
+            if (key == 'inMenu') {
+                form.find("#" + key).prop('checked', value);
+            } else {
+                form.find("#" + key).val(value);
+            }
         });
         $('#editRow').modal();
     });

@@ -1,6 +1,6 @@
 package ru.pkg.utils.exception;
 
-public class VotingException extends RuntimeException {
+public class VotingException extends NotFoundException {
 
     public VotingException(Throwable cause) {
         super(cause);

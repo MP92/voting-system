@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <jsp:include page="/WEB-INF/jsp/fragments/head.jsp" />
 <body>
@@ -8,17 +9,17 @@
 
 <div class="container">
     <div class="page-header">
-        <h2>Restaurant list</h2>
+        <h2><spring:message code="restaurant.table"/></h2>
     </div>
-    <a class="btn btn-primary" onclick="initAddRecord()">Add restaurant</a>
+    <a class="btn btn-primary" onclick="initAddRecord()"><spring:message code="restaurant.add"/></a>
     <table class="table table-striped" id="datatable">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Address</th>
-            <th>Phone number</th>
+            <th><spring:message code="form.id"/></th>
+            <th><spring:message code="form.name"/></th>
+            <th><spring:message code="form.description"/></th>
+            <th><spring:message code="form.address"/></th>
+            <th><spring:message code="form.phoneNumber"/></th>
             <th></th>
             <th></th>
             <th></th>
@@ -26,8 +27,8 @@
         </thead>
     </table>
 
-    <%@ include file="restaurantForm.jsp" %>
-    <%@ include file="restaurantDetails.jsp" %>
+    <jsp:include page="restaurantForm.jsp" />
+    <jsp:include page="restaurantDetails.jsp" />
 </div>
 <jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
 <script type="text/javascript" src="${rootUrl}/resources/js/restaurant/restaurantTable.js"></script>

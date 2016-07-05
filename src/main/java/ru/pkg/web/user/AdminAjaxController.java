@@ -1,5 +1,8 @@
 package ru.pkg.web.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +20,9 @@ import static ru.pkg.utils.EntityUtils.createFromTO;
 @RestController
 @RequestMapping(AdminAjaxController.AJAX_URL)
 public class AdminAjaxController extends AbstractUserController {
+
+    @Autowired
+    private MessageSource messageSource;
 
     public static final String AJAX_URL = "/ajax/users";
 
@@ -40,7 +46,7 @@ public class AdminAjaxController extends AbstractUserController {
                 super.update(user);
             }
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("User with such name and surname already present in application.");
+            throw new DataIntegrityViolationException(messageSource.getMessage("exception.user.duplicate_name", null, LocaleContextHolder.getLocale()));
         }
     }
 

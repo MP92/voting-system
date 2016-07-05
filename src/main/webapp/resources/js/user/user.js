@@ -32,7 +32,7 @@ function enable(chkbox, id) {
          success: function () {
              var enabled = chkbox.is(":checked");
              chkbox.closest('tr').css("text-decoration", enabled ? "none" : "line-through");
-             showSuccessToast('User ' + enabled ? 'enabled' : 'disabled');
+             showSuccessToast('User ' + (enabled ? 'enabled' : 'disabled'));
          }
     });
 }

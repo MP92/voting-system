@@ -1,6 +1,8 @@
 package ru.pkg.web.voting;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import ru.pkg.LoggedUser;
 import ru.pkg.model.UserVote;
 import ru.pkg.service.VotingService;
@@ -13,12 +15,16 @@ import java.util.List;
 public abstract class AbstractVotingController {
 
     @Autowired
+    private MessageSource messageSource;
+
+    @Autowired
     VotingService service;
 
     public void vote(int restaurantId) {
         UserVote userVote = service.findById(LoggedUser.getId());
         if (!TimeUtil.isCanVote() || userVote.isVotedToday()) {
-            throw new VotingException(TimeUtil.isCanVote() ? "You have already voted today." : "Voting finished today.");
+            String code = TimeUtil.isCanVote() ? "exception.voting.already_voted" : "exception.voting.over";
+            throw new VotingException(messageSource.getMessage(code, null, LocaleContextHolder.getLocale()));
         }
 
         userVote = service.save(LoggedUser.getId(), restaurantId);
@@ -27,7 +33,7 @@ public abstract class AbstractVotingController {
 
     public void cancel() {
         if (!TimeUtil.isCanVote()) {
-            throw new VotingException("Voting finished today.");
+            throw new VotingException(messageSource.getMessage("exception.voting.over", null, LocaleContextHolder.getLocale()));
         }
         service.delete(LoggedUser.getId());
         LoggedUser.getUserTO().setLastVoted(null);
