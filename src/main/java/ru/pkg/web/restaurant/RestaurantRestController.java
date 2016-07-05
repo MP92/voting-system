@@ -36,7 +36,7 @@ public class RestaurantRestController extends AbstractRestaurantController {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurant> findAll() {
-        return super.findAll();
+        return super.findAllWithMenu();
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)

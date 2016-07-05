@@ -84,7 +84,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL).with(userHttpBasic(USER_1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonMatcher(ALL_RESTAURANTS));
+                .andExpect(jsonMatcher(ALL_RESTAURANTS_WITH_MENU));
     }
 
     @Test

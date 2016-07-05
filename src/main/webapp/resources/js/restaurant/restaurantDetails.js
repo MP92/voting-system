@@ -1,8 +1,10 @@
 var detailsInfo;
 var menuTableApi;
+var menuRow;
 
 $(function() {
     detailsInfo = $('#detailsInfo');
+    menuRow = detailsInfo.find(".menu");
 
     menuTableApi = $('#menuDatatable').DataTable({
         "data": {"id": "", "name": "", "weight": "", "category": "", "price": ""},
@@ -28,19 +30,23 @@ function showRestaurantDetails(id, url) {
     }
     $.get(url + id, function (data) {
         detailsInfo.find("td:not(.details-menu)").text("");
+        var menuFound = false;
         $.each(data, function (key, value) {
             if (key === 'menu') {
-                var tr = detailsInfo.find(".menu");
+                menuFound = true;
                 if (value && value.length > 0) {
-                    tr.show();
+                    menuRow.show();
                     updateMenuTableByData(value, menuTableApi);
                 } else {
-                    tr.hide();
+                    menuRow.hide();
                 }
             } else {
                 detailsInfo.find(".details-" + key).text(value);
             }
         });
+        if (!menuFound) {
+            menuRow.hide();
+        }
         $('#details').modal();
     });
 }

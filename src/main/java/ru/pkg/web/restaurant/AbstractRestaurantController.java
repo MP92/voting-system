@@ -27,6 +27,10 @@ public abstract class AbstractRestaurantController {
         return service.findAll();
     }
 
+    public List<Restaurant> findAllWithMenu() {
+        return service.findAllWithMenu();
+    }
+
     public void delete(int id) throws RestaurantNotFoundException {
         service.delete(id);
     }

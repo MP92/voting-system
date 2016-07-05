@@ -60,8 +60,8 @@ public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Test
     public void testFindAll() throws Exception {
-        when(repository.findAll()).thenReturn(ALL_RESTAURANTS);
-        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS, service.findAll());
+        when(repository.findAll()).thenReturn(ALL_RESTAURANTS_WITH_MENU);
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITH_MENU, service.findAll());
         verify(repository).findAll();
     }
 

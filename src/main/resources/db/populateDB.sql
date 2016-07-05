@@ -114,6 +114,14 @@ INSERT INTO users(name, surname, password, registered) VALUES ('User7', 'Userov7
 INSERT INTO users(name, surname, password, registered) VALUES ('User8', 'Userov8', '$2a$10$MeuqeqYxq1sRl5o3wme/mu2RgNHUT.Re9O7Z5As5i9qF6XvmiSabC', '2016-01-01'); -- id=10034
 INSERT INTO users(name, surname, password, registered) VALUES ('User9', 'Userov9', '$2a$10$t3PUoJt1FFlTpxd0l5S5ZuovAr9FGj.4xQHoH2.6Uhsc3fcdxIJmG', '2016-01-01'); -- id=10035
 
+INSERT INTO roles(user_id, role) VALUES (10029, 'ROLE_USER');
+INSERT INTO roles(user_id, role) VALUES (10030, 'ROLE_USER');
+INSERT INTO roles(user_id, role) VALUES (10031, 'ROLE_USER');
+INSERT INTO roles(user_id, role) VALUES (10032, 'ROLE_USER');
+INSERT INTO roles(user_id, role) VALUES (10033, 'ROLE_USER');
+INSERT INTO roles(user_id, role) VALUES (10034, 'ROLE_USER');
+INSERT INTO roles(user_id, role) VALUES (10035, 'ROLE_USER');
+
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10000, 10003, current_date);
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10001, 10004, current_date);
 INSERT INTO votes(user_id, restaurant_id, last_voted) VALUES (10002, 10004, current_date);

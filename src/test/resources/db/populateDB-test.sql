@@ -16,7 +16,7 @@ INSERT INTO roles(user_id, role) VALUES (10001, 'ROLE_USER');
 INSERT INTO roles(user_id, role) VALUES (10002, 'ROLE_USER');
 
 INSERT INTO restaurants(name, description, address, phone_number) VALUES ('E Pellicci', 'E Pellicci description', '332 Bethnal Green Rd, London E2 0AG, England', '+44 20 7739 4873');
-INSERT INTO restaurants(name, description, address, phone_number) VALUES ('taNgia', 'taNgia description', '108 Mitcham Road | Tooting Broadway, London SW17 9NG, England', '+44 20 3774 0779');
+INSERT INTO restaurants(name, description, address, phone_number) VALUES ('TaNgia', 'taNgia description', '108 Mitcham Road | Tooting Broadway, London SW17 9NG, England', '+44 20 3774 0779');
 
 INSERT INTO dishes(restaurant_id, name, description, weight, category, price, in_menu) VALUES (
   10003, 'Beer-and-Cheddar SoupBeer-and-Cheddar Soup',

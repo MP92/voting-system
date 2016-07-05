@@ -62,7 +62,12 @@ public class JdbcRestaurantRepository extends NamedParameterJdbcDaoSupport imple
 
     @Override
     public List<Restaurant> findAll() {
-        List<Restaurant> restaurants = getJdbcTemplate().query("SELECT * FROM restaurants ORDER BY name", RESTAURANT_MAPPER);
+        return getJdbcTemplate().query("SELECT * FROM restaurants ORDER BY name", RESTAURANT_MAPPER);
+    }
+
+    @Override
+    public List<Restaurant> findAllWithMenu() {
+        List<Restaurant> restaurants = findAll();
         loadMenus(restaurants);
         return restaurants;
     }

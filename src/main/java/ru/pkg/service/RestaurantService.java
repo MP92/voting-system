@@ -13,6 +13,8 @@ public interface RestaurantService {
 
     List<Restaurant> findAll();
 
+    List<Restaurant> findAllWithMenu();
+
     void update(Restaurant restaurant) throws RestaurantNotFoundException;
 
     void delete(int id) throws RestaurantNotFoundException;

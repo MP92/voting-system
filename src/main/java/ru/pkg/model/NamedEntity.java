@@ -1,5 +1,6 @@
 package ru.pkg.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
@@ -7,6 +8,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
 
 @MappedSuperclass
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class NamedEntity extends BaseEntity {
 
     @NotEmpty

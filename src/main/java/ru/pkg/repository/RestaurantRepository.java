@@ -12,5 +12,9 @@ public interface RestaurantRepository {
 
     List<Restaurant> findAll();
 
+    default List<Restaurant> findAllWithMenu() {
+        return findAll();
+    }
+
     boolean delete(int id);
 }

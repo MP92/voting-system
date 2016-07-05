@@ -18,17 +18,17 @@ import java.util.List;
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
-    private RestaurantRepository restaurantRepository;
+    private RestaurantRepository repository;
 
     @CacheEvict(allEntries = true)
     @Transactional
     public Restaurant add(Restaurant restaurant) {
-        return restaurantRepository.save(restaurant);
+        return repository.save(restaurant);
     }
 
     @Cacheable
     public Restaurant findById(int id) throws RestaurantNotFoundException {
-        Restaurant restaurant = restaurantRepository.findById(id);
+        Restaurant restaurant = repository.findById(id);
         if (restaurant == null) {
             throw new RestaurantNotFoundException(id);
         }
@@ -36,15 +36,20 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurant;
     }
 
-    @Cacheable
+    @Cacheable(key = "#root.methodName")
     public List<Restaurant> findAll() {
-        return restaurantRepository.findAll();
+        return repository.findAll();
+    }
+
+    @Cacheable(key = "#root.methodName")
+    public List<Restaurant> findAllWithMenu() {
+        return repository.findAllWithMenu();
     }
 
     @CacheEvict(allEntries = true)
     @Transactional
     public void update(Restaurant restaurant) throws RestaurantNotFoundException {
-        if (restaurantRepository.save(restaurant) == null) {
+        if (repository.save(restaurant) == null) {
             throw new RestaurantNotFoundException(restaurant);
         }
     }
@@ -52,7 +57,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @CacheEvict(allEntries = true)
     @Transactional
     public void delete(int id) throws RestaurantNotFoundException {
-        if (!restaurantRepository.delete(id)) {
+        if (!repository.delete(id)) {
             throw new RestaurantNotFoundException(id);
         }
     }

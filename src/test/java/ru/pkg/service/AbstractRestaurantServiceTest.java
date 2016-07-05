@@ -51,7 +51,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
 
     @Test
     public void testFindAll() throws Exception {
-        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS, service.findAll());
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITH_MENU, service.findAll());
     }
 
     @Test
@@ -72,7 +72,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
     public void testUpdateNotFound() throws Exception {
         Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdateNonexistent();
         service.update(toUpdateRestaurant);
-        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS, service.findAll());
+        MATCHER.assertCollectionsEquals(ALL_RESTAURANTS_WITH_MENU, service.findAll());
     }
 
     @Test

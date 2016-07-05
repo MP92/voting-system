@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class EntityUtils {
 
     public static User createFromTO(UserTO userTO) {
-        return new User(userTO.getId(), userTO.getName(), userTO.getSurname(), userTO.getPassword(), Role.ROLE_USER);
+        return prepareToSave(new User(userTO.getId(), userTO.getName(), userTO.getSurname(), userTO.getPassword(), Role.ROLE_USER));
     }
 
     public static Restaurant createFromTO(RestaurantTO restaurantTO) {

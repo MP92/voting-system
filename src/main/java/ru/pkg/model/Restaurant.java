@@ -25,7 +25,7 @@ public class Restaurant extends NamedEntity {
     @NotEmpty
     private String phoneNumber;
 
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "restaurant")
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "restaurant")
     @Where(clause = "in_menu = true")
     @OrderBy("id")
     @JsonManagedReference
