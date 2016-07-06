@@ -57,14 +57,16 @@ function updateTableByData(data) {
 
 function renderEditBtn(data, type, row) {
     if (type == 'display') {
-        return '<a class="btn btn-xs btn-warning" onclick="initUpdateRecord(' + row.id + ');">Update</a>';
+        return '<a class="btn btn-xs btn-warning" onclick="initUpdateRecord(' + row.id + ');">' +
+            messages['edit'] + '</a>';
     }
     return data;
 }
 
 function renderDeleteBtn(data, type, row) {
     if (type == 'display') {
-        return '<a class="btn btn-xs btn-danger" onclick="deleteRecord(' + row.id + ');">Delete</a>';
+        return '<a class="btn btn-xs btn-danger" onclick="deleteRecord(' + row.id + ');">' +
+            messages['delete'] + '</a>';
     }
     return data;
 }

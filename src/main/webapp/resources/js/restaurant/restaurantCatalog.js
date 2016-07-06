@@ -6,7 +6,7 @@ var cancelBtn;
 
 var HOUR_LIMIT = 11;
 
-var voteBtnPattern = '<a class="voting-button btn-vote" onclick="vote({0})">Vote</a>';
+var voteBtnPattern = '<a class="voting-button btn-vote" onclick="vote({0})">' + messages['vote'] + '</a>';
 
 $(function() {
     chart = $('.voting-chart');
@@ -28,6 +28,7 @@ function loadRestaurantCatalog(profileData) {
     $.get(rootUrl, function(data) {
         $.each(data, function(idx, obj) {
             var catalogItem = $('<div/>').html(catalogItemTemplate(obj)).contents();
+            catalogItem.find('.item-btn').text(messages['details']);
             if (canVote && !votedToday) {
                 catalogItem.find('.catalog-footer').append(voteBtnPattern.format(obj['id']));
             }
@@ -68,7 +69,7 @@ function vote(id) {
         url: rootUrl + id + '/vote',
         success: function () {
             updateVotingChart();
-            showSuccessToast('Your vote accepted');
+            showSuccessToast(messages['vote.accepted']);
             removeVoteButtons();
         }
     });
@@ -80,7 +81,7 @@ function cancelVote() {
         url: rootUrl + 'voting/cancel',
         success: function () {
             updateVotingChart();
-            showSuccessToast('Your vote canceled');
+            showSuccessToast(messages['vote.canceled']);
             addVoteButtons();
         }
     });
@@ -92,7 +93,7 @@ function resetVotes() {
         url: rootUrl + 'voting/reset',
         success: function () {
             updateVotingChart();
-            showSuccessToast('Votes cleared');
+            showSuccessToast(messages['vote.cleared']);
             addVoteButtons();
         }
     });

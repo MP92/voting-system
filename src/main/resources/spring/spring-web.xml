@@ -38,7 +38,7 @@
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
           p:cacheSeconds="60"
           p:defaultEncoding="UTF-8">
-        <property name="basenames" value="classpath:messages/app,classpath:messages/ValidationMessages"/>
+        <property name="basenames" value="classpath:messages/app,classpath:messages/ValidationMessages,classpath:messages/js"/>
         <property name="fallbackToSystemLocale" value="false"/>
     </bean>
 

@@ -13,7 +13,8 @@ function changeState(chkbox, id) {
          success: function () {
              var enabled = chkbox.is(":checked");
              setHighlight(chkbox.closest('tr'), enabled);
-             showSuccessToast('Dish ' + (enabled ? 'added to' : 'removed from') + ' menu');
+             var msgCode = enabled ? 'dish.menu.added' : 'dish.menu.removed';
+             showSuccessToast(messages[msgCode]);
          }
     });
 }

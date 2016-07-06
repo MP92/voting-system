@@ -32,7 +32,8 @@ $(function () {
                 "defaultContent": "",
                 "render" : function (data, type, row) {
                     if (type == 'display') {
-                        return '<a class="btn btn-xs btn-info" href="' + getContextPath() + '/dishes?restaurantId=' + row.id + '">Dish list</a>'
+                        return '<a class="btn btn-xs btn-info" href="' + getContextPath() + '/dishes?restaurantId=' + row.id + '">' +
+                            messages['dish.list'] + '</a>';
                     }
                     return data;
                 }

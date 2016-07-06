@@ -12,12 +12,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import ru.pkg.LoggedUser;
 import ru.pkg.service.UserService;
 import ru.pkg.to.UserTO;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import static ru.pkg.utils.EntityUtils.createFromTO;
 
@@ -85,5 +91,15 @@ public class RootController {
             }
         }
         return "profile";
+    }
+
+    @RequestMapping(value="messages.js")
+    public ModelAndView localizedMessages() {
+        // Retrieve the locale of the User
+        Locale locale = LocaleContextHolder.getLocale();
+        // Use the path to your bundle
+        ResourceBundle bundle = ResourceBundle.getBundle("messages.js", locale);
+        // Call the string.jsp view
+        return new ModelAndView("fragments/messages", "keys", bundle.getKeys());
     }
 }

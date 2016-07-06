@@ -22,7 +22,7 @@
         </div>
         <div class="margin-bottom">
             <a class="btn btn-primary" onclick="initAddRecord()">Add dish</a>
-            <a class="btn btn-info pull-right" onclick="showRestaurantDetails(${restaurantId},'${restaurantAjaxUrl}')"><spring:message code="restaurant.details"/></a>
+            <a class="btn btn-info pull-right" onclick="showRestaurantDetails(${restaurantId},'${restaurantAjaxUrl}')"><spring:message code="details"/></a>
         </div>
         <table id="datatable" class="table table-striped">
             <thead>

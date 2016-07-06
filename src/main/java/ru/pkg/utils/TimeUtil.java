@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 public class TimeUtil {
 
-    private static final LocalTime HOUR_LIMIT = LocalTime.of(11, 0);
+    private static final LocalTime HOUR_LIMIT = LocalTime.of(22, 0);
 
     public static LocalDateTime parse(String ldt) {
         return ldt != null ? LocalDateTime.parse(ldt) : null;

@@ -32,7 +32,8 @@ function enable(chkbox, id) {
          success: function () {
              var enabled = chkbox.is(":checked");
              chkbox.closest('tr').css("text-decoration", enabled ? "none" : "line-through");
-             showSuccessToast('User ' + (enabled ? 'enabled' : 'disabled'));
+             var msgCode = (enabled ? 'user.enabled' : 'user.disabled');
+             showSuccessToast(messages[msgCode]);
          }
     });
 }
@@ -76,7 +77,8 @@ $(function () {
                 "defaultContent": "",
                 "render": function (data, type, row) {
                     if (type == 'display') {
-                        return '<a class="btn btn-xs btn-info" onclick="showUserDetails(' + row.id + ');">Details</a>';
+                        return '<a class="btn btn-xs btn-info" onclick="showUserDetails(' + row.id + ');">' + 
+                            messages['details'] + '</a>';
                     }
                     return data;
                 }

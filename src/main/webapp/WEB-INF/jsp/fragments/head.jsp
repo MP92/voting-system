@@ -16,4 +16,5 @@
     <link rel="shortcut icon" href="${rootUrl}/resources/img/favicon.ico">
 
     <sec:csrfMetaTags />
+    <jsp:include page="/messages.js"/>
 </head>
