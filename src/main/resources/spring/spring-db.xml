@@ -19,7 +19,7 @@
 
         <bean id="dataSource"
               class="org.apache.commons.dbcp2.BasicDataSource"
-              p:driverClassName="${jdbc.driverClassName}"
+              p:driverClassName="org.postgresql.Driver"
               p:url="${jdbc.url}"
               p:username="${jdbc.username}"
               p:password="${jdbc.password}"

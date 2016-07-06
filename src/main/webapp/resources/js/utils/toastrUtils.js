@@ -2,8 +2,12 @@ toastr.options.closeButton = true;
 
 function showErrorToast(event, jqXHR, options, jsExc) {
     toastr.clear();
-    var errorInfo = $.parseJSON(jqXHR.responseText);
-    toastr.error(errorInfo.cause + '<br>' + errorInfo.detail, messages['failed'] + jqXHR.statusText);
+    try {
+        var errorInfo = $.parseJSON(jqXHR.responseText);
+        toastr.error(errorInfo.cause + '<br>' + errorInfo.detail, messages['failed'] + jqXHR.statusText);
+    } catch(e) {
+        toastr.error(messages['exception.default_message']);
+    }
 }
 
 $(function () {

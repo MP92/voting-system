@@ -33,7 +33,7 @@ function deleteRecord(id) {
         type: 'DELETE',
         success: function () {
             updateTable();
-            showSuccessToast('Deleted');
+            showSuccessToast(messages['deleted']);
         }
     });
 }
@@ -46,7 +46,7 @@ function save() {
         success: function () {
             $('#editRow').modal('hide');
             updateTable();
-            showSuccessToast('Saved');
+            showSuccessToast(messages['saved']);
         }
     });
 }

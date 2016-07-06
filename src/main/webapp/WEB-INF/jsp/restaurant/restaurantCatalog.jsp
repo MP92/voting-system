@@ -38,6 +38,6 @@
 <jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
 
 <script type="text/javascript" src="${rootUrl}/resources/js/utils/templatesUtils.js"></script>
-<script type="text/javascript" src="${rootUrl}/resources/js/restaurant/restaurantCatalog.js"></script>
-<script type="text/javascript" src="${rootUrl}/resources/js/restaurant/restaurantDetails.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/restaurant/restaurantCatalog.js?n=1"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/restaurant/restaurantDetails.js?n=1"></script>
 </html>

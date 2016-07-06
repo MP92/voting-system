@@ -22,7 +22,7 @@
         </div>
         <div class="margin-bottom">
             <a class="btn btn-primary" onclick="initAddRecord()">Add dish</a>
-            <a class="btn btn-info pull-right" onclick="showRestaurantDetails(${restaurantId},'${restaurantAjaxUrl}')"><spring:message code="details"/></a>
+            <a class="btn btn-info pull-right" onclick="showRestaurantDetails(${restaurantId},'${restaurantAjaxUrl}')"><spring:message code="restaurant.details"/></a>
         </div>
         <table id="datatable" class="table table-striped">
             <thead>
@@ -46,7 +46,7 @@
 </div>
 
 <jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
-<script type="text/javascript" src="${rootUrl}/resources/js/dish.js"></script>
-<script type="text/javascript" src="${rootUrl}/resources/js/restaurant/restaurantDetails.js"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/dish.js?n=1"></script>
+<script type="text/javascript" src="${rootUrl}/resources/js/restaurant/restaurantDetails.js?n=1"></script>
 </body>
 </html>

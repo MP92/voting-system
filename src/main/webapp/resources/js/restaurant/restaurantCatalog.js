@@ -4,7 +4,7 @@ var votingItemTemplate = Handlebars.getTemplate('votingItem');
 var chart;
 var cancelBtn;
 
-var HOUR_LIMIT = 11;
+var HOUR_LIMIT = 22;
 
 var voteBtnPattern = '<a class="voting-button btn-vote" onclick="vote({0})">' + messages['vote'] + '</a>';
 
