@@ -8,10 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import ru.pkg.utils.exception.ErrorInfo;
 import ru.pkg.utils.exception.NotFoundException;
 import ru.pkg.utils.exception.VotingException;
@@ -19,7 +16,7 @@ import ru.pkg.utils.exception.VotingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
 
-@ControllerAdvice
+@ControllerAdvice(annotations = RestController.class)
 public class ErrorInfoExceptionHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(ErrorInfoExceptionHandler.class);
