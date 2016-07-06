@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.to.VotingStatistics;
+import ru.pkg.web.exception.ErrorInfoExceptionHandler;
 import ru.pkg.web.restaurant.RestaurantAjaxController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(VotingAjaxController.AJAX_URL)
-public class VotingAjaxController extends AbstractVotingController {
+public class VotingAjaxController extends AbstractVotingController implements ErrorInfoExceptionHandler {
 
     public static final String AJAX_URL = RestaurantAjaxController.AJAX_URL;
 

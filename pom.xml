@@ -45,6 +45,8 @@
         <webjars-datatables.version>1.10.11</webjars-datatables.version>
         <webjars-handlebars.version>4.0.5</webjars-handlebars.version>
         <webjars-toastr.version>2.1.2</webjars-toastr.version>
+
+        <webapp-runner.version>8.0.33.0</webapp-runner.version>
     </properties>
 
     <build>
@@ -67,6 +69,27 @@
                 <configuration>
                     <argLine>-Dfile.encoding=UTF-8</argLine>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>copy</goal></goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.github.jsimone</groupId>
+                                    <artifactId>webapp-runner</artifactId>
+                                    <version>${webapp-runner.version}</version>
+                                    <destFileName>webapp-runner.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

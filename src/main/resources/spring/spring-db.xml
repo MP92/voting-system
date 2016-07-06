@@ -27,6 +27,30 @@
               p:maxTotal="5" />
     </beans>
 
+    <beans profile="heroku">
+        <context:property-placeholder location="classpath:/db/postgresql/heroku.properties" system-properties-mode="OVERRIDE"/>
+
+        <bean class="java.net.URI" id="dbUrl">
+            <constructor-arg value="${DATABASE_URL}"/>
+        </bean>
+        <bean id="dataSource"
+              class="org.apache.commons.dbcp2.BasicDataSource"
+              p:url="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + @dbUrl.getPath() }"
+              p:username="#{ @dbUrl.getUserInfo().split(':')[0] }"
+              p:password="#{ @dbUrl.getUserInfo().split(':')[1] }"
+              p:driverClassName="org.postgresql.Driver"
+              p:validationQuery="SELECT 1 FROM users"
+              p:maxTotal="10"
+              p:minIdle="2"
+              p:maxWaitMillis="20000"
+              p:initialSize="2"
+              p:maxIdle="5"
+              p:testOnBorrow="true"
+              p:removeAbandonedOnMaintenance="true"
+              p:testOnCreate="true"
+              p:testWhileIdle="true"/>
+    </beans>
+
     <beans profile="h2">
         <context:property-placeholder location="classpath:db/h2/h2.properties" system-properties-mode="OVERRIDE"/>
 

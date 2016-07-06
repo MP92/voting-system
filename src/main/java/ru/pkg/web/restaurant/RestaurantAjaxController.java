@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.model.Restaurant;
 import ru.pkg.to.RestaurantTO;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
+import ru.pkg.web.exception.ErrorInfoExceptionHandler;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,7 +21,7 @@ import static ru.pkg.utils.EntityUtils.*;
 
 @RestController
 @RequestMapping(RestaurantAjaxController.AJAX_URL)
-public class RestaurantAjaxController extends AbstractRestaurantController {
+public class RestaurantAjaxController extends AbstractRestaurantController implements ErrorInfoExceptionHandler {
 
     @Autowired
     private MessageSource messageSource;

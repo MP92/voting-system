@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.model.User;
 import ru.pkg.to.UserTO;
+import ru.pkg.web.exception.ErrorInfoExceptionHandler;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -19,7 +20,7 @@ import static ru.pkg.utils.EntityUtils.createFromTO;
 
 @RestController
 @RequestMapping(AdminAjaxController.AJAX_URL)
-public class AdminAjaxController extends AbstractUserController {
+public class AdminAjaxController extends AbstractUserController implements ErrorInfoExceptionHandler {
 
     @Autowired
     private MessageSource messageSource;

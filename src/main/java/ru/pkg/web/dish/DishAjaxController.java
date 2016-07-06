@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.pkg.model.Dish;
 import ru.pkg.to.DishTO;
 import ru.pkg.utils.exception.DishNotFoundException;
+import ru.pkg.web.exception.ErrorInfoExceptionHandler;
 import ru.pkg.web.restaurant.RestaurantAjaxController;
 
 import javax.validation.Valid;
@@ -18,7 +19,7 @@ import static ru.pkg.utils.EntityUtils.*;
 
 @RestController
 @RequestMapping(DishAjaxController.AJAX_URL)
-public class DishAjaxController extends AbstractDishController {
+public class DishAjaxController extends AbstractDishController implements ErrorInfoExceptionHandler {
 
     @Autowired
     private MessageSource messageSource;

@@ -17,6 +17,7 @@ public class JpaUserRepository implements UserRepository {
     private EntityManager em;
 
     public User save(User user) {
+        checkModificationAllowed(user.getId());
         if (user.isNew()) {
             em.persist(user);
             return user;
@@ -40,6 +41,7 @@ public class JpaUserRepository implements UserRepository {
     }
 
     public boolean delete(int id) {
+        checkModificationAllowed(id);
         Query query = em.createQuery("DELETE FROM User user WHERE user.id=:id");
         return query.setParameter("id", id).executeUpdate() > 0;
     }
