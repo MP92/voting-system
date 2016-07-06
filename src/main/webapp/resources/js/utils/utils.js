@@ -8,10 +8,6 @@ $(function () {
     });
 });
 
-function getContextPath() {
-    return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
-}
-
 function getQueryVariable(variable)
 {
     var query = window.location.search.substring(1);

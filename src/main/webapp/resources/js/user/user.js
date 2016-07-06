@@ -1,4 +1,4 @@
-var ajaxUrl = getContextPath() + '/ajax/users/';
+var ajaxUrl = ctx + '/ajax/users/';
 var datatableApi;
 var detailsInfo;
 

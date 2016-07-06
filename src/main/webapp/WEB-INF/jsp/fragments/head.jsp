@@ -17,4 +17,6 @@
 
     <sec:csrfMetaTags />
     <jsp:include page="/messages.js"/>
+
+    <script>var ctx = "${pageContext.request.contextPath}"</script>
 </head>

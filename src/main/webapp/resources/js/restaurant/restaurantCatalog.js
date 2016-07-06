@@ -1,4 +1,4 @@
-var rootUrl = getContextPath() + '/ajax/restaurants/';
+var rootUrl = ctx + '/ajax/restaurants/';
 var catalogItemTemplate = Handlebars.getTemplate('catalogItem');
 var votingItemTemplate = Handlebars.getTemplate('votingItem');
 var chart;
@@ -16,7 +16,7 @@ $(function() {
 });
 
 function getProfileAndThen(action) {
-    $.get(getContextPath() + '/ajax/profile/', function(data) {
+    $.get(ctx + '/ajax/profile/', function(data) {
         action(data);
     });
 }

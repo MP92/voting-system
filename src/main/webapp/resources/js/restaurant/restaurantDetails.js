@@ -26,7 +26,7 @@ $(function() {
 
 function showRestaurantDetails(id, url) {
     if (typeof url === 'undefined') {
-        url = getContextPath() + '/ajax/restaurants/';
+        url = ctx + '/ajax/restaurants/';
     }
     $.get(url + id, function (data) {
         detailsInfo.find("td:not(.details-menu)").text("");

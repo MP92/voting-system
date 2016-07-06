@@ -1,4 +1,4 @@
-var ajaxUrl = getContextPath() + '/ajax/restaurants/';
+var ajaxUrl = ctx + '/ajax/restaurants/';
 var datatableApi;
 
 function updateTable() {
@@ -32,7 +32,7 @@ $(function () {
                 "defaultContent": "",
                 "render" : function (data, type, row) {
                     if (type == 'display') {
-                        return '<a class="btn btn-xs btn-info" href="' + getContextPath() + '/dishes?restaurantId=' + row.id + '">' +
+                        return '<a class="btn btn-xs btn-info" href="' + ctx + '/dishes?restaurantId=' + row.id + '">' +
                             messages['dish.list'] + '</a>';
                     }
                     return data;

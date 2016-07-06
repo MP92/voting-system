@@ -1,5 +1,5 @@
 var restaurantId = getQueryVariable("restaurantId");
-var ajaxUrl = getContextPath() + '/ajax/restaurants/' + restaurantId + '/dishes/';
+var ajaxUrl = ctx + '/ajax/restaurants/' + restaurantId + '/dishes/';
 var datatableApi;
 
 function updateTable() {
