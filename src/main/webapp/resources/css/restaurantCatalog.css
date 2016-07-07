@@ -36,6 +36,7 @@
     background: rgba(121, 121, 121, 0.1);
     border-radius: 0.75em 0.75em 0 0;
     -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
     -o-transition: all .3s ease;
     transition: all .3s ease;
     -webkit-transition-property: background, color;
@@ -116,6 +117,9 @@
     -webkit-transition:
             opacity 0.4s ease 0.3s,
             transform 0.4s ease 0.3s;
+    -moz-transition:
+            opacity 0.4s ease 0.3s,
+            transform 0.4s ease 0.3s;
     -o-transition:
             opacity 0.4s ease 0.3s,
             transform 0.4s ease 0.3s;
@@ -157,6 +161,7 @@
     text-align: center;
     text-transform: uppercase;
     -webkit-transition: background-color .3s ease;
+    -moz-transition: background-color .3s ease;
     -o-transition: background-color .3s ease;
     transition: background-color .3s ease;
     cursor: pointer;

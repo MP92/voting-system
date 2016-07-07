@@ -19,10 +19,10 @@ import static ru.pkg.testdata.UserVoteTestData.MATCHER;
 public abstract class VotingServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Autowired
-    VotingService service;
+    private VotingService service;
 
     @Autowired
-    VotingRepository repository;
+    private VotingRepository repository;
 
     @Before
     public void setUp() throws Exception {

@@ -1,5 +1,5 @@
 var restaurantId = getQueryVariable("restaurantId");
-var ajaxUrl = ctx + '/ajax/restaurants/' + restaurantId + '/dishes/';
+var ajaxUrl = ctx + "/ajax/restaurants/" + restaurantId + "/dishes/";
 var datatableApi;
 
 function updateTable() {
@@ -9,11 +9,11 @@ function updateTable() {
 function changeState(chkbox, id) {
     $.ajax({
          url: ajaxUrl + id,
-         type: 'POST',
-         success: function () {
+         type: "POST",
+         success() {
              var enabled = chkbox.is(":checked");
-             setHighlight(chkbox.closest('tr'), enabled);
-             var msgCode = enabled ? 'dish.menu.added' : 'dish.menu.removed';
+             setHighlight(chkbox.closest("tr"), enabled);
+             var msgCode = enabled ? "dish.menu.added" : "dish.menu.removed";
              showSuccessToast(messages[msgCode]);
          }
     });
@@ -24,7 +24,7 @@ $(function () {
         return;
     }
 
-    datatableApi = $('#datatable').DataTable({
+    datatableApi = $("#datatable").DataTable({
         "ajax": {
             "url": ajaxUrl,
             "dataSrc": ""
@@ -40,9 +40,9 @@ $(function () {
             {"data": "price"},
             {
                 "data": "inMenu",
-                "render": function (data, type, row) {
-                    if (type == 'display') {
-                        return '<input type="checkbox" ' + (data ? 'checked' : '') + ' onclick="changeState($(this),' + row.id + ');"/>';
+                "render"(data, type, row) {
+                    if (type === "display") {
+                        return "<input type='checkbox' " + (data ? "checked" : "") + " onclick='changeState($(this)," + row.id + ");'/>";
                     }
                     return data;
                 }
@@ -61,9 +61,9 @@ $(function () {
         "order": [
             [0, "asc"]
         ],
-        "createdRow": function (row, data, dataIndex) {
+        "createdRow"(row, data, dataIndex) {
             if (data.inMenu) {
-                $(row).addClass('row-highlight')
+                $(row).addClass("row-highlight");
             }
         }
     });

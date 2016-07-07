@@ -90,6 +90,14 @@ public class Restaurant extends NamedEntity {
         menu.add(dish);
     }
 
+    public List<UserVote> getUserVotes() {
+        return userVotes;
+    }
+
+    public void setUserVotes(List<UserVote> userVotes) {
+        this.userVotes = userVotes;
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +

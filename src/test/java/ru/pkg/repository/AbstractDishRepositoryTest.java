@@ -7,7 +7,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.transaction.TestTransaction;
 import ru.pkg.testdata.RestaurantTestData;
 import ru.pkg.model.Dish;
-import ru.pkg.utils.exception.RestaurantNotFoundException;
 
 import java.util.Arrays;
 import java.util.Collections;

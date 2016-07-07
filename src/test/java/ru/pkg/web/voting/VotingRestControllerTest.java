@@ -3,7 +3,6 @@ package ru.pkg.web.voting;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import ru.pkg.TestUtils;
 import ru.pkg.model.UserVote;
 import ru.pkg.web.AbstractControllerTest;
 import java.util.Collections;
@@ -25,8 +24,8 @@ public class VotingRestControllerTest extends AbstractControllerTest {
     private static final String RESTAURANT_1_VOTE_URL = String.format(PATH_REST_RESTAURANT_LIST + "/%d/vote", RESTAURANT_1_ID);
 
     @BeforeClass
-    public static void setFakeVoteTimeBound() {
-        TestUtils.setFakeVoteTimeBound();
+    public static void beforeClass() {
+        setFakeVoteTimeBound();
     }
 
     @Test

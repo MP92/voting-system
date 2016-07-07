@@ -32,7 +32,7 @@ public class VotingAjaxControllerTest extends AbstractControllerTest {
     private static final String RESTAURANT_1_VOTE_URL = String.format(PATH_AJAX_RESTAURANT_LIST + "/%d/vote", RESTAURANT_1_ID);
 
     @BeforeClass
-    public static void setFakeVoteTimeBound() {
+    public static void beforeClass() {
         TestUtils.setFakeVoteTimeBound();
     }
 

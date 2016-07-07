@@ -25,15 +25,15 @@ public class JdbcDishRepository extends NamedParameterJdbcDaoSupport implements 
     private SimpleJdbcInsert inserter;
 
     @Autowired
+    private RestaurantRepository restaurantRepository;
+
+    @Autowired
     public JdbcDishRepository(DataSource dataSource) {
         setDataSource(dataSource);
         inserter = new SimpleJdbcInsert(dataSource)
                     .withTableName("dishes")
                     .usingGeneratedKeyColumns("id");
     }
-
-    @Autowired
-    RestaurantRepository restaurantRepository;
 
     @Override
     public Dish save(Dish dish, int restaurantId) throws DishNotFoundException, DataIntegrityViolationException {

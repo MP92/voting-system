@@ -1,17 +1,14 @@
 package ru.pkg.matcher;
 
-import com.fasterxml.jackson.databind.ObjectReader;
 import org.junit.Assert;
 import org.springframework.test.web.servlet.ResultMatcher;
-
-import java.io.IOException;
+import ru.pkg.web.json.JsonUtil;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static ru.pkg.web.json.JacksonObjectMapper.getMapper;
 
 /**
  * Matcher for entity comparison
@@ -22,7 +19,7 @@ import static ru.pkg.web.json.JacksonObjectMapper.getMapper;
 public class ModelMatcher<T, R> {
 
     private Function<T, R> converter;
-    protected Class<T> entityClass;
+    private Class<T> entityClass;
 
     public ModelMatcher(Function<T, R> converter, Class<T> entityClass) {
         this.converter = converter;
@@ -65,19 +62,10 @@ public class ModelMatcher<T, R> {
     }
 
     private T fromJsonValue(String json) {
-        try {
-            return getMapper().readValue(json, entityClass);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return JsonUtil.readValue(json, entityClass);
     }
 
     private Collection<T> fromJsonValues(String json) {
-        ObjectReader reader = getMapper().readerFor(entityClass);
-        try {
-            return reader.<T>readValues(json).readAll();
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Invalid read array from JSON:\n'" + json + "'", e);
-        }
+        return JsonUtil.readValues(json, entityClass);
     }
 }
