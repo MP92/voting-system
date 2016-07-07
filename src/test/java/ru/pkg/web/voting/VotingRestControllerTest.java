@@ -2,16 +2,10 @@ package ru.pkg.web.voting;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import ru.pkg.TestUtils;
 import ru.pkg.model.UserVote;
-import ru.pkg.utils.TimeUtil;
 import ru.pkg.web.AbstractControllerTest;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.time.LocalTime;
 import java.util.Collections;
 
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
@@ -22,29 +16,17 @@ import static ru.pkg.testdata.UserTestData.USER_2;
 import static ru.pkg.testdata.UserTestData.USER_1_ID;
 import static ru.pkg.testdata.UserVoteTestData.*;
 import static ru.pkg.TestUtils.*;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static ru.pkg.utils.constants.ControllerConstants.*;
 
 public class VotingRestControllerTest extends AbstractControllerTest {
-
-    private static final Logger LOG = LoggerFactory.getLogger(VotingRestControllerTest.class);
-
-    private static final String REST_BASE_URL = VotingRestController.REST_URL + "/voting";
-    private static final String RESTAURANT_1_VOTE_URL = String.format(VotingRestController.REST_URL + "/%d/vote", RESTAURANT_1_ID);
+    private static final String REST_BASE_URL = PATH_REST_RESTAURANT_LIST;
+    private static final String RESTAURANT_1_VOTE_URL = String.format(PATH_REST_RESTAURANT_LIST + "/%d/vote", RESTAURANT_1_ID);
 
     @BeforeClass
     public static void setFakeVoteTimeBound() {
-        try {
-            Field hourLimit = TimeUtil.class.getDeclaredField("HOUR_LIMIT");
-            hourLimit.setAccessible(true);
-            Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(hourLimit, hourLimit.getModifiers() & ~Modifier.FINAL);
-            hourLimit.set(null, LocalTime.now().plusHours(1));
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            LOG.warn("Can't modify TimeUtil.HOUR_LIMIT value");
-        }
+        TestUtils.setFakeVoteTimeBound();
     }
 
     @Test
@@ -65,7 +47,7 @@ public class VotingRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCancel() throws Exception {
-        mockMvc.perform(post(REST_BASE_URL + "/cancel").with(userHttpBasic(USER_1)))
+        mockMvc.perform(post(REST_BASE_URL + PATH_VOTE_CANCEL).with(userHttpBasic(USER_1)))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Collections.singletonList(ADMIN_VOTE), votingService.findAll());
@@ -73,13 +55,13 @@ public class VotingRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCancelUnauth() throws Exception {
-        mockMvc.perform(post(REST_BASE_URL + "/cancel"))
+        mockMvc.perform(post(REST_BASE_URL + PATH_VOTE_CANCEL))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     public void testReset() throws Exception {
-        mockMvc.perform(put(REST_BASE_URL + "/reset").with(userHttpBasic(ADMIN)))
+        mockMvc.perform(put(REST_BASE_URL + PATH_VOTE_RESET).with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk());
 
         MATCHER.assertCollectionsEquals(Collections.emptyList(), votingService.findAll());
@@ -87,13 +69,13 @@ public class VotingRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testResetForbidden() throws Exception {
-        mockMvc.perform(put(REST_BASE_URL + "/reset").with(userHttpBasic(USER_1)))
+        mockMvc.perform(put(REST_BASE_URL + PATH_VOTE_RESET).with(userHttpBasic(USER_1)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     public void testGetVotingStatistics() throws Exception {
-        mockMvc.perform(get(REST_BASE_URL).with(userHttpBasic(USER_1)))
+        mockMvc.perform(get(REST_BASE_URL + PATH_VOTING_STATISTICS).with(userHttpBasic(USER_1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonMatcher(VOTING_STATISTICS));

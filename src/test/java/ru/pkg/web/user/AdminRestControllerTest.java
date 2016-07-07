@@ -5,20 +5,19 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.pkg.model.User;
 import ru.pkg.web.AbstractControllerTest;
-
 import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import static ru.pkg.testdata.UserTestData.*;
 import static ru.pkg.TestUtils.*;
+import static ru.pkg.utils.constants.ControllerConstants.PATH_REST_USER_LIST;
+
 
 public class AdminRestControllerTest extends AbstractControllerTest {
 
-    public static final String REST_URL = AdminRestController.REST_URL + "/";
+    private static final String REST_URL = PATH_REST_USER_LIST + "/";
 
     @Test
     public void testGet() throws Exception {

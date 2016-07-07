@@ -6,32 +6,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.to.VotingStatistics;
-import ru.pkg.web.restaurant.RestaurantRestController;
-
 import java.util.List;
 
+import static ru.pkg.utils.constants.ControllerConstants.*;
+
 @RestController
-@RequestMapping(VotingRestController.REST_URL)
+@RequestMapping(PATH_REST_RESTAURANT_LIST)
 public class VotingRestController extends AbstractVotingController {
 
-    public static final String REST_URL = RestaurantRestController.REST_URL;
-
-    @RequestMapping(path = "/{restaurantId}/vote", method = RequestMethod.POST)
-    public void vote(@PathVariable("restaurantId") int restaurantId) {
+    @RequestMapping(value = PATH_VOTE, method = RequestMethod.POST)
+    public void vote(@PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         super.vote(restaurantId);
     }
 
-    @RequestMapping(path = "/voting/cancel", method = RequestMethod.POST)
+    @RequestMapping(value = PATH_VOTE_CANCEL, method = RequestMethod.POST)
     public void cancel() {
         super.cancel();
     }
 
-    @RequestMapping(path = "/voting/reset", method = RequestMethod.PUT)
+    @RequestMapping(value = PATH_VOTE_RESET, method = RequestMethod.PUT)
     public void reset() {
         super.reset();
     }
 
-    @RequestMapping(path = "/voting", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = PATH_VOTING_STATISTICS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VotingStatistics> findVotingStatistics() {
         return super.findVotingStatistics();
     }

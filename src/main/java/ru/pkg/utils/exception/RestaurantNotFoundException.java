@@ -17,4 +17,8 @@ public class RestaurantNotFoundException extends NotFoundException {
     public RestaurantNotFoundException(Throwable cause) {
         super(cause);
     }
+
+    public RestaurantNotFoundException(int id, Throwable cause) {
+        super(String.format(MSG_PATTERN, id), cause);
+    }
 }

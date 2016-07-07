@@ -11,24 +11,24 @@ import ru.pkg.repository.VotingRepository;
 import ru.pkg.to.VotingStatistics;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
 import ru.pkg.utils.exception.VotingException;
-
 import java.util.List;
 
 import static ru.pkg.utils.EntityUtils.getVotingStatistics;
+import static ru.pkg.utils.constants.CacheNames.*;
 
 @Service
 @Transactional(readOnly = true)
 public class VotingServiceImpl implements VotingService {
 
     @Autowired
-    VotingRepository votingRepository;
+    private VotingRepository votingRepository;
 
     @Autowired
-    RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
 
-    @CacheEvict(cacheNames = "users", allEntries = true)
+    @CacheEvict(cacheNames = CACHE_USERS, allEntries = true)
     @Transactional
-    public UserVote save(int userId, int restaurantId) throws VotingException, RestaurantNotFoundException {
+    public UserVote save(int userId, int restaurantId) {
         try {
             UserVote userVote = votingRepository.save(userId, restaurantId);
             if (userVote == null) {
@@ -36,7 +36,7 @@ public class VotingServiceImpl implements VotingService {
             }
             return userVote;
         } catch (DataIntegrityViolationException e) {
-            throw new RestaurantNotFoundException(restaurantId);
+            throw new RestaurantNotFoundException(restaurantId, e);
         }
     }
 
@@ -52,15 +52,15 @@ public class VotingServiceImpl implements VotingService {
         return votingRepository.findAll();
     }
 
-    @CacheEvict(cacheNames = "users", allEntries = true)
+    @CacheEvict(cacheNames = CACHE_USERS, allEntries = true)
     @Transactional
-    public void delete(int userId) throws VotingException {
+    public void delete(int userId) {
         if (!votingRepository.delete(userId)) {
             throw new VotingException(userId);
         }
     }
 
-    @CacheEvict(cacheNames = "users", allEntries = true)
+    @CacheEvict(cacheNames = CACHE_USERS, allEntries = true)
     @Transactional
     public void reset() {
         votingRepository.reset();

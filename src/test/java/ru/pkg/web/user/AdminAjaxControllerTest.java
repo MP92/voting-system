@@ -15,11 +15,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.pkg.TestUtils.*;
 import static ru.pkg.testdata.UserTestData.*;
 import static ru.pkg.utils.EntityUtils.*;
+import static ru.pkg.web.AbstractControllerTest.ROLE_ADMIN;
+import static ru.pkg.utils.constants.ControllerConstants.PATH_AJAX_USER_LIST;
 
-@WithMockUser(roles={"ADMIN"})
+@WithMockUser(roles={ROLE_ADMIN})
 public class AdminAjaxControllerTest extends AbstractControllerTest {
 
-    public static final String AJAX_URL = AdminAjaxController.AJAX_URL + "/";
+    private static final String AJAX_URL = PATH_AJAX_USER_LIST + "/";
 
     @Test
     public void testGet() throws Exception {
@@ -30,7 +32,7 @@ public class AdminAjaxControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(roles={"USER"})
+    @WithMockUser(roles={ROLE_USER})
     public void testGetForbidden() throws Exception {
         mockMvc.perform(get(AJAX_URL + ADMIN_ID))
                 .andExpect(status().isForbidden());

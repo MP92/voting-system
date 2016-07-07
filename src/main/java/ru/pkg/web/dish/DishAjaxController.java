@@ -8,25 +8,21 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.pkg.model.Dish;
 import ru.pkg.to.DishTO;
-import ru.pkg.utils.exception.DishNotFoundException;
-import ru.pkg.web.restaurant.RestaurantAjaxController;
-
 import javax.validation.Valid;
 import java.util.List;
 
 import static ru.pkg.utils.EntityUtils.*;
+import static ru.pkg.utils.constants.ControllerConstants.*;
 
 @RestController
-@RequestMapping(DishAjaxController.AJAX_URL)
+@RequestMapping(PATH_AJAX_DISH_LIST)
 public class DishAjaxController extends AbstractDishController {
 
     @Autowired
     private MessageSource messageSource;
 
-    public static final String AJAX_URL = RestaurantAjaxController.AJAX_URL + "/{restaurantId}/dishes";
-
     @RequestMapping(method = RequestMethod.POST)
-    public void save(@Valid DishTO dishTO, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
+    public void save(@Valid DishTO dishTO, @PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         try {
             if (dishTO.isNew()) {
                 super.create(createFromTO(dishTO), restaurantId);
@@ -34,27 +30,28 @@ public class DishAjaxController extends AbstractDishController {
                 super.update(createFromTO(dishTO), restaurantId);
             }
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException(messageSource.getMessage("exception.dish.duplicate_name", null, LocaleContextHolder.getLocale()));
+            String message = messageSource.getMessage("exception.dish.duplicate_name", null, LocaleContextHolder.getLocale());
+            throw new DataIntegrityViolationException(message);
         }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Dish findById(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Dish findById(@PathVariable(PATH_VAR_ID) int id, @PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         return super.findById(id, restaurantId);
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Dish> findAll(@PathVariable("restaurantId") int restaurantId) {
+    public List<Dish> findAll(@PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         return super.findAll(restaurantId);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.DELETE)
+    public void delete(@PathVariable(PATH_VAR_ID) int id, @PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         super.delete(id, restaurantId);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.POST)
-    public void changeInMenuState(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.POST)
+    public void changeInMenuState(@PathVariable(PATH_VAR_ID) int id, @PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         super.changeInMenuState(id, restaurantId);
     }
 }

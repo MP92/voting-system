@@ -11,31 +11,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.model.User;
 import ru.pkg.to.UserTO;
-
 import javax.validation.Valid;
 import java.util.Collection;
 
 import static ru.pkg.utils.EntityUtils.createFromTO;
+import static ru.pkg.utils.constants.ControllerConstants.*;
 
 @RestController
-@RequestMapping(AdminAjaxController.AJAX_URL)
+@RequestMapping(PATH_AJAX_USER_LIST)
 public class AdminAjaxController extends AbstractUserController {
 
     @Autowired
     private MessageSource messageSource;
 
-    public static final String AJAX_URL = "/ajax/users";
-
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable("id") int id) {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public User get(@PathVariable(PATH_VAR_ID) int id) {
         return super.get(id);
     }
 
-    @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") int id) {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.DELETE)
+    public void delete(@PathVariable(PATH_VAR_ID) int id) {
         super.delete(id);
     }
-
 
     @RequestMapping(method = RequestMethod.POST)
     public void save(@Valid UserTO user) {
@@ -46,7 +43,8 @@ public class AdminAjaxController extends AbstractUserController {
                 super.update(user);
             }
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException(messageSource.getMessage("exception.user.duplicate_name", null, LocaleContextHolder.getLocale()));
+            String message = messageSource.getMessage("exception.user.duplicate_name", null, LocaleContextHolder.getLocale());
+            throw new DataIntegrityViolationException(message);
         }
     }
 
@@ -55,8 +53,8 @@ public class AdminAjaxController extends AbstractUserController {
         return super.findAll();
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.POST)
-    public void changeEnabledState(@PathVariable("id") int id) {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.POST)
+    public void changeEnabledState(@PathVariable(PATH_VAR_ID) int id) {
         super.changeEnabledState(id);
     }
 }

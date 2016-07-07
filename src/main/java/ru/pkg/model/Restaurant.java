@@ -3,7 +3,6 @@ package ru.pkg.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;

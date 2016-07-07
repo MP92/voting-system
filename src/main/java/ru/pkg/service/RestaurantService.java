@@ -1,21 +1,19 @@
 package ru.pkg.service;
 
 import ru.pkg.model.Restaurant;
-import ru.pkg.utils.exception.RestaurantNotFoundException;
-
 import java.util.List;
 
 public interface RestaurantService {
 
     Restaurant add(Restaurant restaurant);
 
-    Restaurant findById(int id) throws RestaurantNotFoundException;
+    Restaurant findById(int id);
 
     List<Restaurant> findAll();
 
     List<Restaurant> findAllWithMenu();
 
-    void update(Restaurant restaurant) throws RestaurantNotFoundException;
+    void update(Restaurant restaurant);
 
-    void delete(int id) throws RestaurantNotFoundException;
+    void delete(int id);
 }

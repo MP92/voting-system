@@ -1,12 +1,13 @@
 package ru.pkg.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static ru.pkg.utils.constants.EntityConstraints.*;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(name = "users_unique_name_idx", columnNames = {"name", "surname"}))
@@ -14,12 +15,12 @@ public class User extends NamedEntity {
 
     @Column(name = "surname", nullable = false)
     @NotEmpty
-    @Size(min = 3, max = 25)
+    @Size(min = NAME_MIN, max = NAME_MAX)
     private String surname;
 
     @Column(name = "password", nullable = false)
     @NotEmpty
-    @Size(min = 5, max = 64)
+    @Size(min = PASSWORD_MIN, max = PASSWORD_MAX)
     private String password;
 
     @Column(name = "registered", nullable = false, columnDefinition = "TIMESTAMP DEFAULT now()")

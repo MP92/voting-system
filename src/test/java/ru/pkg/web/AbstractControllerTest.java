@@ -28,6 +28,10 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 @ActiveProfiles({ACTIVE_DB, ACTIVE_DAO_IMPL})
 public abstract class AbstractControllerTest extends AbstractTest {
 
+    public static final String ROLE_ADMIN = "ADMIN";
+    protected static final String ROLE_USER = "USER";
+    protected static final String LOGIN_URL = "http://localhost/login";
+
     @Autowired
     private WebApplicationContext webApplicationContext;
 

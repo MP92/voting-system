@@ -9,11 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.pkg.model.Restaurant;
 import ru.pkg.repository.RestaurantRepository;
 import ru.pkg.utils.exception.RestaurantNotFoundException;
-
 import java.util.List;
 
+import static ru.pkg.utils.constants.CacheNames.*;
+
 @Service
-@CacheConfig(cacheNames = "restaurants")
+@CacheConfig(cacheNames = CACHE_RESTAURANTS)
 @Transactional(readOnly = true)
 public class RestaurantServiceImpl implements RestaurantService {
 
@@ -27,7 +28,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Cacheable
-    public Restaurant findById(int id) throws RestaurantNotFoundException {
+    public Restaurant findById(int id) {
         Restaurant restaurant = repository.findById(id);
         if (restaurant == null) {
             throw new RestaurantNotFoundException(id);
@@ -48,7 +49,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @CacheEvict(allEntries = true)
     @Transactional
-    public void update(Restaurant restaurant) throws RestaurantNotFoundException {
+    public void update(Restaurant restaurant) {
         if (repository.save(restaurant) == null) {
             throw new RestaurantNotFoundException(restaurant);
         }
@@ -56,7 +57,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @CacheEvict(allEntries = true)
     @Transactional
-    public void delete(int id) throws RestaurantNotFoundException {
+    public void delete(int id) {
         if (!repository.delete(id)) {
             throw new RestaurantNotFoundException(id);
         }

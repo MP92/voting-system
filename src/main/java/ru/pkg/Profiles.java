@@ -1,6 +1,9 @@
 package ru.pkg;
 
-public class Profiles {
+public final class Profiles {
+    private Profiles() {
+    }
+
     public static final String
         JDBC = "jdbc",
         JPA = "jpa",

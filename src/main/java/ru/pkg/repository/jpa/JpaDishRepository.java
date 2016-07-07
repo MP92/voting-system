@@ -1,11 +1,9 @@
 package ru.pkg.repository.jpa;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 import ru.pkg.model.Dish;
 import ru.pkg.model.Restaurant;
 import ru.pkg.repository.DishRepository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -18,7 +16,7 @@ public class JpaDishRepository implements DishRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public Dish save(Dish dish, int restaurantId) throws DataIntegrityViolationException {
+    public Dish save(Dish dish, int restaurantId) {
         if (dish.isNew() && em.find(Restaurant.class, restaurantId) == null || !dish.isNew() && findById(dish.getId(), restaurantId) == null) {
             return null;
         }

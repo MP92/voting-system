@@ -2,22 +2,26 @@ package ru.pkg;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import ru.pkg.model.User;
-
+import ru.pkg.utils.TimeUtil;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.time.LocalTime;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-
 import static ru.pkg.web.json.JacksonObjectMapper.getMapper;
 
 public class TestUtils {
+    private static final Logger LOG = LoggerFactory.getLogger(TestUtils.class);
 
     public static String createStringWithLength(int length) {
         StringBuilder sb = new StringBuilder(length);
@@ -77,5 +81,18 @@ public class TestUtils {
             throw new RuntimeException(e);
         }
         return req;
+    }
+
+    public static void setFakeVoteTimeBound() {
+        try {
+            Field hourLimit = TimeUtil.class.getDeclaredField("HOUR_LIMIT");
+            hourLimit.setAccessible(true);
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(hourLimit, hourLimit.getModifiers() & ~Modifier.FINAL);
+            hourLimit.set(null, LocalTime.now().plusHours(1));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            LOG.warn("Can't modify TimeUtil.HOUR_LIMIT value");
+        }
     }
 }

@@ -2,11 +2,12 @@ package ru.pkg.to;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import ru.pkg.model.DishCategory;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import static ru.pkg.utils.constants.EntityConstraints.*;
 
 /**
  * Transfer object for storing dish form data
@@ -16,21 +17,21 @@ public class DishTO {
     private Integer id;
 
     @NotEmpty
-    @Size(min = 3, max = 100)
+    @Size(min = NAME_MIN, max = NAME_MAX)
     private String name;
 
     @NotEmpty
     private String description;
 
-    @Min(50)
-    @Max(500)
+    @Min(DISH_WEIGHT_MIN)
+    @Max(DISH_WEIGHT_MAX)
     @NotNull
     private Integer weight;
 
     @NotNull
     private DishCategory category;
 
-    @Min(1)
+    @Min(DISH_PRICE_MIN)
     @NotNull
     private Double price;
 

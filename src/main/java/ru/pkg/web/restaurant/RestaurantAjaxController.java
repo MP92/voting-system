@@ -11,21 +11,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.model.Restaurant;
 import ru.pkg.to.RestaurantTO;
-import ru.pkg.utils.exception.RestaurantNotFoundException;
-
 import javax.validation.Valid;
 import java.util.List;
 
 import static ru.pkg.utils.EntityUtils.*;
+import static ru.pkg.utils.constants.ControllerConstants.*;
 
 @RestController
-@RequestMapping(RestaurantAjaxController.AJAX_URL)
+@RequestMapping(PATH_AJAX_RESTAURANT_LIST)
 public class RestaurantAjaxController extends AbstractRestaurantController {
 
     @Autowired
     private MessageSource messageSource;
-
-    public static final String AJAX_URL = "/ajax/restaurants";
 
     @RequestMapping(method = RequestMethod.POST)
     public void save(@Valid RestaurantTO restaurantTO) {
@@ -36,12 +33,13 @@ public class RestaurantAjaxController extends AbstractRestaurantController {
                 super.update(restaurantTO.getId(), createFromTO(restaurantTO));
             }
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException(messageSource.getMessage("exception.restaurant.duplicate_name", null, LocaleContextHolder.getLocale()));
+            String message = messageSource.getMessage("exception.restaurant.duplicate_name", null, LocaleContextHolder.getLocale());
+            throw new DataIntegrityViolationException(message);
         }
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Restaurant findById(@PathVariable("id") int id) throws RestaurantNotFoundException {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Restaurant findById(@PathVariable(PATH_VAR_ID) int id) {
         return super.findById(id);
     }
 
@@ -50,8 +48,8 @@ public class RestaurantAjaxController extends AbstractRestaurantController {
         return super.findAll();
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") int id) throws RestaurantNotFoundException {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.DELETE)
+    public void delete(@PathVariable(PATH_VAR_ID) int id) {
         super.delete(id);
     }
 }
