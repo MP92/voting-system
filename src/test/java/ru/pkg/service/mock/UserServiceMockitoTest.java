@@ -20,10 +20,10 @@ import static ru.pkg.utils.EntityUtils.prepareToSave;
 public class UserServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Autowired
-    protected UserService service;
+    private UserService service;
 
     @Autowired
-    protected UserRepository repository;
+    private UserRepository repository;
 
     @Before
     public void setUp() throws Exception {

@@ -6,8 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.pkg.model.Dish;
 import ru.pkg.web.AbstractControllerTest;
-import ru.pkg.web.restaurant.RestaurantRestController;
-
 import java.util.Arrays;
 
 import static ru.pkg.TestUtils.*;
@@ -17,13 +15,13 @@ import static ru.pkg.testdata.DishTestData.TestDishFactory.*;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 import static ru.pkg.testdata.UserTestData.ADMIN;
 import static ru.pkg.testdata.UserTestData.USER_1;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static ru.pkg.utils.constants.ControllerConstants.PATH_REST_RESTAURANT_LIST;
 
 public class DishRestControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL = String.format(RestaurantRestController.REST_URL + "/%d/dishes/", RESTAURANT_1_ID);
+    private static final String REST_URL = String.format(PATH_REST_RESTAURANT_LIST + "/%d/dishes/", RESTAURANT_1_ID);
 
     @Test
     public void testCreate() throws Exception {
@@ -88,7 +86,7 @@ public class DishRestControllerTest extends AbstractControllerTest {
     public void testChangeInMenuState() throws Exception {
         boolean initialState = dishService.findById(R_1_DISH_1_ID, RESTAURANT_1_ID).isInMenu();
 
-        mockMvc.perform(put(REST_URL + R_1_DISH_1_ID + "/menuState").with(userHttpBasic(ADMIN)))
+        mockMvc.perform(post(REST_URL + R_1_DISH_1_ID).with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk());
 
         Assert.assertNotEquals(initialState, dishService.findById(R_1_DISH_1_ID, RESTAURANT_1_ID).isInMenu());

@@ -5,49 +5,45 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.pkg.model.Dish;
-import ru.pkg.utils.exception.DishNotFoundException;
-import ru.pkg.utils.exception.RestaurantNotFoundException;
-import ru.pkg.web.restaurant.RestaurantRestController;
-
 import java.net.URI;
 import java.util.List;
 
+import static ru.pkg.utils.constants.ControllerConstants.*;
+
 @RestController
-@RequestMapping(DishRestController.REST_URL)
+@RequestMapping(PATH_REST_DISH_LIST)
 public class DishRestController extends AbstractDishController {
 
-    public static final String REST_URL = RestaurantRestController.REST_URL + "/{restaurantId}/dishes";
-
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> createWithLocation(@RequestBody Dish dish, @PathVariable("restaurantId") int restaurantId) throws RestaurantNotFoundException {
+    public ResponseEntity<Dish> createWithLocation(@RequestBody Dish dish, @PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         Dish created = super.create(dish, restaurantId);
-        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path(REST_URL + "/{id}")
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path(PATH_REST_DISH_LIST + PATH_ID)
                     .buildAndExpand(restaurantId, created.getId()).toUri();
         return ResponseEntity.created(uri).body(created);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@PathVariable("id") int id, @RequestBody Dish dish, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@PathVariable(PATH_VAR_ID) int id, @RequestBody Dish dish, @PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         super.update(id, dish, restaurantId);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Dish findById(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Dish findById(@PathVariable(PATH_VAR_ID) int id, @PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         return super.findById(id, restaurantId);
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Dish> findAll(@PathVariable("restaurantId") int restaurantId) {
+    public List<Dish> findAll(@PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         return super.findAll(restaurantId);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) throws DishNotFoundException {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.DELETE)
+    public void delete(@PathVariable(PATH_VAR_ID) int id, @PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         super.delete(id, restaurantId);
     }
 
-    @RequestMapping(path = "/{id}/menuState", method = RequestMethod.PUT)
-    public void changeInMenuState(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.POST)
+    public void changeInMenuState(@PathVariable(PATH_VAR_ID) int id, @PathVariable(PATH_VAR_RESTAURANT_ID) int restaurantId) {
         super.changeInMenuState(id, restaurantId);
     }
 }

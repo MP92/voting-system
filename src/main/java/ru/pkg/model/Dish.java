@@ -2,9 +2,10 @@ package ru.pkg.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
+import static ru.pkg.utils.constants.EntityConstraints.*;
 
 @Entity
 @Table(name = "dishes", uniqueConstraints = @UniqueConstraint(name = "dishes_unique_name_idx", columnNames = {"restaurant_id", "name"}))
@@ -15,8 +16,8 @@ public class Dish extends NamedEntity {
     private String description;
 
     @Column(name = "weight", nullable = false)
-    @Min(50)
-    @Max(500)
+    @Min(DISH_WEIGHT_MIN)
+    @Max(DISH_WEIGHT_MAX)
     private int weight;
 
     @Column(name = "category", nullable = false)
@@ -25,7 +26,7 @@ public class Dish extends NamedEntity {
     private DishCategory category;
 
     @Column(name = "price", columnDefinition = "NUMERIC(7, 2) NOT NULL")
-    @Min(1)
+    @Min(DISH_PRICE_MIN)
     private double price;
 
     @ManyToOne(fetch = FetchType.LAZY)

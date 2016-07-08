@@ -16,7 +16,7 @@ public class UserVote extends BaseEntity {
     @JsonIgnore
     private User user;
 
-    @Column(name = "restaurant_id", nullable = true)
+    @Column(name = "restaurant_id")
     private Integer restaurantId;
 
     @ManyToOne(fetch = FetchType.LAZY)

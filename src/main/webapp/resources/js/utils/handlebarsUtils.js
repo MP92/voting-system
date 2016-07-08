@@ -1,16 +1,16 @@
-Handlebars.registerHelper('toPercentage', function(rational) {
-    return Math.round(rational * 100) + '%';
+Handlebars.registerHelper("toPercentage", function(rational) {
+    return Math.round(rational * 100) + "%";
 });
 
-Handlebars.registerHelper('contextPath', function() {
+Handlebars.registerHelper("contextPath", function() {
     return ctx;
 });
 
 Handlebars.getTemplate = function(name) {
     if (Handlebars.templates === undefined || Handlebars.templates[name] === undefined) {
         $.ajax({
-            url : ctx + '/resources/templates/' + name + '.handlebars',
-            success : function(data) {
+            url : ctx + "/resources/templates/" + name + ".handlebars",
+            success(data) {
                 if (Handlebars.templates === undefined) {
                     Handlebars.templates = {};
                 }

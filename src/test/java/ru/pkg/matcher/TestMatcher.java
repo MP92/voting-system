@@ -1,10 +1,8 @@
 package ru.pkg.matcher;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-
-import static ru.pkg.web.json.JacksonObjectMapper.*;
+import ru.pkg.web.json.JsonUtil;
 
 abstract public class TestMatcher<T> extends BaseMatcher<String> {
     protected T expected;
@@ -22,10 +20,6 @@ abstract public class TestMatcher<T> extends BaseMatcher<String> {
 
     @Override
     public void describeTo(Description description) {
-        try {
-            description.appendText(getMapper().writeValueAsString(expected));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        description.appendText(JsonUtil.writeValue(expected));
     }
 }

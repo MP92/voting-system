@@ -5,32 +5,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.pkg.model.Restaurant;
-import ru.pkg.utils.exception.RestaurantNotFoundException;
-
 import java.net.URI;
 import java.util.List;
 
-@RestController
-@RequestMapping(path = RestaurantRestController.REST_URL)
-public class RestaurantRestController extends AbstractRestaurantController {
+import static ru.pkg.utils.constants.ControllerConstants.*;
 
-    public static final String REST_URL = "/rest/restaurants";
+@RestController
+@RequestMapping(PATH_REST_RESTAURANT_LIST)
+public class RestaurantRestController extends AbstractRestaurantController {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
         Restaurant created = super.create(restaurant);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path(REST_URL + "/{id}").buildAndExpand(created.getId()).toUri();
+                    .path(PATH_REST_RESTAURANT_LIST + PATH_ID).buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uri).body(created);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@PathVariable("id") int id, @RequestBody Restaurant restaurant) throws RestaurantNotFoundException {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@PathVariable(PATH_VAR_ID) int id, @RequestBody Restaurant restaurant) {
         super.update(id, restaurant);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Restaurant findById(@PathVariable("id") int id) throws RestaurantNotFoundException {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Restaurant findById(@PathVariable(PATH_VAR_ID) int id) {
         return super.findById(id);
     }
 
@@ -39,8 +37,8 @@ public class RestaurantRestController extends AbstractRestaurantController {
         return super.findAllWithMenu();
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") int id) throws RestaurantNotFoundException {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.DELETE)
+    public void delete(@PathVariable(PATH_VAR_ID) int id) {
         super.delete(id);
     }
 }

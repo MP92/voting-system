@@ -1,4 +1,4 @@
-var ajaxUrl = ctx + '/ajax/restaurants/';
+var ajaxUrl = ctx + "/ajax/restaurants/";
 var datatableApi;
 
 function updateTable() {
@@ -6,7 +6,7 @@ function updateTable() {
 }
 
 $(function () {
-    datatableApi = $('#datatable').DataTable({
+    datatableApi = $("#datatable").DataTable({
         "ajax": {
             "url": ajaxUrl,
             "dataSrc": ""
@@ -17,9 +17,9 @@ $(function () {
             {"data": "id"},
             {
                 "data": "name",
-                "render": function (data, type, row) {
-                    if (type == 'display') {
-                        return '<a style="cursor: pointer" onclick="showRestaurantDetails(' + row.id + ');">' + data + '</a>';
+                "render"(data, type, row) {
+                    if (type === "display") {
+                        return "<a style='cursor: pointer' onclick='showRestaurantDetails(" + row.id + ");'>" + data + "</a>";
                     }
                     return data;
                 }
@@ -30,10 +30,10 @@ $(function () {
             {
                 "orderable": false,
                 "defaultContent": "",
-                "render" : function (data, type, row) {
-                    if (type == 'display') {
-                        return '<a class="btn btn-xs btn-info" href="' + ctx + '/dishes?restaurantId=' + row.id + '">' +
-                            messages['dish.list'] + '</a>';
+                "render"(data, type, row) {
+                    if (type === "display") {
+                        return "<a class='btn btn-xs btn-info' href='" + ctx + "/dishes?restaurantId=" + row.id + "'>" +
+                            messages["dish.list"] + "</a>";
                     }
                     return data;
                 }

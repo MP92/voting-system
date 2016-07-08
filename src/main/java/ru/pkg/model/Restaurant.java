@@ -3,7 +3,6 @@ package ru.pkg.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,6 +88,14 @@ public class Restaurant extends NamedEntity {
 
     public void addDishToMenu(Dish dish) {
         menu.add(dish);
+    }
+
+    public List<UserVote> getUserVotes() {
+        return userVotes;
+    }
+
+    public void setUserVotes(List<UserVote> userVotes) {
+        this.userVotes = userVotes;
     }
 
     @Override

@@ -5,23 +5,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.pkg.model.User;
-
 import java.net.URI;
 import java.util.Collection;
 
+import static ru.pkg.utils.constants.ControllerConstants.*;
+
 @RestController
-@RequestMapping(AdminRestController.REST_URL)
+@RequestMapping(PATH_REST_USER_LIST)
 public class AdminRestController extends AbstractUserController {
 
-    public static final String REST_URL = "/rest/users";
-
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable("id") int id) {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public User get(@PathVariable(PATH_VAR_ID) int id) {
         return super.get(id);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") int id) {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.DELETE)
+    public void delete(@PathVariable(PATH_VAR_ID) int id) {
         super.delete(id);
     }
 
@@ -29,12 +28,12 @@ public class AdminRestController extends AbstractUserController {
     public ResponseEntity<User> createWithLocation(@RequestBody User user) {
         User created = super.create(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path(REST_URL + "/{id}").buildAndExpand(created.getId()).toUri();
+                    .path(PATH_REST_USER_LIST + PATH_ID).buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uri).body(created);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@PathVariable("id") int id, @RequestBody User user) {
+    @RequestMapping(value = PATH_ID, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@PathVariable(PATH_VAR_ID) int id, @RequestBody User user) {
         super.update(id, user);
     }
 
@@ -43,7 +42,7 @@ public class AdminRestController extends AbstractUserController {
         return super.findAll();
     }
 
-    @RequestMapping(path = "/test", method = RequestMethod.GET)
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String testUTF8() {
         return "Текст должно быть видно русскими буквами";
     }

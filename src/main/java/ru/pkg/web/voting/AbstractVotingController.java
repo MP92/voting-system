@@ -18,9 +18,9 @@ public abstract class AbstractVotingController {
     private MessageSource messageSource;
 
     @Autowired
-    VotingService service;
+    private VotingService service;
 
-    public void vote(int restaurantId) {
+    protected void vote(int restaurantId) {
         UserVote userVote = service.findById(LoggedUser.getId());
         if (!TimeUtil.isCanVote() || userVote.isVotedToday()) {
             String code = TimeUtil.isCanVote() ? "exception.voting.already_voted" : "exception.voting.over";
@@ -31,7 +31,7 @@ public abstract class AbstractVotingController {
         LoggedUser.getUserTO().setLastVoted(userVote.getLastVoted());
     }
 
-    public void cancel() {
+    protected void cancel() {
         if (!TimeUtil.isCanVote()) {
             throw new VotingException(messageSource.getMessage("exception.voting.over", null, LocaleContextHolder.getLocale()));
         }
@@ -39,12 +39,12 @@ public abstract class AbstractVotingController {
         LoggedUser.getUserTO().setLastVoted(null);
     }
 
-    public void reset() {
+    protected void reset() {
         service.reset();
         LoggedUser.getUserTO().setLastVoted(null);
     }
 
-    public List<VotingStatistics> findVotingStatistics() {
+    protected List<VotingStatistics> findVotingStatistics() {
         return service.findVotingStatistics();
     }
 }

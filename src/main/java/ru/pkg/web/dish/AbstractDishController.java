@@ -3,9 +3,6 @@ package ru.pkg.web.dish;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.pkg.model.Dish;
 import ru.pkg.service.DishService;
-import ru.pkg.utils.exception.DishNotFoundException;
-import ru.pkg.utils.exception.RestaurantNotFoundException;
-
 import java.util.List;
 
 import static ru.pkg.utils.EntityUtils.prepareToSave;
@@ -13,35 +10,35 @@ import static ru.pkg.utils.EntityUtils.prepareToSave;
 public abstract class AbstractDishController {
 
     @Autowired
-    DishService service;
+    private DishService service;
 
-    public Dish create(Dish dish, int restaurantId) throws RestaurantNotFoundException {
+    protected Dish create(Dish dish, int restaurantId) {
         dish.setId(null);
         return service.add(prepareToSave(dish), restaurantId);
     }
 
-    public Dish findById(int id, int restaurantId) throws DishNotFoundException {
+    protected Dish findById(int id, int restaurantId) {
         return service.findById(id, restaurantId);
     }
 
-    public List<Dish> findAll(int restaurantId) {
+    protected List<Dish> findAll(int restaurantId) {
         return service.findAll(restaurantId);
     }
 
-    public void delete(int id, int restaurantId) throws DishNotFoundException {
+    protected void delete(int id, int restaurantId) {
         service.delete(id, restaurantId);
     }
 
-    public void update(int id, Dish dish, int restaurantId) throws DishNotFoundException {
+    protected void update(int id, Dish dish, int restaurantId) {
         dish.setId(id);
         update(dish, restaurantId);
     }
 
-    public void update(Dish dish, int restaurantId) throws DishNotFoundException {
+    protected void update(Dish dish, int restaurantId) {
         service.update(prepareToSave(dish), restaurantId);
     }
 
-    public void changeInMenuState(int id, int restaurantId) {
+    protected void changeInMenuState(int id, int restaurantId) {
         service.changeInMenuState(id, restaurantId);
     }
 }

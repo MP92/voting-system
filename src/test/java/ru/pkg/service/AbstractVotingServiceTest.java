@@ -19,7 +19,7 @@ import static ru.pkg.testdata.UserVoteTestData.MATCHER;
 public abstract class AbstractVotingServiceTest extends AbstractServiceTest {
 
     @Autowired
-    VotingService service;
+    private VotingService service;
 
     @Test
     public void testUpdate() throws Exception {

@@ -1,4 +1,4 @@
-var ajaxUrl = ctx + '/ajax/users/';
+var ajaxUrl = ctx + "/ajax/users/";
 var datatableApi;
 var detailsInfo;
 
@@ -21,27 +21,27 @@ function showUserDetails(id) {
             }
         });
         voted ? voteFields.show() : voteFields.hide();
-        $('#details').modal();
+        $("#details").modal();
     });
 }
 
 function enable(chkbox, id) {
     $.ajax({
          url: ajaxUrl + id,
-         type: 'POST',
-         success: function () {
+         type: "POST",
+         success() {
              var enabled = chkbox.is(":checked");
-             chkbox.closest('tr').css("text-decoration", enabled ? "none" : "line-through");
-             var msgCode = (enabled ? 'user.enabled' : 'user.disabled');
+             chkbox.closest("tr").css("text-decoration", enabled ? "none" : "line-through");
+             var msgCode = (enabled ? "user.enabled" : "user.disabled");
              showSuccessToast(messages[msgCode]);
          }
     });
 }
 
 $(function () {
-    detailsInfo = $('#detailsInfo');
+    detailsInfo = $("#detailsInfo");
 
-    datatableApi = $('#datatable').DataTable({
+    datatableApi = $("#datatable").DataTable({
         "ajax": {
             "url": ajaxUrl,
             "dataSrc": ""
@@ -54,19 +54,19 @@ $(function () {
             {"data": "surname"},
             {
                 "data": "registered",
-                "render": function (date, type, row) {
-                    if (type == 'display') {
+                "render"(date, type, row) {
+                    if (type === "display") {
                         var dateObject = new Date(date);
-                        return '<span>' + dateObject.toISOString().substring(0, 10) + '</span>';
+                        return "<span>" + dateObject.toISOString().substring(0, 10) + "</span>";
                     }
                     return date;
                 }
             },
             {
                 "data": "enabled",
-                "render": function (data, type, row) {
-                    if (type == 'display') {
-                        return '<input type="checkbox" ' + (data ? 'checked' : '') + ' onclick="enable($(this),' + row.id + ');"/>';
+                "render"(data, type, row) {
+                    if (type === "display") {
+                        return "<input type='checkbox' " + (data ? "checked" : "") + " onclick='enable($(this)," + row.id + ");'/>";
                     }
                     return data;
                 }
@@ -75,10 +75,10 @@ $(function () {
             {
                 "orderable": false,
                 "defaultContent": "",
-                "render": function (data, type, row) {
-                    if (type == 'display') {
-                        return '<a class="btn btn-xs btn-info" onclick="showUserDetails(' + row.id + ');">' + 
-                            messages['details'] + '</a>';
+                "render"(data, type, row) {
+                    if (type == "display") {
+                        return "<a class='btn btn-xs btn-info' onclick='showUserDetails(" + row.id + ");'>" +
+                            messages["details"] + "</a>";
                     }
                     return data;
                 }
@@ -97,7 +97,7 @@ $(function () {
         "order": [
             [0, "asc"]
         ],
-        "createdRow": function (row, data, dataIndex) {
+        "createdRow"(row, data, dataIndex) {
             if (!data.enabled) {
                 $(row).css("text-decoration", "line-through");
             }

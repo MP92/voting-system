@@ -1,15 +1,16 @@
 package ru.pkg.to;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.Size;
+
+import static ru.pkg.utils.constants.EntityConstraints.*;
 
 public class RestaurantTO {
 
     private Integer id;
 
     @NotEmpty
-    @Size(min = 3, max = 100)
+    @Size(min = NAME_MIN, max = NAME_MAX)
     private String name;
 
     @NotEmpty

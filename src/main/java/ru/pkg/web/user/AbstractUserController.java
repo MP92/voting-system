@@ -14,37 +14,33 @@ public abstract class AbstractUserController {
     @Autowired
     private UserService service;
 
-    public User get(int id) {
+    protected User get(int id) {
         return service.findById(id);
     }
 
-    public UserTO getForUpdate(int id) {
-        return asTO(service.findById(id));
-    }
-
-    public void delete(int id) {
+    protected void delete(int id) {
         service.delete(id);
     }
 
-    public User create(User user) {
+    protected User create(User user) {
         user.setId(null);
         return service.add(prepareToSave(user));
     }
 
-    public void update(int id, User user) {
+    protected void update(int id, User user) {
         user.setId(id);
         service.update(prepareToSave(user));
     }
 
-    public void update(UserTO user) {
+    protected void update(UserTO user) {
         service.update(user);
     }
 
-    public Collection<User> findAll() {
+    protected Collection<User> findAll() {
         return service.findAll();
     }
 
-    public void changeEnabledState(int id) {
+    protected void changeEnabledState(int id) {
         service.changeEnabledState(id);
     }
 }

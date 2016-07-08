@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import ru.pkg.web.AbstractControllerTest;
-
 import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -17,10 +16,11 @@ import static ru.pkg.TestUtils.userHttpBasic;
 import static ru.pkg.testdata.UserTestData.*;
 import static ru.pkg.testdata.UserTestData.USER_1;
 import static ru.pkg.testdata.UserTestData.USER_2;
+import static ru.pkg.utils.constants.ControllerConstants.PATH_REST_PROFILE;
 
 public class ProfileRestControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL = ProfileRestController.REST_URL + "/";
+    private static final String REST_URL = PATH_REST_PROFILE + "/";
 
     @After
     public void tearDown() throws Exception {

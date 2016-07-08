@@ -2,25 +2,25 @@ package ru.pkg.to;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import ru.pkg.utils.TimeUtil;
-
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.Objects;
+
+import static ru.pkg.utils.constants.EntityConstraints.*;
 
 public class UserTO {
 
     private Integer id;
 
     @NotEmpty
-    @Size(min = 3, max = 25)
+    @Size(min = NAME_MIN, max = NAME_MAX)
     private String name;
 
     @NotEmpty
-    @Size(min = 3, max = 25)
+    @Size(min = NAME_MIN, max = NAME_MAX)
     private String surname;
 
     @NotEmpty
-    @Size(min = 5, max = 64)
+    @Size(min = PASSWORD_MIN, max = PASSWORD_MAX)
     private String password;
 
     private LocalDateTime lastVoted;
@@ -82,19 +82,6 @@ public class UserTO {
 
     public boolean isNew() {
         return id == null;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserTO that = (UserTO) o;
-
-        return Objects.equals(this.id, that.id)
-                && Objects.equals(this.name, that.name)
-                && Objects.equals(this.surname, that.surname)
-                && Objects.equals(this.password, that.password);
     }
 
     @Override

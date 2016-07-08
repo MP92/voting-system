@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.pkg.LoggedUser;
 import ru.pkg.model.User;
 
-@RestController
-@RequestMapping(ProfileRestController.REST_URL)
-public class ProfileRestController extends AbstractUserController {
+import static ru.pkg.utils.constants.ControllerConstants.*;
 
-    public static final String REST_URL = "/rest/profile";
+@RestController
+@RequestMapping(PATH_REST_PROFILE)
+public class ProfileRestController extends AbstractUserController {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User get() {
@@ -28,5 +28,4 @@ public class ProfileRestController extends AbstractUserController {
     public void update(@RequestBody User user) {
         super.update(LoggedUser.getId(), user);
     }
-
 }

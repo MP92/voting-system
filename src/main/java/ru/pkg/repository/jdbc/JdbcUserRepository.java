@@ -35,15 +35,15 @@ public class JdbcUserRepository extends NamedParameterJdbcDaoSupport implements 
     private SimpleJdbcInsert inserter;
 
     @Autowired
+    private VotingRepository votingRepository;
+
+    @Autowired
     public JdbcUserRepository(DataSource dataSource) {
         setDataSource(dataSource);
         this.inserter = new SimpleJdbcInsert(dataSource)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("id");
     }
-
-    @Autowired
-    VotingRepository votingRepository;
 
     @Override
     public User save(User user) {

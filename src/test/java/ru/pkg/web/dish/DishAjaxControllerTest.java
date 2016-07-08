@@ -7,7 +7,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import ru.pkg.model.Dish;
 import ru.pkg.web.AbstractControllerTest;
-import ru.pkg.web.restaurant.RestaurantAjaxController;
 
 import java.util.Arrays;
 
@@ -22,11 +21,13 @@ import static ru.pkg.testdata.DishTestData.TestDishFactory.newInstanceForUpdate;
 import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 
 import static ru.pkg.utils.EntityUtils.*;
+import static ru.pkg.web.AbstractControllerTest.ROLE_ADMIN;
+import static ru.pkg.utils.constants.ControllerConstants.PATH_AJAX_RESTAURANT_LIST;
 
-@WithMockUser(roles={"ADMIN"})
+@WithMockUser(roles={ROLE_ADMIN})
 public class DishAjaxControllerTest extends AbstractControllerTest {
 
-    private static final String AJAX_URL = String.format(RestaurantAjaxController.AJAX_URL + "/%d/dishes/", RESTAURANT_1_ID);
+    private static final String AJAX_URL = String.format(PATH_AJAX_RESTAURANT_LIST + "/%d/dishes/", RESTAURANT_1_ID);
 
     @Test
     public void testCreate() throws Exception {
@@ -54,7 +55,7 @@ public class DishAjaxControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(roles={"USER"})
+    @WithMockUser(roles={ROLE_USER})
     public void testFindByIdForbidden() throws Exception {
         mockMvc.perform(get(AJAX_URL + R_1_DISH_1_ID))
                 .andExpect(status().isForbidden());

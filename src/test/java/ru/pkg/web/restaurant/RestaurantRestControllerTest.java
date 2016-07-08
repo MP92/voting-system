@@ -5,23 +5,22 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.pkg.model.Restaurant;
 import ru.pkg.web.AbstractControllerTest;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import static ru.pkg.TestUtils.*;
 import static ru.pkg.testdata.RestaurantTestData.*;
 import static ru.pkg.testdata.RestaurantTestData.TestRestaurantFactory.*;
 import static ru.pkg.testdata.UserTestData.ADMIN;
 import static ru.pkg.testdata.UserTestData.USER_1;
+import static ru.pkg.utils.constants.ControllerConstants.PATH_REST_RESTAURANT_LIST;
 
 public class RestaurantRestControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL = RestaurantRestController.REST_URL + "/";
+    private static final String REST_URL = PATH_REST_RESTAURANT_LIST + "/";
 
     @Test
     public void testCreate() throws Exception {

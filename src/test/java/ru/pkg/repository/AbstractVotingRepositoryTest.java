@@ -19,7 +19,7 @@ import static ru.pkg.testdata.UserTestData.USER_1_ID;
 public abstract class AbstractVotingRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
-    VotingRepository repository;
+    private VotingRepository repository;
 
     @Test
     public void testUpdate() throws Exception {

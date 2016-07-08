@@ -17,10 +17,10 @@ import static ru.pkg.testdata.RestaurantTestData.TestRestaurantFactory.*;
 public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Autowired
-    RestaurantService service;
+    private RestaurantService service;
 
     @Autowired
-    RestaurantRepository repository;
+    private RestaurantRepository repository;
 
     @Before
     public void setUp() throws Exception {
@@ -29,7 +29,7 @@ public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Test
     public void testAdd() throws Exception {
-        Restaurant toCreateRestaurant = TestRestaurantFactory.newInstanceForCreate();
+        Restaurant toCreateRestaurant = newInstanceForCreate();
         when(repository.save(toCreateRestaurant)).thenAnswer(invocation -> {
             toCreateRestaurant.setId(11111);
             return toCreateRestaurant;
@@ -67,7 +67,7 @@ public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Test
     public void testUpdate() throws Exception {
-        Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdate();
+        Restaurant toUpdateRestaurant = newInstanceForUpdate();
         when(repository.save(toUpdateRestaurant)).thenReturn(toUpdateRestaurant);
         service.update(toUpdateRestaurant);
         verify(repository).save(toUpdateRestaurant);
@@ -75,7 +75,7 @@ public class RestaurantServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Test(expected = RestaurantNotFoundException.class)
     public void testUpdateNotFound() throws Exception {
-        Restaurant toUpdateRestaurant = TestRestaurantFactory.newInstanceForUpdateNonexistent();
+        Restaurant toUpdateRestaurant = newInstanceForUpdateNonexistent();
         when(repository.save(toUpdateRestaurant)).thenReturn(null);
         try {
             service.update(toUpdateRestaurant);

@@ -3,10 +3,10 @@ var menuTableApi;
 var menuRow;
 
 $(function() {
-    detailsInfo = $('#detailsInfo');
+    detailsInfo = $("#detailsInfo");
     menuRow = detailsInfo.find(".menu");
 
-    menuTableApi = $('#menuDatatable').DataTable({
+    menuTableApi = $("#menuDatatable").DataTable({
         "data": {"id": "", "name": "", "weight": "", "category": "", "price": ""},
         "paging": false,
         "info": false,
@@ -24,15 +24,19 @@ $(function() {
     });
 });
 
+function updateMenuTableByData(data) {
+    menuTableApi.clear().rows.add(data).draw();
+}
+
 function showRestaurantDetails(id, url) {
-    if (typeof url === 'undefined') {
-        url = ctx + '/ajax/restaurants/';
+    if (typeof url === "undefined") {
+        url = ctx + "/ajax/restaurants/";
     }
     $.get(url + id, function (data) {
         detailsInfo.find("td:not(.details-menu)").text("");
         var menuFound = false;
         $.each(data, function (key, value) {
-            if (key === 'menu') {
+            if (key === "menu") {
                 menuFound = true;
                 if (value && value.length > 0) {
                     menuRow.show();
@@ -47,10 +51,8 @@ function showRestaurantDetails(id, url) {
         if (!menuFound) {
             menuRow.hide();
         }
-        $('#details').modal();
+        $("#details").modal();
     });
 }
 
-function updateMenuTableByData(data) {
-    menuTableApi.clear().rows.add(data).draw();
-}
+

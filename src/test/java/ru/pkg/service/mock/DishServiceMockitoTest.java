@@ -22,10 +22,10 @@ import static ru.pkg.testdata.RestaurantTestData.RESTAURANT_1_ID;
 public class DishServiceMockitoTest extends AbstractServiceMockitoTest {
 
     @Autowired
-    DishService service;
+    private DishService service;
 
     @Autowired
-    DishRepository repository;
+    private DishRepository repository;
 
     @Before
     public void setUp() throws Exception {
