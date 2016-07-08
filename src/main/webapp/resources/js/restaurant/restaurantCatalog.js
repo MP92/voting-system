@@ -84,7 +84,7 @@ function resetVotes() {
     $.ajax({
         type: "POST",
         url: rootUrl + "voting/reset",
-        success: function () {
+        success() {
             updateVotingChart();
             showSuccessToast(messages["vote.cleared"]);
             addVoteButtons();
