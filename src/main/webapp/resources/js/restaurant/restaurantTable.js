@@ -14,7 +14,6 @@ $(function () {
         "paging": false,
         "info": true,
         "columns": [
-            {"data": "id"},
             {
                 "data": "name",
                 "render"(data, type, row) {
@@ -32,7 +31,8 @@ $(function () {
                 "defaultContent": "",
                 "render"(data, type, row) {
                     if (type === "display") {
-                        return "<a class='btn btn-xs btn-info' href='" + ctx + "/dishes?restaurantId=" + row.id + "'>" +
+                        var uri = "/dishes?restaurantId={0}&restaurantName={1}".format(row.id, row.name); 
+                        return "<a class='btn btn-xs btn-info' href='" + ctx + uri + "'>" +
                             messages["dish.list"] + "</a>";
                     }
                     return data;

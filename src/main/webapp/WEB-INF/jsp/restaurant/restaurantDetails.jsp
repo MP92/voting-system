@@ -14,10 +14,6 @@
                         <table class="table table-user-information">
                             <tbody>
                             <tr>
-                                <th><spring:message code="form.id"/></th>
-                                <td class="details-id"></td>
-                            </tr>
-                            <tr>
                                 <th><spring:message code="form.name"/></th>
                                 <td class="details-name"></td>
                             </tr>
@@ -38,7 +34,6 @@
                                 <td class="details-menu">
                                     <table id="menuDatatable" class="table table-condensed">
                                         <tr>
-                                            <th><spring:message code="form.id"/></th>
                                             <th><spring:message code="form.name"/></th>
                                             <th><spring:message code="form.weight"/></th>
                                             <th><spring:message code="form.category"/></th>

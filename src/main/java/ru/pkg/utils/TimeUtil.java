@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public final class TimeUtil {
-    private static final LocalTime HOUR_LIMIT = LocalTime.of(22, 0);
+    private static LocalTime votingLimit = LocalTime.of(22, 0);
 
     private TimeUtil() {
     }
@@ -23,6 +23,14 @@ public final class TimeUtil {
     }
 
     public static boolean isCanVote() {
-        return LocalTime.now().isBefore(HOUR_LIMIT);
+        return LocalTime.now().isBefore(votingLimit);
+    }
+
+    public static LocalTime getVotingLimit() {
+        return votingLimit;
+    }
+
+    public static void setVotingLimit(LocalTime votingLimit) {
+        TimeUtil.votingLimit = votingLimit;
     }
 }

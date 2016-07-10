@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -17,7 +18,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.pkg.LoggedUser;
 import ru.pkg.service.UserService;
 import ru.pkg.to.UserTO;
+import ru.pkg.utils.TimeUtil;
+
 import javax.validation.Valid;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 import static ru.pkg.utils.EntityUtils.createFromTO;
@@ -93,5 +97,11 @@ public class RootController {
     public ModelAndView localizedMessages() {
         ResourceBundle bundle = ResourceBundle.getBundle("messages.js", LocaleContextHolder.getLocale());
         return new ModelAndView("fragments/messages", "keys", bundle.getKeys());
+    }
+
+    @RequestMapping(value = "voting_limit", method = RequestMethod.GET)
+    public String setVotingLimit(@RequestParam("votingLimit") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime votingLimit) {
+        TimeUtil.setVotingLimit(votingLimit);
+        return redirectTo(PATH_RESTAURANT_CATALOG);
     }
 }

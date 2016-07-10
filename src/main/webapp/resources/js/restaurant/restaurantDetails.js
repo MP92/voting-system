@@ -7,12 +7,11 @@ $(function() {
     menuRow = detailsInfo.find(".menu");
 
     menuTableApi = $("#menuDatatable").DataTable({
-        "data": {"id": "", "name": "", "weight": "", "category": "", "price": ""},
+        "data": {"name": "", "weight": "", "category": "", "price": ""},
         "paging": false,
         "info": false,
         "filter": false,
         "columns": [
-            {"data": "id"},
             {"data": "name"},
             {"data": "weight"},
             {"data": "category"},

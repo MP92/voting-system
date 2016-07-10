@@ -18,7 +18,7 @@
         <c:set var="restaurantAjaxUrl" value="${pageContext.request.contextPath}/ajax/restaurants/"/>
 
         <div class="page-header">
-            <h2><spring:message code="dish.list.header" arguments="${restaurantId}"/></h2>
+            <h2><spring:message code="dish.list.header" arguments="${param.restaurantName}"/></h2>
         </div>
         <div class="margin-bottom">
             <a class="btn btn-primary" onclick="initAddRecord()">Add dish</a>
@@ -27,7 +27,6 @@
         <table id="datatable" class="table table-striped">
             <thead>
             <tr>
-                <th><spring:message code="form.id"/></th>
                 <th><spring:message code="form.name"/></th>
                 <th><spring:message code="form.description"/></th>
                 <th><spring:message code="form.weight"/></th>

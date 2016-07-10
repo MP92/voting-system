@@ -15,7 +15,6 @@
     <table class="table table-striped" id="datatable">
         <thead>
         <tr>
-            <th><spring:message code="form.id"/></th>
             <th><spring:message code="form.name"/></th>
             <th><spring:message code="form.description"/></th>
             <th><spring:message code="form.address"/></th>

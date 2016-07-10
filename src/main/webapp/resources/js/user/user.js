@@ -49,7 +49,6 @@ $(function () {
         "paging": false,
         "info": true,
         "columns": [
-            {"data": "id"},
             {"data": "name"},
             {"data": "surname"},
             {

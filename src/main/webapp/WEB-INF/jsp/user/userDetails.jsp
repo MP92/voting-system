@@ -14,10 +14,6 @@
                         <table class="table table-user-information">
                             <tbody>
                             <tr>
-                                <th><spring:message code="form.id"/></th>
-                                <td class="details-id"></td>
-                            </tr>
-                            <tr>
                                 <th><spring:message code="form.name"/></th>
                                 <td class="details-name"></td>
                             </tr>
